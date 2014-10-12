@@ -18,6 +18,8 @@ module Pact
         RunStandaloneMockService.call(options)
       end
 
+      default_task :service
+
       private
 
       def log message
