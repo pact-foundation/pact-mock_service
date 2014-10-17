@@ -15,7 +15,7 @@ PATH
 PATH
   remote: ../pact-support
   specs:
-    pact-support (0.0.1)
+    pact-support (0.0.2)
       awesome_print (~> 1.1)
       find_a_port (~> 1.0.1)
       json
