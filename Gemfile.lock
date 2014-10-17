@@ -5,25 +5,13 @@ PATH
       awesome_print (~> 1.1)
       find_a_port (~> 1.0.1)
       json
+      pact-support (~> 0.0.1)
       rack
       rack-test (~> 0.6.2)
       rspec (>= 2.14)
       term-ansicolor (~> 1.0)
       thor
       webrick
-
-PATH
-  remote: ../pact-support
-  specs:
-    pact-support (0.0.2)
-      awesome_print (~> 1.1)
-      find_a_port (~> 1.0.1)
-      json
-      rack-test (~> 0.6.2)
-      randexp (~> 0.1.7)
-      rspec (>= 2.14)
-      term-ansicolor (~> 1.0)
-      thor
 
 GEM
   remote: https://rubygems.org/
@@ -50,6 +38,15 @@ GEM
     method_source (0.8.2)
     minitest (5.3.4)
     multipart-post (2.0.0)
+    pact-support (0.0.3)
+      awesome_print (~> 1.1)
+      find_a_port (~> 1.0.1)
+      json
+      rack-test (~> 0.6.2)
+      randexp (~> 0.1.7)
+      rspec (>= 2.14)
+      term-ansicolor (~> 1.0)
+      thor
     pry (0.10.0)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -63,7 +60,7 @@ GEM
       rspec-core (~> 3.1.0)
       rspec-expectations (~> 3.1.0)
       rspec-mocks (~> 3.1.0)
-    rspec-core (3.1.6)
+    rspec-core (3.1.7)
       rspec-support (~> 3.1.0)
     rspec-expectations (3.1.2)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -94,7 +91,6 @@ DEPENDENCIES
   faraday
   hashie (~> 2.0)
   pact-mock_service!
-  pact-support!
   pry
   rake (~> 10.0.3)
   webmock (~> 1.18.0)
