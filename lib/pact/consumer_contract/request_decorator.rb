@@ -51,7 +51,7 @@ module Pact
     end
 
     def content_type_is_form
-      request.content_type == 'application/x-www-form-urlencoded'
+      request.content_type? 'application/x-www-form-urlencoded'
     end
 
     #This probably belongs somewhere else.
