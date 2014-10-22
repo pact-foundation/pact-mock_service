@@ -1,5 +1,5 @@
 require 'net/http'
-require 'pact/consumer/mock_service_interaction_expectation'
+require 'pact/mock_service/interaction_decorator'
 
 module Pact
   module Consumer
@@ -32,7 +32,11 @@ module Pact
       end
 
       def add_expected_interaction interaction
-        response = http.request_post('/interactions', MockServiceInteractionExpectation.new(interaction).to_json, MOCK_SERVICE_ADMINISTRATON_HEADERS.merge("Content-Type" => "application/json"))
+        response = http.request_post(
+          '/interactions',
+          interaction_json(interaction),
+          MOCK_SERVICE_ADMINISTRATON_HEADERS.merge("Content-Type" => "application/json")
+        )
         raise "\e[31m#{response.body}\e[m" unless response.is_a? Net::HTTPSuccess
       end
 
@@ -58,6 +62,10 @@ module Pact
           return if result || Time.now >= time_limit
           sleep interval
         end
+      end
+
+      def interaction_json interaction
+        Pact::MockService::InteractionDecorator.new(interaction).to_json
       end
 
     end

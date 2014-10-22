@@ -5,7 +5,7 @@ PATH
       awesome_print (~> 1.1)
       find_a_port (~> 1.0.1)
       json
-      pact-support (~> 0.0.1)
+      pact-support (~> 0.1.0)
       rack
       rack-test (~> 0.6.2)
       rspec (>= 2.14)
@@ -38,7 +38,7 @@ GEM
     method_source (0.8.2)
     minitest (5.3.4)
     multipart-post (2.0.0)
-    pact-support (0.0.3)
+    pact-support (0.1.0)
       awesome_print (~> 1.1)
       find_a_port (~> 1.0.1)
       json

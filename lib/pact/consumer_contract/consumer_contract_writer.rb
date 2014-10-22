@@ -1,12 +1,17 @@
 require 'pact/consumer_contract'
 require 'pact/consumer/interactions_filter'
 require 'pact/consumer_contract/file_name'
+require 'pact/consumer_contract/pact_file'
+require 'pact/consumer_contract/consumer_contract_decorator'
+require 'pact/shared/active_support_support'
 
 module Pact
 
   class ConsumerContractWriter
 
-    attr_reader :consumer_contract_details, :pactfile_write_mode, :interactions, :logger
+    include Pact::FileName
+    include Pact::PactFile
+    include ActiveSupportSupport
 
     def initialize consumer_contract_details, logger
       @logger = logger
@@ -23,13 +28,37 @@ module Pact
     end
 
     def write
-      consumer_contract.update_pactfile
-      consumer_contract.to_json
+      update_pactfile
+      pact_json
+    end
+
+    private
+
+    attr_reader :consumer_contract_details, :pactfile_write_mode, :interactions, :logger
+
+    def pactfile_path
+      raise 'You must specify a consumer and provider name' unless (consumer_name && provider_name)
+      file_path consumer_name, provider_name, Pact.configuration.pact_dir
+    end
+
+    def update_pactfile
+      logger.debug "Updating pact file for #{provider_name} at #{pactfile_path}"
+      File.open(pactfile_path, 'w') do |f|
+        f.write pact_json
+      end
+    end
+
+    def pact_json
+      @pact_json ||= fix_json_formatting(JSON.pretty_generate(decorated_pact))
+    end
+
+    def decorated_pact
+      @decorated_pact ||= Pact::ConsumerContractDecorator.new(consumer_contract)
     end
 
     def interactions_for_new_consumer_contract
       if pactfile_write_mode == :update
-        merged_interactions = existing_interactions
+        merged_interactions = existing_interactions.dup
         filter = Consumer::UpdatableInteractionsFilter.new(merged_interactions)
         interactions.each {|i| filter << i }
         merged_interactions
@@ -62,10 +91,6 @@ module Pact
       File.exist?(pactfile_path)
     end
 
-    def pactfile_path
-      Pact::FileName.file_path consumer_contract_details[:consumer][:name], consumer_contract_details[:provider][:name]
-    end
-
     def existing_consumer_contract
       Pact::ConsumerContract.from_uri(pactfile_path)
     end
@@ -78,6 +103,14 @@ module Pact
     def info_and_puts msg
       $stdout.puts msg
       logger.info msg
+    end
+
+    def consumer_name
+      consumer_contract_details[:consumer][:name]
+    end
+
+    def provider_name
+      consumer_contract_details[:provider][:name]
     end
   end
 

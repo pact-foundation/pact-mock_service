@@ -3,6 +3,7 @@ require 'pact/consumer/mock_service/rack_request_helper'
 require 'pact/consumer/mock_service/interaction_mismatch'
 require 'pact/consumer_contract'
 require 'pact/consumer/interactions_filter'
+require 'pact/mock_service/response_decorator'
 
 module Pact
   module Consumer
@@ -37,7 +38,7 @@ module Pact
       def find_response request_hash
         actual_request = Request::Actual.from_hash(request_hash)
         logger.info "Received request #{actual_request.method_and_path}"
-        logger.debug pretty_generate actual_request
+        logger.debug pretty_generate request_hash
         candidate_interactions = interaction_list.find_candidate_interactions actual_request
         matching_interactions = find_matching_interactions actual_request, from: candidate_interactions
 
@@ -61,7 +62,7 @@ module Pact
         add_verified_interaction interaction
         response = response_from(interaction.response)
         logger.info "Found matching response for #{interaction.request.method_and_path}"
-        logger.debug pretty_generate(interaction.response)
+        logger.debug pretty_generate(Pact::MockService::ResponseDecorator.new(interaction.response))
         response
       end
 
@@ -76,7 +77,7 @@ module Pact
       def handle_more_than_one_matching_interaction actual_request, matching_interactions
         logger.error "Multiple interactions found for #{actual_request.method_and_path}:"
         matching_interactions.each do | interaction |
-          logger.debug pretty_generate(interaction)
+          logger.debug pretty_generate(Pact::MockService::InteractionDecorator.new(interaction))
         end
         multiple_interactions_found_response actual_request, matching_interactions
       end
@@ -88,7 +89,7 @@ module Pact
       def request_summary_for interaction
         summary = {:description => interaction.description}
         summary[:provider_state] if interaction.provider_state
-        summary[:request] = interaction.request
+        summary[:request] = Pact::MockService::RequestDecorator.new(interaction.request)
         summary
       end
 

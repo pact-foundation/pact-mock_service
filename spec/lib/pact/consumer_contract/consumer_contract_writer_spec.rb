@@ -100,8 +100,8 @@ module Pact
     end
 
     describe "write" do
-      it "writes the pact file" do
-        expect_any_instance_of(ConsumerContract).to receive(:update_pactfile)
+      it "writes the pact file, this is a useless test" do
+        expect_any_instance_of(ConsumerContractWriter).to receive(:update_pactfile)
         consumer_contract_writer.write
       end
     end

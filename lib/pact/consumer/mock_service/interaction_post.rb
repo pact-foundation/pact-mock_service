@@ -20,10 +20,11 @@ module Pact
       end
 
       def respond env
-        interaction = Interaction.from_hash(JSON.load(env['rack.input'].string))
+        request_body = env['rack.input'].string
+        interaction = Interaction.from_hash(JSON.load(request_body))
         interaction_list.add interaction
         logger.info "Registered expected interaction #{interaction.request.method_and_path}"
-        logger.debug JSON.pretty_generate JSON.parse(interaction.to_json)
+        logger.debug JSON.pretty_generate JSON.parse(request_body)
         [200, {}, ['Added interaction']]
       end
     end
