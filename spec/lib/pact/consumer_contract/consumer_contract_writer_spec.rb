@@ -8,26 +8,27 @@ module Pact
     let(:support_pact_file) { './spec/support/a_consumer-a_provider.json' }
     let(:consumer_name) { 'a consumer' }
     let(:provider_name) { 'a provider' }
+    let(:target_pact_file_location) { "#{tmp_pact_dir}/a_consumer-a_provider.json" }
 
     before do
       Pact.clear_configuration
-      allow(Pact.configuration).to receive(:pact_dir).and_return(File.expand_path(tmp_pact_dir))
       FileUtils.rm_rf tmp_pact_dir
       FileUtils.mkdir_p tmp_pact_dir
-      FileUtils.cp support_pact_file, "#{tmp_pact_dir}/a_consumer-a_provider.json"
+      FileUtils.cp support_pact_file, target_pact_file_location
     end
 
     let(:existing_interactions) { ConsumerContract.from_json(File.read(support_pact_file)).interactions }
     let(:new_interactions) { [InteractionFactory.create] }
-    let(:tmp_pact_dir) {"./tmp/pacts"}
+    let(:tmp_pact_dir) { "./tmp/pacts" }
     let(:logger) { double("logger").as_null_object }
-    let(:pactfile_write_mode) {:overwrite}
+    let(:pactfile_write_mode) { :overwrite }
     let(:consumer_contract_details) {
       {
-          consumer: {name: consumer_name},
-          provider: {name: provider_name},
+          consumer: { name: consumer_name },
+          provider: { name: provider_name },
           pactfile_write_mode: pactfile_write_mode,
-          interactions: new_interactions
+          interactions: new_interactions,
+          pact_dir: tmp_pact_dir
       }
     }
 
@@ -99,10 +100,26 @@ module Pact
       end
     end
 
-    describe "write" do
-      it "writes the pact file, this is a useless test" do
-        expect_any_instance_of(ConsumerContractWriter).to receive(:update_pactfile)
+    describe "#write" do
+      it "writes the pact file to the pact_dir" do
+        FileUtils.rm_rf target_pact_file_location
         consumer_contract_writer.write
+        expect(File.exist?(target_pact_file_location)).to be true
+      end
+
+      context "when the pact_dir is not specified" do
+        let(:consumer_contract_details) {
+          {
+              consumer: { name: consumer_name },
+              provider: { name: provider_name },
+              pactfile_write_mode: pactfile_write_mode,
+              interactions: new_interactions
+          }
+        }
+
+        it "raises an error" do
+          expect{ consumer_contract_writer.write }.to raise_error ConsumerContractWriterError, /Please indicate the directory/
+        end
       end
     end
 

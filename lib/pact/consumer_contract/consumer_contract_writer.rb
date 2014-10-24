@@ -7,6 +7,8 @@ require 'pact/shared/active_support_support'
 
 module Pact
 
+  class ConsumerContractWriterError < StandardError; end
+
   class ConsumerContractWriter
 
     include Pact::FileName
@@ -38,7 +40,7 @@ module Pact
 
     def pactfile_path
       raise 'You must specify a consumer and provider name' unless (consumer_name && provider_name)
-      file_path consumer_name, provider_name, Pact.configuration.pact_dir
+      file_path consumer_name, provider_name, pact_dir
     end
 
     def update_pactfile
@@ -111,6 +113,13 @@ module Pact
 
     def provider_name
       consumer_contract_details[:provider][:name]
+    end
+
+    def pact_dir
+      unless consumer_contract_details[:pact_dir]
+        raise ConsumerContractWriterError.new("Please indicate the directory to write the pact to by specifying the pact_dir field")
+      end
+      consumer_contract_details[:pact_dir]
     end
   end
 
