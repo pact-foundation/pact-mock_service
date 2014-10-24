@@ -2,6 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)'
 
+### 0.2.1 (24 October 2014)
+
+* a4cf177 - Reifying the request headers, query and body when serializing pact. This allows Pact::Term to be used in the request without breaking verification for non-ruby providers that can't deserialise the Ruby specific serialisation of Pact::Terms. (Beth, Fri Oct 24 15:27:18 2014 +1100)
+
 ### 0.2.0 (24 October 2014)
 
 * d071e2c - Added field to /pact request body to specify the pact directory (Beth, Fri Oct 24 09:22:06 2014 +1100)
