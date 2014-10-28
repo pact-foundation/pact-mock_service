@@ -1,0 +1,210 @@
+I, [2014-10-29T10:28:53.273521 #82178]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches more than one expected request returns an error response"
+I, [2014-10-29T10:28:53.274913 #82178]  INFO -- : Registered expected interaction GET /alligators
+D, [2014-10-29T10:28:53.275056 #82178] DEBUG -- : {
+  "description": "a request for alligators",
+  "provider_state": "alligators exist",
+  "request": {
+    "method": "get",
+    "path": "/alligators",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+      {
+        "name": "Mary"
+      }
+    ]
+  }
+}
+I, [2014-10-29T10:28:53.275830 #82178]  INFO -- : Registered expected interaction GET /alligators
+D, [2014-10-29T10:28:53.275918 #82178] DEBUG -- : {
+  "description": "a request for alligators",
+  "provider_state": "there are no alligators",
+  "request": {
+    "method": "get",
+    "path": "/alligators",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+
+    ]
+  }
+}
+I, [2014-10-29T10:28:53.277434 #82178]  INFO -- : Received request GET /alligators
+D, [2014-10-29T10:28:53.277593 #82178] DEBUG -- : {
+  "method": "get",
+  "query": "",
+  "path": "/alligators",
+  "headers": {
+    "Https": "off",
+    "Content-Length": "0",
+    "Accept": "application/json",
+    "Host": "example.org",
+    "Cookie": ""
+  }
+}
+E, [2014-10-29T10:28:53.278078 #82178] ERROR -- : Multiple interactions found for GET /alligators:
+D, [2014-10-29T10:28:53.278535 #82178] DEBUG -- : {
+  "description": "a request for alligators",
+  "provider_state": "alligators exist",
+  "request": {
+    "method": "get",
+    "path": "/alligators",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+      {
+        "name": "Mary"
+      }
+    ]
+  }
+}
+D, [2014-10-29T10:28:53.278806 #82178] DEBUG -- : {
+  "description": "a request for alligators",
+  "provider_state": "there are no alligators",
+  "request": {
+    "method": "get",
+    "path": "/alligators",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+
+    ]
+  }
+}
+W, [2014-10-29T10:28:53.282137 #82178]  WARN -- : Verifying - actual interactions do not match expected interactions for example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches more than one expected request returns an error response". 
+Missing requests:
+	GET /alligators
+	GET /alligators
+
+
+W, [2014-10-29T10:28:53.282243 #82178]  WARN -- : Missing requests:
+	GET /alligators
+	GET /alligators
+
+
+I, [2014-10-29T10:28:53.263574 #82178]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches one expected request returns the expected response"
+I, [2014-10-29T10:28:53.265311 #82178]  INFO -- : Registered expected interaction GET /alligators
+D, [2014-10-29T10:28:53.265441 #82178] DEBUG -- : {
+  "description": "a request for alligators",
+  "provider_state": "alligators exist",
+  "request": {
+    "method": "get",
+    "path": "/alligators",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+      {
+        "name": "Mary"
+      }
+    ]
+  }
+}
+I, [2014-10-29T10:28:53.266163 #82178]  INFO -- : Registered expected interaction GET /zebras
+D, [2014-10-29T10:28:53.266302 #82178] DEBUG -- : {
+  "description": "a request for zebras",
+  "provider_state": "there are zebras",
+  "request": {
+    "method": "get",
+    "path": "/zebras",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+      {
+        "name": "Xena Zebra"
+      }
+    ]
+  }
+}
+I, [2014-10-29T10:28:53.267266 #82178]  INFO -- : Received request GET /alligators
+D, [2014-10-29T10:28:53.267413 #82178] DEBUG -- : {
+  "method": "get",
+  "query": "",
+  "path": "/alligators",
+  "headers": {
+    "Https": "off",
+    "Content-Length": "0",
+    "Accept": "application/json",
+    "Host": "example.org",
+    "Cookie": ""
+  }
+}
+I, [2014-10-29T10:28:53.267731 #82178]  INFO -- : Found matching response for GET /alligators
+D, [2014-10-29T10:28:53.267838 #82178] DEBUG -- : {
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": [
+    {
+      "name": "Mary"
+    }
+  ]
+}
+I, [2014-10-29T10:28:53.269926 #82178]  INFO -- : Received request GET /zebras
+D, [2014-10-29T10:28:53.270075 #82178] DEBUG -- : {
+  "method": "get",
+  "query": "",
+  "path": "/zebras",
+  "headers": {
+    "Https": "off",
+    "Content-Length": "0",
+    "Accept": "application/json",
+    "Host": "example.org",
+    "Cookie": ""
+  }
+}
+I, [2014-10-29T10:28:53.270397 #82178]  INFO -- : Found matching response for GET /zebras
+D, [2014-10-29T10:28:53.270503 #82178] DEBUG -- : {
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": [
+    {
+      "name": "Xena Zebra"
+    }
+  ]
+}
+I, [2014-10-29T10:28:53.271350 #82178]  INFO -- : Verifying - interactions matched for example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches one expected request returns the expected response"

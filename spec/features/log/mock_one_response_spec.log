@@ -1,0 +1,111 @@
+I, [2014-10-29T10:28:53.285467 #82178]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
+I, [2014-10-29T10:28:53.286738 #82178]  INFO -- : Registered expected interaction GET /alligators
+D, [2014-10-29T10:28:53.286915 #82178] DEBUG -- : {
+  "description": "a request for alligators",
+  "provider_state": "alligators exist",
+  "request": {
+    "method": "get",
+    "path": "/alligators",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+      {
+        "name": "Mary"
+      }
+    ]
+  }
+}
+I, [2014-10-29T10:28:53.288230 #82178]  INFO -- : Received request GET /alligators
+D, [2014-10-29T10:28:53.288386 #82178] DEBUG -- : {
+  "method": "get",
+  "query": "",
+  "path": "/alligators",
+  "headers": {
+    "Https": "off",
+    "Content-Length": "0",
+    "Accept": "application/json",
+    "Host": "example.org",
+    "Cookie": ""
+  }
+}
+I, [2014-10-29T10:28:53.288729 #82178]  INFO -- : Found matching response for GET /alligators
+D, [2014-10-29T10:28:53.288866 #82178] DEBUG -- : {
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": [
+    {
+      "name": "Mary"
+    }
+  ]
+}
+I, [2014-10-29T10:28:53.289893 #82178]  INFO -- : Verifying - interactions matched for example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
+I, [2014-10-29T10:28:53.291696 #82178]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response"
+I, [2014-10-29T10:28:53.292472 #82178]  INFO -- : Registered expected interaction GET /alligators
+D, [2014-10-29T10:28:53.292663 #82178] DEBUG -- : {
+  "description": "a request for alligators",
+  "provider_state": "alligators exist",
+  "request": {
+    "method": "get",
+    "path": "/alligators",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+      {
+        "name": "Mary"
+      }
+    ]
+  }
+}
+I, [2014-10-29T10:28:53.293781 #82178]  INFO -- : Received request GET /alligators
+D, [2014-10-29T10:28:53.293919 #82178] DEBUG -- : {
+  "method": "get",
+  "query": "",
+  "path": "/alligators",
+  "headers": {
+    "Https": "off",
+    "Content-Length": "0",
+    "Accept": "application/xml",
+    "Host": "example.org",
+    "Cookie": ""
+  }
+}
+E, [2014-10-29T10:28:53.294202 #82178] ERROR -- : No matching interaction found on MockService for GET /alligators
+E, [2014-10-29T10:28:53.294245 #82178] ERROR -- : Interaction diffs for that route:
+E, [2014-10-29T10:28:53.294935 #82178] ERROR -- : Diff with interaction: "a request for alligators" given "alligators exist"
+@@ -1,6 +1,6 @@
+ {
+   "headers": {
+-    "Accept": "application/json"
++    "Accept": "application/xml"
+   }
+ }
+
+Key: - means "expected, but was not found". 
+     + means "actual, should not be found". 
+     Values where the expected matches the actual are not shown.
+
+W, [2014-10-29T10:28:53.295986 #82178]  WARN -- : Verifying - actual interactions do not match expected interactions for example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response". 
+Incorrect requests:
+	GET /alligators (request headers did not match)
+
+
+W, [2014-10-29T10:28:53.296021 #82178]  WARN -- : Incorrect requests:
+	GET /alligators (request headers did not match)
+
+
