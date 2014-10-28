@@ -4,6 +4,7 @@ require 'pact/consumer/mock_service/interaction_mismatch'
 require 'pact/consumer_contract'
 require 'pact/consumer/interactions_filter'
 require 'pact/mock_service/response_decorator'
+require 'pact/mock_service/interaction_decorator'
 
 module Pact
   module Consumer
