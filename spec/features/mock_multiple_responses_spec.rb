@@ -56,33 +56,35 @@ describe Pact::Consumer::MockService do
       end
 
       it "returns the expected response" do | example |
-        # Clear interactions
+        # Clear interactions - this would typically be done in a before hook
         delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
 
-        # Set up expected interaction
+        # Set up expected interaction - this would be done by the Pact DSL
         post "/interactions", expected_interaction, admin_headers
 
-        # Set up another expected interaction
+        # Set up another expected interaction - this would be done by the Pact DSL
         post "/interactions", another_expected_interaction, admin_headers
 
-        # Invoke the actual request
+        # Invoke the actual request - this would be done by the class under test
         get "/alligators", nil, { 'HTTP_ACCEPT' => 'application/json' }
 
         # Ensure that the response we get back was the one we expected
+        # A test using pact would normally check the object returned from the class under test
+        # eg. expect(client.alligators).to eq [Alligator.new(name: 'Mary')]
         expect(last_response.status).to eq 200
         expect(last_response.headers['Content-Type']).to eq 'application/json'
         expect(JSON.parse(last_response.body)).to eq([{ 'name' => 'Mary' }])
 
-        # Invoke the /zebras request
+        # Invoke the /zebras request - this would be done by the class under test
         get "/zebras", nil, { 'HTTP_ACCEPT' => 'application/json' }
 
         # Ensure we got the zebra response back
         expect(JSON.parse(last_response.body)).to eq([{ 'name' => 'Xena Zebra' }])
 
         # Verify
+        # This would typically be done in an after hook
         get "/interactions/verification?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
         expect(last_response.status).to eq 200
-
       end
     end
 
@@ -106,28 +108,29 @@ describe Pact::Consumer::MockService do
       end
 
       it "returns an error response" do | example |
-        # Clear interactions
+        # Clear interactions - this would typically be done in a before hook
         delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
 
-        # Set up expected interaction
+        # Set up expected interaction - this would be done by the Pact DSL
         post "/interactions", expected_interaction, admin_headers
 
-        # Set up another expected interaction
+        # Set up another expected interaction - this would be done by the Pact DSL
         post "/interactions", another_expected_interaction, admin_headers
 
-        # Invoke the actual request
+        # Invoke the actual request - this would be done by the class under test
         get "/alligators", nil, { 'HTTP_ACCEPT' => 'application/json' }
 
         # A 500 is returned as both interactions match the actual request
+        # An actual test should fail at this point as the class under test would probably raise an exception
         expect(last_response.status).to eq 500
         expect(last_response.body).to include 'Multiple interaction found'
 
-        # Verification will be false
+        # Verification will return an error
+        # This would typically be done in an after hook, which should fail the test if it hasn't already failed
         get "/interactions/verification?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
         expect(last_response.status).to eq 500
         expect(last_response.body).to include 'Actual interactions do not match expected interactions'
       end
     end
   end
-
 end
