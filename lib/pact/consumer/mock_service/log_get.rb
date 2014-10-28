@@ -21,7 +21,7 @@ module Pact
       end
 
       def message env
-        params_hash(env)['msg']
+        params_hash(env).fetch('msg', [])[0]
       end
     end
   end

@@ -10,7 +10,7 @@ module Pact
       }
 
       def params_hash env
-        env["QUERY_STRING"].split("&").collect{| param| param.split("=")}.inject({}){|params, param| params[param.first] = URI.decode(param.last); params }
+        CGI::parse env["QUERY_STRING"]
       end
 
       def request_as_hash_from env

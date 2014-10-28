@@ -12,12 +12,12 @@ module Pact
       end
 
       def verify example_description
-        response = http.request_get("/interactions/verification?example_description=#{URI.encode(example_description)}", MOCK_SERVICE_ADMINISTRATON_HEADERS)
+        response = http.request_get("/interactions/verification?example_description=#{CGI.escape(example_description)}", MOCK_SERVICE_ADMINISTRATON_HEADERS)
         raise "\e[31m#{response.body}\e[m" unless response.is_a? Net::HTTPSuccess
       end
 
       def log msg
-        http.request_get("/log?msg=#{URI.encode(msg)}", MOCK_SERVICE_ADMINISTRATON_HEADERS)
+        http.request_get("/log?msg=#{CGI.escape(msg)}", MOCK_SERVICE_ADMINISTRATON_HEADERS)
       end
 
       def wait_for_interactions wait_max_seconds, poll_interval
@@ -28,7 +28,7 @@ module Pact
       end
 
       def clear_interactions example_description
-        http.delete("/interactions?example_description=#{URI.encode(example_description)}", MOCK_SERVICE_ADMINISTRATON_HEADERS)
+        http.delete("/interactions?example_description=#{CGI.escape(example_description)}", MOCK_SERVICE_ADMINISTRATON_HEADERS)
       end
 
       def add_expected_interaction interaction
@@ -41,7 +41,7 @@ module Pact
       end
 
       def self.clear_interactions port, example_description
-        Net::HTTP.new("localhost", port).delete("/interactions?example_description=#{URI.encode(example_description)}", MOCK_SERVICE_ADMINISTRATON_HEADERS)
+        Net::HTTP.new("localhost", port).delete("/interactions?example_description=#{CGI.escape(example_description)}", MOCK_SERVICE_ADMINISTRATON_HEADERS)
       end
 
       def write_pact pacticipant_details

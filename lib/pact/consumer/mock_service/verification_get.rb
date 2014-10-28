@@ -34,7 +34,7 @@ module Pact
       end
 
       def example_description env
-        params_hash(env)['example_description']
+        params_hash(env).fetch("example_description", [])[0]
       end
 
       class FailureMessage

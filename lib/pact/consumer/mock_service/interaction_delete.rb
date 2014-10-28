@@ -25,8 +25,12 @@ module Pact
 
       def respond env
         interaction_list.clear
-        logger.info "Cleared interactions before example \"#{params_hash(env)['example_description']}\""
+        logger.info "Cleared interactions before example \"#{example_description(env)}\""
         [200, {}, ['Deleted interactions']]
+      end
+
+      def example_description env
+        params_hash(env).fetch('example_description', [])[0]
       end
     end
   end
