@@ -1,4 +1,5 @@
 require 'pact/matchers'
+require 'pact/consumer/request'
 require 'pact/consumer/mock_service/rack_request_helper'
 require 'pact/consumer/mock_service/interaction_mismatch'
 require 'pact/consumer_contract'
