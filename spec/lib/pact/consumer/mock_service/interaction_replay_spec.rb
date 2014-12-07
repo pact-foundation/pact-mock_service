@@ -16,14 +16,14 @@ module Pact
       end
       let(:logger) { Logger.new(StringIO.new) }
       let(:interaction_list) { InteractionList.new }
-      let(:interactions) { [] }
+      let(:verified_interactions) { [] }
       let(:actual_body) { {'a' => 'body' } }
 
       before do
         interaction_list.add expected_interaction
       end
 
-      subject { InteractionReplay.new('provider', logger, interaction_list, interactions) }
+      subject { InteractionReplay.new('provider', logger, interaction_list, verified_interactions) }
       let(:response) { subject.respond env }
       let(:response_body) { JSON.parse(response[2][0]) }
       let(:response_status) { response[0] }
@@ -51,6 +51,11 @@ module Pact
           it "returns the specified response body" do
             expect(response_body).to eq 'response' => 'body'
           end
+
+          it "adds the interaction to the verified interactions list" do
+            response
+            expect(verified_interactions.size).to eq 1
+          end
         end
 
         context "when a full match is not found" do
@@ -71,6 +76,11 @@ module Pact
 
           it "returns a list of diffs" do
             expect(response_body).to eq(expected_response_body)
+          end
+
+          it "does not add the interaction to the verified interactions list" do
+            response
+            expect(verified_interactions.size).to eq 0
           end
         end
 
@@ -95,6 +105,10 @@ module Pact
             expect(response_body).to eq expected_response_body
           end
 
+          it "does not add the interaction to the verified interactions list" do
+            response
+            expect(verified_interactions.size).to eq 0
+          end
         end
       end
 
@@ -121,6 +135,11 @@ module Pact
 
         it "returns a list of diffs" do
           expect(response_body).to eq(expected_response_body)
+        end
+
+        it "does not add the interaction to the verified interactions list" do
+          response
+          expect(verified_interactions.size).to eq 0
         end
       end
     end

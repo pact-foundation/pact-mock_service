@@ -1,3 +1,5 @@
+require 'pact/consumer/mock_service/candidate_interactions'
+
 module Pact
   module Consumer
     class InteractionList
@@ -66,9 +68,11 @@ module Pact
       end
 
       def find_candidate_interactions actual_request
-        interactions.select do | interaction |
-          interaction.request.matches_route? actual_request
-        end
+        CandidateInteractions.new(
+          interactions.select do | interaction |
+            interaction.request.matches_route? actual_request
+          end
+        )
       end
 
     end
