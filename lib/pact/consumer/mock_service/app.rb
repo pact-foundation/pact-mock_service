@@ -64,7 +64,7 @@ module Pact
         response = []
         begin
           relevant_handler = @handlers.detect { |handler| handler.match? env }
-          response = relevant_handler.respond env
+          response = add_cors_header(relevant_handler.respond(env))
         rescue StandardError => e
           @logger.error 'Error ocurred in mock service:'
           @logger.ap e, :error
@@ -77,6 +77,10 @@ module Pact
           raise e
         end
         response
+      end
+
+      def add_cors_header response
+        [response[0], response[1].merge('Access-Control-Allow-Origin' => '*'), response[2]]
       end
 
     end

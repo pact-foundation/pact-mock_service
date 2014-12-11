@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'rack/test'
 require 'tempfile'
+require 'pact/consumer/mock_service/app'
 
 module Pact
   module Consumer
@@ -20,12 +21,26 @@ module Pact
         temp_file.unlink
       end
 
+      let(:response) { JSON.parse(last_response.body)}
+      let(:interaction_replay) { double(InteractionReplay, :match? => true)}
+
+      subject { get "/" }
+
+      before do
+        allow(InteractionReplay).to receive(:new).and_return(interaction_replay)
+      end
+
+      it "returns a CORS header" do
+        expect(interaction_replay).to receive(:respond).and_return([200, {}, ['{}']])
+        subject
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
+      end
+
       context "when a StandardError is encountered" do
         let(:response) { JSON.parse(last_response.body)}
         let(:interaction_replay) { double(InteractionReplay, :match? => true)}
 
         before do
-          expect(InteractionReplay).to receive(:new).and_return(interaction_replay)
           expect(interaction_replay).to receive(:respond).and_raise("an error")
         end
 
