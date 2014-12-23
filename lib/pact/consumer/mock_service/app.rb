@@ -33,6 +33,7 @@ module Pact
         interaction_list = InteractionList.new
 
         @name = options.fetch(:name, "MockService")
+        pact_dir = options[:pact_dir]
         interactions = []
         @handlers = [
           MissingInteractionsGet.new(@name, @logger, interaction_list),
@@ -41,7 +42,7 @@ module Pact
           InteractionDelete.new(@name, @logger, interaction_list),
           InteractionOptions.new(@name, @logger),
           LogGet.new(@name, @logger),
-          PactPost.new(@name, @logger, interactions),
+          PactPost.new(@name, @logger, interactions, pact_dir),
           PactOptions.new(@name, @logger),
           InteractionReplay.new(@name, @logger, interaction_list, interactions)
         ]
