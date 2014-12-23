@@ -8,11 +8,13 @@ require 'pact/consumer/request'
 require 'pact/consumer/mock_service/interaction_list'
 require 'pact/consumer/mock_service/interaction_delete'
 require 'pact/consumer/mock_service/interaction_post'
+require 'pact/consumer/mock_service/interaction_options'
 require 'pact/consumer/mock_service/interaction_replay'
 require 'pact/consumer/mock_service/missing_interactions_get'
 require 'pact/consumer/mock_service/verification_get'
 require 'pact/consumer/mock_service/log_get'
 require 'pact/consumer/mock_service/pact_post'
+require 'pact/consumer/mock_service/pact_options'
 require 'pact/support'
 
 AwesomePrint.defaults = {
@@ -37,8 +39,10 @@ module Pact
           VerificationGet.new(@name, @logger, interaction_list, log_description),
           InteractionPost.new(@name, @logger, interaction_list),
           InteractionDelete.new(@name, @logger, interaction_list),
+          InteractionOptions.new(@name, @logger),
           LogGet.new(@name, @logger),
           PactPost.new(@name, @logger, interactions),
+          PactOptions.new(@name, @logger),
           InteractionReplay.new(@name, @logger, interaction_list, interactions)
         ]
       end

@@ -13,9 +13,14 @@ module Pact
       include RackRequestHelper
 
       def match? env
-        headers_from(env)['X-Pact-Mock-Service'] &&
-        env['PATH_INFO'] == request_path &&
-          env['REQUEST_METHOD'] == request_method
+        # 'X-Pact-Mock-Service' header is set as a normal header in regular requests (PUT, GET, POST, etc.)
+        # However, browsers set it within Access-Control-Request-Headers in case of OPTIONS request
+        # (web browsers make an OPTIONS request prior to the normal request in case of CORS request)
+        ( (headers_from(env)["Access-Control-Request-Headers"].nil? ? false
+          : headers_from(env)["Access-Control-Request-Headers"].match(/x-pact-mock-service/)
+        )  || headers_from(env)['X-Pact-Mock-Service'] ) &&
+            env['PATH_INFO'] == request_path &&
+            env['REQUEST_METHOD'] == request_method
       end
 
       def request_path
