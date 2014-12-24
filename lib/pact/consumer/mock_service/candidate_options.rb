@@ -11,15 +11,6 @@ module Pact
       def request_path_match? env
         true
       end
-      def match?
-        puts headers_from(env)
-        puts "Headers match are :#{request_header_match?}"
-        puts "Request path are :#{request_path_match?}"
-        puts "Request method :#{request_method_match?}"
-        res= super
-        puts "Result is #{res}"
-        res
-      end
     end
   end
 end

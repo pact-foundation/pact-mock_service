@@ -45,8 +45,8 @@ module Pact
           LogGet.new(@name, @logger),
           PactPost.new(@name, @logger, interactions, pact_dir),
           PactOptions.new(@name, @logger),
-          InteractionReplay.new(@name, @logger, interaction_list, interactions),
           CandidateOptions.new(@name, @logger),
+          InteractionReplay.new(@name, @logger, interaction_list, interactions),
         ]
       end
 
@@ -73,8 +73,11 @@ module Pact
           relevant_handler = @handlers.detect { |handler| handler.match? env }
           response = add_cors_header(relevant_handler.respond(env))
         rescue StandardError => e
+          puts "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"
           @logger.error 'Error ocurred in mock service:'
           @logger.ap e, :error
+          puts e.inspect
+          puts e.backtrace
           @logger.ap e.backtrace
           response = [500, {'Content-Type' => 'application/json'}, [{message: e.message, backtrace: e.backtrace}.to_json]]
         rescue Exception => e
