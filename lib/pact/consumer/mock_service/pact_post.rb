@@ -1,9 +1,9 @@
-require 'pact/consumer/mock_service/mock_service_administration_endpoint'
 require 'pact/consumer_contract/consumer_contract_writer'
+require 'pact/consumer/mock_service/web_request_others'
 
 module Pact
   module Consumer
-    class PactPost < MockServiceAdministrationEndpoint
+    class PactPost < WebRequestOthers
 
       attr_accessor :consumer_contract, :interactions, :default_options
 

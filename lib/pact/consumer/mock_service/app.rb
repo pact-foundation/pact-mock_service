@@ -15,6 +15,7 @@ require 'pact/consumer/mock_service/verification_get'
 require 'pact/consumer/mock_service/log_get'
 require 'pact/consumer/mock_service/pact_post'
 require 'pact/consumer/mock_service/pact_options'
+require 'pact/consumer/mock_service/candidate_options'
 require 'pact/support'
 
 AwesomePrint.defaults = {
@@ -44,7 +45,8 @@ module Pact
           LogGet.new(@name, @logger),
           PactPost.new(@name, @logger, interactions, pact_dir),
           PactOptions.new(@name, @logger),
-          InteractionReplay.new(@name, @logger, interaction_list, interactions)
+          InteractionReplay.new(@name, @logger, interaction_list, interactions),
+          CandidateOptions.new(@name, @logger),
         ]
       end
 

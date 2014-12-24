@@ -1,9 +1,9 @@
-require 'pact/consumer/mock_service/mock_service_administration_endpoint'
+require 'pact/consumer/mock_service/web_request_others'
 
 module Pact
   module Consumer
 
-    class MissingInteractionsGet < MockServiceAdministrationEndpoint
+    class MissingInteractionsGet < WebRequestOthers
       include RackRequestHelper
 
       def initialize name, logger, interaction_list

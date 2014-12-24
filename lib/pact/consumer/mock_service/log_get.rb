@@ -1,8 +1,8 @@
-require 'pact/consumer/mock_service/mock_service_administration_endpoint'
+require 'pact/consumer/mock_service/web_request_others'
 
 module Pact
   module Consumer
-    class LogGet < MockServiceAdministrationEndpoint
+    class LogGet < WebRequestOthers
 
       include RackRequestHelper
 

@@ -1,8 +1,8 @@
-require 'pact/consumer/mock_service/mock_service_administration_endpoint'
+require 'pact/consumer/mock_service/web_request_others'
 
 module Pact
   module Consumer
-    class InteractionPost < MockServiceAdministrationEndpoint
+    class InteractionPost < WebRequestOthers
 
       attr_accessor :interaction_list
 
