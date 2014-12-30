@@ -30,6 +30,11 @@ module Pact
         ]
       end
 
+      # Access-Control-Domain does not work on OPTIONs requests.
+      def enable_cors?
+        false
+      end
+
       private
       # 'X-Pact-Mock-Service' header is set as a normal header in regular requests (PUT, GET, POST, etc.)
       # However, browsers set it within Access-Control-Request-Headers in case of OPTIONS request

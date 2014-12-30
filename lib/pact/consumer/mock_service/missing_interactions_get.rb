@@ -3,7 +3,7 @@ require 'pact/consumer/mock_service/web_request_others'
 module Pact
   module Consumer
 
-    class MissingInteractionsGet < WebRequestOthers
+    class MissingInteractionsGet < WebRequestAdministration
       include RackRequestHelper
 
       def initialize name, logger, interaction_list

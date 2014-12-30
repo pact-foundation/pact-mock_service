@@ -2,7 +2,7 @@ require 'pact/consumer/mock_service/web_request_others'
 
 module Pact
   module Consumer
-    class VerificationGet < WebRequestOthers
+    class VerificationGet < WebRequestAdministration
 
       include RackRequestHelper
       attr_accessor :interaction_list, :log_description

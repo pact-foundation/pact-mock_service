@@ -13,7 +13,6 @@ describe Pact::Consumer::MockService do
   end
 
   let(:log_file) { File.open CORS_LOG_PATH, 'a' }
-  let(:app) { Pact::Consumer::MockService.new(log_file: log_file) }
 
   # NOTE: the admin_headers are Rack headers, they will be converted
   # to X-Pact-Mock-Service and Content-Type by the framework
@@ -38,6 +37,7 @@ describe Pact::Consumer::MockService do
   end
 
   context "when in a cross domain environment (CORS)" do
+    let(:app) { Pact::Consumer::MockService.new(log_file: log_file, cors: true) }
     context "when a request has been mocked" do
       it "answers the OPTIONS request, and then appropiately mocks the actual request" do | example |
         # Clear interactions - this would typically be done in a before hook
@@ -51,16 +51,17 @@ describe Pact::Consumer::MockService do
 
         # Ensure it allows the browser to actually make the request
         expect(last_response.status).to eq 200
-        expect(last_response.header).to include "Access-Control-Allow-Origin"=>"*"
-        expect(last_response.header).to include "Access-Control-Allow-Headers"=>"x-pact-mock-service, application/json"
-        expect(last_response.header).to include "Access-Control-Allow-Methods"=>"DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
+        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'x-pact-mock-service'
+        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'application/json'
+        expect(last_response.headers['Access-Control-Allow-Methods']).to include "DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
 
         # Make the request
         post "/alligators/new", { id: 123, name: 'Mary'}.to_json , { 'HTTP_ACCEPT' => 'application/json' }
 
         # Ensure that the response we get back was the one we expected
         # and includes the CORS header
-        expect(last_response.header).to include "Access-Control-Allow-Origin"=>"*"
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
         expect(last_response.headers['Content-Type']).to eq 'application/json'
         expect(JSON.parse(last_response.body)).to eq([{ 'name' => 'Mary' }])
 
@@ -84,9 +85,10 @@ describe Pact::Consumer::MockService do
 
         # Ensure it allows the browser to actually make the request
         expect(last_response.status).to eq 200
-        expect(last_response.header).to include "Access-Control-Allow-Origin"=>"*"
-        expect(last_response.header).to include "Access-Control-Allow-Headers"=>"x-pact-mock-service, application/json"
-        expect(last_response.header).to include "Access-Control-Allow-Methods"=>"DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
+        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'x-pact-mock-service'
+        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'application/json'
+        expect(last_response.headers['Access-Control-Allow-Methods']).to include "DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
 
         # Make the request
         post "/alligators/new", { id: 124, name: 'John'}.to_json , { 'HTTP_ACCEPT' => 'application/json' }
@@ -104,4 +106,33 @@ describe Pact::Consumer::MockService do
       end
     end
   end
+
+  context "when the cors flag is not set" do
+    let(:app) { Pact::Consumer::MockService.new(log_file: log_file) }
+    context "when a request has been mocked" do
+      it "does not mock the OPTIONS request" do | example |
+        # Clear interactions - this would typically be done in a before hook
+        delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
+        # Set up expected interaction - this would be done by the Pact DSL
+        post "/interactions", expected_interaction, admin_headers
+
+        # Make the preflight request - this one will not have been created by the user
+        options '/alligators/new', nil, { 'HTTP_Access_Control_Request_Headers' => 'x-pact-mock-service, application/json' }
+        expect(last_response.status).to eq 500
+        expect(last_response.body).to include 'No interaction found'
+      end
+
+      it "mocks the request without CORS headers added" do |example|
+        # Clear interactions - this would typically be done in a before hook
+        delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
+        # Set up expected interaction - this would be done by the Pact DSL
+        post "/interactions", expected_interaction, admin_headers
+
+        post "/alligators/new", { id: 123, name: 'Mary'}.to_json , { 'HTTP_ACCEPT' => 'application/json' }
+        expect(last_response.status).to eq 200
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eq nil
+      end
+    end
+  end
+
 end

@@ -4,8 +4,8 @@ require 'pact/consumer/mock_service/mock_service_administration_endpoint'
 module Pact
   module Consumer
 
-    # Regular web requests (GET, DELETE, POST, PUT, etc.)
-    class WebRequestOthers < MockServiceAdministrationEndpoint
+    # Administration web requests (GET, DELETE, POST, PUT, etc.)
+    class WebRequestAdministration < MockServiceAdministrationEndpoint
 
       def request_path
         raise NotImplementedError
@@ -15,11 +15,16 @@ module Pact
         raise NotImplementedError
       end
 
+      def enable_cors?
+        true
+      end
+
       private
       def request_header_match? env
         headers_from(env)['X-Pact-Mock-Service']
       end
 
     end
+
   end
 end

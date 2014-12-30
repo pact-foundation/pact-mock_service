@@ -3,7 +3,7 @@ require 'pact/consumer/mock_service/web_request_others'
 
 module Pact
   module Consumer
-    class PactPost < WebRequestOthers
+    class PactPost < WebRequestAdministration
 
       attr_accessor :consumer_contract, :interactions, :default_options
 

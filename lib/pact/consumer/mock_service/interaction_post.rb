@@ -2,7 +2,7 @@ require 'pact/consumer/mock_service/web_request_others'
 
 module Pact
   module Consumer
-    class InteractionPost < WebRequestOthers
+    class InteractionPost < WebRequestAdministration
 
       attr_accessor :interaction_list
 

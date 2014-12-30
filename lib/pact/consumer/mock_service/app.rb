@@ -36,6 +36,7 @@ module Pact
         @name = options.fetch(:name, "MockService")
         pact_dir = options[:pact_dir]
         interactions = []
+        cors= options[:cors]
         @handlers = [
           MissingInteractionsGet.new(@name, @logger, interaction_list),
           VerificationGet.new(@name, @logger, interaction_list, log_description),
@@ -45,8 +46,8 @@ module Pact
           LogGet.new(@name, @logger),
           PactPost.new(@name, @logger, interactions, pact_dir),
           PactOptions.new(@name, @logger),
-          CandidateOptions.new(@name, @logger),
-          InteractionReplay.new(@name, @logger, interaction_list, interactions),
+          CandidateOptions.new(@name, @logger, cors),
+          InteractionReplay.new(@name, @logger, interaction_list, interactions, cors),
         ]
       end
 
@@ -71,7 +72,8 @@ module Pact
         response = []
         begin
           relevant_handler = @handlers.detect { |handler| handler.match? env }
-          response = add_cors_header(relevant_handler.respond(env))
+          res= relevant_handler.respond(env)
+          response= relevant_handler.enable_cors? ? add_cors_header(res) : res
         rescue StandardError => e
           @logger.error 'Error ocurred in mock service:'
           @logger.ap e, :error
@@ -80,7 +82,7 @@ module Pact
           @logger.ap e.backtrace
           response = [500, {'Content-Type' => 'application/json'}, [{message: e.message, backtrace: e.backtrace}.to_json]]
         rescue Exception => e
-          @logger.error 'Exception ocurred in mock service:'
+          @logger.error 'Exception occurred in mock service:'
           @logger.ap e, :error
           @logger.ap e.backtrace
           raise e

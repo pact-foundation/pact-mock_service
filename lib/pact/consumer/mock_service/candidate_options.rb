@@ -8,8 +8,14 @@ module Pact
     # This is only needed in a CORS setup, where the
     # Browsers typically do a OPTIONS before a POST for cross domain requests
     class CandidateOptions < WebRequestOptions
+      def initialize name, logger, cors
+        super(name,logger)
+        @cors = cors
+      end
+
+      # Will match all requests to OPTIONS when in CORS mode
       def request_path_match? env
-        true
+        @cors
       end
     end
   end

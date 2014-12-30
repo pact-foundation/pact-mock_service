@@ -13,6 +13,7 @@ module Pact
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
       method_option :log, aliases: "-l", desc: "File to which to log output"
       method_option :quiet, aliases: "-q", desc: "If true, no admin messages will be shown"
+      method_option :cors, aliases: "-o", desc: "If true, mocks requests will have access control origin headers set to '*'"
 
       def service
         RunStandaloneMockService.call(options)
@@ -37,6 +38,7 @@ module Pact
           log.sync = true
           service_options[:log_file] = log
         end
+        service_options[:cors] = true if options[:cors]
 
         port = options[:port] || FindAPort.available_port
         mock_service = Pact::Consumer::MockService.new(service_options)

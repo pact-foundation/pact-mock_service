@@ -13,7 +13,6 @@ module Pact
       include RackRequestHelper
 
       def match? env
-        # puts "The env is #{env}, we are #{self.class}, #{(request_header_match? env) && (request_path_match? env) && (request_method_match? env)}"
         (request_header_match? env) && (request_path_match? env) && (request_method_match? env)
       end
 
