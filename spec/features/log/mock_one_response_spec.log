@@ -1,6 +1,6 @@
-I, [2014-12-30T14:51:01.020348 #9248]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
-I, [2014-12-30T14:51:01.021083 #9248]  INFO -- : Registered expected interaction GET /alligators
-D, [2014-12-30T14:51:01.021187 #9248] DEBUG -- : {
+I, [2014-12-30T15:36:56.819628 #11393]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
+I, [2014-12-30T15:36:56.820093 #11393]  INFO -- : Registered expected interaction GET /alligators
+D, [2014-12-30T15:36:56.820154 #11393] DEBUG -- : {
   "description": "a request for alligators",
   "provider_state": "alligators exist",
   "request": {
@@ -22,8 +22,8 @@ D, [2014-12-30T14:51:01.021187 #9248] DEBUG -- : {
     ]
   }
 }
-I, [2014-12-30T14:51:01.022183 #9248]  INFO -- : Received request GET /alligators
-D, [2014-12-30T14:51:01.022337 #9248] DEBUG -- : {
+I, [2014-12-30T15:36:56.820782 #11393]  INFO -- : Received request GET /alligators
+D, [2014-12-30T15:36:56.820858 #11393] DEBUG -- : {
   "method": "get",
   "query": "",
   "path": "/alligators",
@@ -35,8 +35,8 @@ D, [2014-12-30T14:51:01.022337 #9248] DEBUG -- : {
     "Cookie": ""
   }
 }
-I, [2014-12-30T14:51:01.022494 #9248]  INFO -- : Found matching response for GET /alligators
-D, [2014-12-30T14:51:01.022556 #9248] DEBUG -- : {
+I, [2014-12-30T15:36:56.820990 #11393]  INFO -- : Found matching response for GET /alligators
+D, [2014-12-30T15:36:56.821049 #11393] DEBUG -- : {
   "status": 200,
   "headers": {
     "Content-Type": "application/json"
@@ -47,10 +47,10 @@ D, [2014-12-30T14:51:01.022556 #9248] DEBUG -- : {
     }
   ]
 }
-I, [2014-12-30T14:51:01.023017 #9248]  INFO -- : Verifying - interactions matched for example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
-I, [2014-12-30T14:51:01.023994 #9248]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response"
-I, [2014-12-30T14:51:01.024511 #9248]  INFO -- : Registered expected interaction GET /alligators
-D, [2014-12-30T14:51:01.024603 #9248] DEBUG -- : {
+I, [2014-12-30T15:36:56.821479 #11393]  INFO -- : Verifying - interactions matched for example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
+I, [2014-12-30T15:36:56.822369 #11393]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response"
+I, [2014-12-30T15:36:56.822799 #11393]  INFO -- : Registered expected interaction GET /alligators
+D, [2014-12-30T15:36:56.822860 #11393] DEBUG -- : {
   "description": "a request for alligators",
   "provider_state": "alligators exist",
   "request": {
@@ -72,8 +72,8 @@ D, [2014-12-30T14:51:01.024603 #9248] DEBUG -- : {
     ]
   }
 }
-I, [2014-12-30T14:51:01.025360 #9248]  INFO -- : Received request GET /alligators
-D, [2014-12-30T14:51:01.025482 #9248] DEBUG -- : {
+I, [2014-12-30T15:36:56.823456 #11393]  INFO -- : Received request GET /alligators
+D, [2014-12-30T15:36:56.823545 #11393] DEBUG -- : {
   "method": "get",
   "query": "",
   "path": "/alligators",
@@ -85,9 +85,9 @@ D, [2014-12-30T14:51:01.025482 #9248] DEBUG -- : {
     "Cookie": ""
   }
 }
-E, [2014-12-30T14:51:01.025619 #9248] ERROR -- : No matching interaction found on Pact::Consumer::HandleUnrecognisedInteraction for GET /alligators
-E, [2014-12-30T14:51:01.025640 #9248] ERROR -- : Interaction diffs for that route:
-E, [2014-12-30T14:51:01.025889 #9248] ERROR -- : Diff with interaction: "a request for alligators" given "alligators exist"
+E, [2014-12-30T15:36:56.823666 #11393] ERROR -- : No matching interaction found on Pact::Consumer::HandleUnrecognisedInteraction for GET /alligators
+E, [2014-12-30T15:36:56.823685 #11393] ERROR -- : Interaction diffs for that route:
+E, [2014-12-30T15:36:56.823921 #11393] ERROR -- : Diff with interaction: "a request for alligators" given "alligators exist"
 @@ -1,6 +1,6 @@
  {
    "headers": {
@@ -100,12 +100,12 @@ Key: - means "expected, but was not found".
      + means "actual, should not be found". 
      Values where the expected matches the actual are not shown.
 
-W, [2014-12-30T14:51:01.026475 #9248]  WARN -- : Verifying - actual interactions do not match expected interactions for example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response". 
+W, [2014-12-30T15:36:56.824434 #11393]  WARN -- : Verifying - actual interactions do not match expected interactions for example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response". 
 Incorrect requests:
 	GET /alligators (request headers did not match)
 
 
-W, [2014-12-30T14:51:01.026508 #9248]  WARN -- : Incorrect requests:
+W, [2014-12-30T15:36:56.824472 #11393]  WARN -- : Incorrect requests:
 	GET /alligators (request headers did not match)
 
 

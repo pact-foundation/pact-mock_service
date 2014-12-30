@@ -1,5 +1,5 @@
 require 'pact/consumer/mock_service/rack_request_helper'
-require 'pact/consumer/mock_service/web_request_others'
+require 'pact/consumer/mock_service/web_request_administration'
 
 module Pact
   module Consumer
