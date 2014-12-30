@@ -40,8 +40,6 @@ module Pact
           service_options[:log_file] = log
         end
 
-        cert_name =
-
         mock_service = Pact::Consumer::MockService.new(service_options)
         trap(:INT) { Rack::Handler::WEBrick.shutdown }
 
