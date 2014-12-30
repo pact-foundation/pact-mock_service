@@ -47,6 +47,11 @@ describe Pact::Consumer::MockService do
   let(:pact_file_path) { File.join(pact_dir, "a_consumer-a_provider.json") }
   let(:pact_json) { JSON.parse(File.read(pact_file_path)) }
 
+  before do
+    FileUtils.rm_rf pact_dir
+    FileUtils.mkdir_p pact_dir
+  end
+
 
   context "when in a cross domain environment (CORS)" do
     context "pact mock service is setup" do
