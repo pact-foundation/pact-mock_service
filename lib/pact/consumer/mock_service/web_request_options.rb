@@ -19,7 +19,7 @@ module Pact
       end
 
       def respond env
-        logger.info "CORS OPTIONS check before sending data"
+        logger.info "Preflight browser CORS check before sending data okayed (OPTIONS request)"
         [200,
          {
              'Access-Control-Allow-Origin' => '*',
