@@ -73,7 +73,6 @@ module Pact
           relevant_handler = @handlers.detect { |handler| handler.match? env }
           response = add_cors_header(relevant_handler.respond(env))
         rescue StandardError => e
-          puts "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"
           @logger.error 'Error ocurred in mock service:'
           @logger.ap e, :error
           puts e.inspect
