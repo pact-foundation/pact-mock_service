@@ -24,12 +24,12 @@ module Pact
 
       attr_accessor :name, :logger, :interaction_list, :interactions
 
-      def initialize name, logger, interaction_list, interactions, cors=false
+      def initialize name, logger, interaction_list, interactions, cors_enabled=false
         @name = name
         @logger = logger
         @interaction_list = interaction_list
         @interactions = DistinctInteractionsFilter.new(interactions)
-        @cors = cors
+        @cors_enabled = cors_enabled
       end
 
       def match? env
@@ -41,7 +41,7 @@ module Pact
       end
 
       def enable_cors?
-        @cors
+        @cors_enabled
       end
 
       private

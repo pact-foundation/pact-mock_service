@@ -36,7 +36,7 @@ module Pact
         @name = options.fetch(:name, "MockService")
         pact_dir = options[:pact_dir]
         interactions = []
-        cors= options[:cors]
+        cors_enabled= options[:cors_enabled]
         @handlers = [
           MissingInteractionsGet.new(@name, @logger, interaction_list),
           VerificationGet.new(@name, @logger, interaction_list, log_description),
@@ -46,8 +46,8 @@ module Pact
           LogGet.new(@name, @logger),
           PactPost.new(@name, @logger, interactions, pact_dir),
           PactOptions.new(@name, @logger),
-          CandidateOptions.new(@name, @logger, cors),
-          InteractionReplay.new(@name, @logger, interaction_list, interactions, cors),
+          CandidateOptions.new(@name, @logger, cors_enabled),
+          InteractionReplay.new(@name, @logger, interaction_list, interactions, cors_enabled),
         ]
       end
 

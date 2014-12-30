@@ -37,7 +37,7 @@ describe Pact::Consumer::MockService do
   end
 
   context "when in a cross domain environment (CORS)" do
-    let(:app) { Pact::Consumer::MockService.new(log_file: log_file, cors: true) }
+    let(:app) { Pact::Consumer::MockService.new(log_file: log_file, cors_enabled: true) }
     context "when a request has been mocked" do
       it "answers the OPTIONS request, and then appropiately mocks the actual request" do | example |
         # Clear interactions - this would typically be done in a before hook
