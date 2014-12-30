@@ -52,7 +52,6 @@ module Pact
           :SSLEnable => true,
           :SSLCertName => [ %w[CN localhost] ] }) if options[:ssl]
 
-        puts options
         Rack::Handler::WEBrick.run(mock_service, webbrick_opts)
       end
     end
