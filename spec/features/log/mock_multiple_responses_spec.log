@@ -1,6 +1,6 @@
-I, [2014-12-18T16:44:15.104045 #64779]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches one expected request returns the expected response"
-I, [2014-12-18T16:44:15.123507 #64779]  INFO -- : Registered expected interaction GET /alligators
-D, [2014-12-18T16:44:15.123667 #64779] DEBUG -- : {
+INFO -- : Cleared interactions before example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches one expected request returns the expected response"
+INFO -- : Registered expected interaction GET /alligators
+DEBUG -- : {
   "description": "a request for alligators",
   "provider_state": "alligators exist",
   "request": {
@@ -22,8 +22,8 @@ D, [2014-12-18T16:44:15.123667 #64779] DEBUG -- : {
     ]
   }
 }
-I, [2014-12-18T16:44:15.124969 #64779]  INFO -- : Registered expected interaction GET /zebras
-D, [2014-12-18T16:44:15.125065 #64779] DEBUG -- : {
+INFO -- : Registered expected interaction GET /zebras
+DEBUG -- : {
   "description": "a request for zebras",
   "provider_state": "there are zebras",
   "request": {
@@ -45,8 +45,8 @@ D, [2014-12-18T16:44:15.125065 #64779] DEBUG -- : {
     ]
   }
 }
-I, [2014-12-18T16:44:15.126484 #64779]  INFO -- : Received request GET /alligators
-D, [2014-12-18T16:44:15.126604 #64779] DEBUG -- : {
+INFO -- : Received request GET /alligators
+DEBUG -- : {
   "method": "get",
   "query": "",
   "path": "/alligators",
@@ -58,8 +58,8 @@ D, [2014-12-18T16:44:15.126604 #64779] DEBUG -- : {
     "Cookie": ""
   }
 }
-I, [2014-12-18T16:44:15.126995 #64779]  INFO -- : Found matching response for GET /alligators
-D, [2014-12-18T16:44:15.127111 #64779] DEBUG -- : {
+INFO -- : Found matching response for GET /alligators
+DEBUG -- : {
   "status": 200,
   "headers": {
     "Content-Type": "application/json"
@@ -70,8 +70,8 @@ D, [2014-12-18T16:44:15.127111 #64779] DEBUG -- : {
     }
   ]
 }
-I, [2014-12-18T16:44:15.129403 #64779]  INFO -- : Received request GET /zebras
-D, [2014-12-18T16:44:15.129508 #64779] DEBUG -- : {
+INFO -- : Received request GET /zebras
+DEBUG -- : {
   "method": "get",
   "query": "",
   "path": "/zebras",
@@ -83,8 +83,8 @@ D, [2014-12-18T16:44:15.129508 #64779] DEBUG -- : {
     "Cookie": ""
   }
 }
-I, [2014-12-18T16:44:15.129771 #64779]  INFO -- : Found matching response for GET /zebras
-D, [2014-12-18T16:44:15.129855 #64779] DEBUG -- : {
+INFO -- : Found matching response for GET /zebras
+DEBUG -- : {
   "status": 200,
   "headers": {
     "Content-Type": "application/json"
@@ -95,10 +95,10 @@ D, [2014-12-18T16:44:15.129855 #64779] DEBUG -- : {
     }
   ]
 }
-I, [2014-12-18T16:44:15.130756 #64779]  INFO -- : Verifying - interactions matched for example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches one expected request returns the expected response"
-I, [2014-12-18T16:44:15.132687 #64779]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches more than one expected request returns an error response"
-I, [2014-12-18T16:44:15.133381 #64779]  INFO -- : Registered expected interaction GET /alligators
-D, [2014-12-18T16:44:15.133458 #64779] DEBUG -- : {
+INFO -- : Verifying - interactions matched for example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches one expected request returns the expected response"
+INFO -- : Cleared interactions before example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches more than one expected request returns an error response"
+INFO -- : Registered expected interaction GET /alligators
+DEBUG -- : {
   "description": "a request for alligators",
   "provider_state": "alligators exist",
   "request": {
@@ -120,8 +120,8 @@ D, [2014-12-18T16:44:15.133458 #64779] DEBUG -- : {
     ]
   }
 }
-I, [2014-12-18T16:44:15.134348 #64779]  INFO -- : Registered expected interaction GET /alligators
-D, [2014-12-18T16:44:15.134440 #64779] DEBUG -- : {
+INFO -- : Registered expected interaction GET /alligators
+DEBUG -- : {
   "description": "a request for alligators",
   "provider_state": "there are no alligators",
   "request": {
@@ -141,8 +141,8 @@ D, [2014-12-18T16:44:15.134440 #64779] DEBUG -- : {
     ]
   }
 }
-I, [2014-12-18T16:44:15.135383 #64779]  INFO -- : Received request GET /alligators
-D, [2014-12-18T16:44:15.135462 #64779] DEBUG -- : {
+INFO -- : Received request GET /alligators
+DEBUG -- : {
   "method": "get",
   "query": "",
   "path": "/alligators",
@@ -154,8 +154,8 @@ D, [2014-12-18T16:44:15.135462 #64779] DEBUG -- : {
     "Cookie": ""
   }
 }
-E, [2014-12-18T16:44:15.135710 #64779] ERROR -- : Multiple interactions found for GET /alligators:
-D, [2014-12-18T16:44:15.135995 #64779] DEBUG -- : {
+ERROR -- : Multiple interactions found for GET /alligators:
+DEBUG -- : {
   "description": "a request for alligators",
   "provider_state": "alligators exist",
   "request": {
@@ -177,7 +177,7 @@ D, [2014-12-18T16:44:15.135995 #64779] DEBUG -- : {
     ]
   }
 }
-D, [2014-12-18T16:44:15.136103 #64779] DEBUG -- : {
+DEBUG -- : {
   "description": "a request for alligators",
   "provider_state": "there are no alligators",
   "request": {
@@ -197,13 +197,13 @@ D, [2014-12-18T16:44:15.136103 #64779] DEBUG -- : {
     ]
   }
 }
-W, [2014-12-18T16:44:15.138232 #64779]  WARN -- : Verifying - actual interactions do not match expected interactions for example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches more than one expected request returns an error response". 
+WARN -- : Verifying - actual interactions do not match expected interactions for example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches more than one expected request returns an error response". 
 Missing requests:
 	GET /alligators
 	GET /alligators
 
 
-W, [2014-12-18T16:44:15.138269 #64779]  WARN -- : Missing requests:
+WARN -- : Missing requests:
 	GET /alligators
 	GET /alligators
 

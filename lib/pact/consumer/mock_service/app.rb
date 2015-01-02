@@ -48,6 +48,7 @@ module Pact
         options = {log_file: $stdout}.merge options
         log_stream = options[:log_file]
         @logger = Logger.new log_stream
+        @logger.formatter = options[:log_formatter] if options[:log_formatter]
         @logger.level = Pact.configuration.logger.level
 
         if log_stream.is_a? File
