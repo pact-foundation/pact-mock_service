@@ -12,7 +12,7 @@ module Pact
 
       desc 'service', "Start a mock service"
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
-      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over https"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :log, aliases: "-l", desc: "File to which to log output"
       method_option :quiet, aliases: "-q", desc: "If true, no admin messages will be shown"
 
