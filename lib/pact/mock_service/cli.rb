@@ -1,6 +1,7 @@
 require 'find_a_port'
 require 'thor'
 require 'thwait'
+require 'webrick/https'
 require 'rack/handler/webrick'
 
 # TODO rename CLI so as not to clash
@@ -11,6 +12,7 @@ module Pact
 
       desc 'service', "Start a mock service"
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over https"
       method_option :log, aliases: "-l", desc: "File to which to log output"
       method_option :quiet, aliases: "-q", desc: "If true, no admin messages will be shown"
 
@@ -38,10 +40,19 @@ module Pact
           service_options[:log_file] = log
         end
 
-        port = options[:port] || FindAPort.available_port
         mock_service = Pact::Consumer::MockService.new(service_options)
         trap(:INT) { Rack::Handler::WEBrick.shutdown }
-        Rack::Handler::WEBrick.run(mock_service, :Port => port, :AccessLog => [])
+
+        webbrick_opts = {
+          :Port => options[:port] || FindAPort.available_port,
+          :AccessLog => []
+        }
+
+        webbrick_opts.merge!({
+          :SSLEnable => true,
+          :SSLCertName => [ %w[CN localhost] ] }) if options[:ssl]
+
+        Rack::Handler::WEBrick.run(mock_service, webbrick_opts)
       end
     end
 
