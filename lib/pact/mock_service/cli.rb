@@ -42,6 +42,7 @@ module Pact
 
         mock_service = Pact::Consumer::MockService.new(service_options)
         trap(:INT) { Rack::Handler::WEBrick.shutdown }
+        trap(:TERM) { Rack::Handler::WEBrick.shutdown }
 
         webbrick_opts = {
           :Port => options[:port] || FindAPort.available_port,
