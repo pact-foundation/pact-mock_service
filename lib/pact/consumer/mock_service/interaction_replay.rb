@@ -128,7 +128,7 @@ module Pact
       end
 
       def self.log interaction_mismatch, logger
-        logger.error "No matching interaction found on #{name} for #{interaction_mismatch.actual_request.method_and_path}"
+        logger.error "No matching interaction found for #{interaction_mismatch.actual_request.method_and_path}"
         logger.error 'Interaction diffs for that route:'
         logger.error(interaction_mismatch.to_s)
       end
