@@ -4,6 +4,7 @@ require 'pact/consumer_contract/file_name'
 require 'pact/consumer_contract/pact_file'
 require 'pact/consumer_contract/consumer_contract_decorator'
 require 'pact/shared/active_support_support'
+require 'fileutils'
 
 module Pact
 
@@ -45,6 +46,7 @@ module Pact
 
     def update_pactfile
       logger.debug "Updating pact file for #{provider_name} at #{pactfile_path}"
+      FileUtils.mkdir_p File.dirname(pactfile_path)
       File.open(pactfile_path, 'w') do |f|
         f.write pact_json
       end

@@ -15,4 +15,8 @@ is_java = defined?(RUBY_PLATFORM) && RUBY_PLATFORM.downcase.include?('java')
 RSpec.configure do | config |
   config.include(FakeFS::SpecHelpers, :fakefs => true)
   config.filter_run_excluding :mri_only => is_java
+
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
 end

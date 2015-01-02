@@ -25,13 +25,21 @@ describe "The pact-mock-service command line interface", mri_only: true do
     }
   end
 
+  let(:pact_details) do
+    {
+      consumer: { name: 'Consumer' },
+      provider: { name: 'Provider' }
+    }.to_json
+  end
+
   before :all do
-    FileUtils.mkdir_p 'tmp'
+    FileUtils.rm_rf 'tmp'
     FileUtils.rm_rf 'tmp/integration.log'
+    FileUtils.rm_rf 'tmp/pacts'
 
     @@pid = nil
     @@pid = fork do
-      exec "bundle exec bin/pact-mock-service --port 1234 --log tmp/integration.log"
+      exec "bundle exec bin/pact-mock-service --port 1234 --log tmp/integration.log --pact-dir tmp/pacts"
     end
 
     tries = 0
@@ -58,10 +66,20 @@ describe "The pact-mock-service command line interface", mri_only: true do
 
     expect(response.status).to eq 200
     expect(response.body).to eq 'Hello world'
+
+    response = Faraday.post "http://localhost:1234/pact",
+          pact_details,
+          mock_service_headers
+
+    expect(response.status).to eq 200
   end
 
   it "writes logs to the specified log file" do
     expect(File.exist?('tmp/integration.log')).to be true
+  end
+
+  it "writes the pact to the specified directory" do
+    expect(File.exist?('tmp/pacts/consumer-provider.json')).to be true
   end
 
   after :all do
