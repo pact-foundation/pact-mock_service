@@ -1,9 +1,7 @@
 require 'faraday'
 require 'fileutils'
 
-describe "The pact-mock-service command line interface" do
-
-  skip "Fork not implemented in JRuby" if defined?(RUBY_PLATFORM) && RUBY_PLATFORM.include?('java')
+describe "The pact-mock-service command line interface", mri_only: true do
 
   let(:expected_interaction) do
     {
