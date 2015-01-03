@@ -71,7 +71,7 @@ describe Pact::Consumer::MockService do
       }.to_json
     end
 
-    it "raises an error" do | example |
+    it "returns an error response" do | example |
       # First time
       delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
       post "/interactions", expected_interaction, admin_headers
