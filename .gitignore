@@ -28,4 +28,4 @@ log
 .idea
 reports
 Gemfile.lock
-packaging/vendor
+build
