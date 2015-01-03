@@ -6,6 +6,7 @@ require 'awesome_print'
 require 'awesome_print/core_ext/logger' #For some reason we get an error indicating that the method 'ap' is private unless we load this specifically
 require 'pact/consumer/request'
 require 'pact/consumer/mock_service/interaction_list'
+require 'pact/consumer/mock_service/verified_interactions'
 require 'pact/consumer/mock_service/interaction_delete'
 require 'pact/consumer/mock_service/interaction_post'
 require 'pact/consumer/mock_service/interaction_replay'
@@ -32,15 +33,15 @@ module Pact
 
         @name = options.fetch(:name, "MockService")
         pact_dir = options[:pact_dir]
-        interactions = []
+        verified_interactions = VerifiedInteractions.new
         @handlers = [
           MissingInteractionsGet.new(@name, @logger, interaction_list),
           VerificationGet.new(@name, @logger, interaction_list, log_description),
-          InteractionPost.new(@name, @logger, interaction_list),
+          InteractionPost.new(@name, @logger, interaction_list, verified_interactions),
           InteractionDelete.new(@name, @logger, interaction_list),
           LogGet.new(@name, @logger),
-          PactPost.new(@name, @logger, interactions, pact_dir),
-          InteractionReplay.new(@name, @logger, interaction_list, interactions)
+          PactPost.new(@name, @logger, verified_interactions, pact_dir),
+          InteractionReplay.new(@name, @logger, interaction_list, verified_interactions)
         ]
       end
 

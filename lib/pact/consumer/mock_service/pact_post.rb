@@ -5,11 +5,11 @@ module Pact
   module Consumer
     class PactPost < MockServiceAdministrationEndpoint
 
-      attr_accessor :consumer_contract, :interactions, :default_options
+      attr_accessor :consumer_contract, :verified_interactions, :default_options
 
-      def initialize name, logger, interactions, pact_dir
+      def initialize name, logger, verified_interactions, pact_dir
         super name, logger
-        @interactions = interactions
+        @verified_interactions = verified_interactions
         @default_options = {pact_dir: pact_dir}
       end
 
@@ -24,7 +24,7 @@ module Pact
       def respond env
         consumer_contract_details = JSON.parse(env['rack.input'].string, symbolize_names: true)
         logger.info "Writing pact with details #{consumer_contract_details}"
-        consumer_contract_params = default_options.merge(consumer_contract_details.merge(interactions: interactions))
+        consumer_contract_params = default_options.merge(consumer_contract_details.merge(interactions: verified_interactions))
         consumer_contract_writer = ConsumerContractWriter.new(consumer_contract_params, logger)
         json = consumer_contract_writer.write
 

@@ -3,7 +3,6 @@ require 'pact/consumer/request'
 require 'pact/consumer/mock_service/rack_request_helper'
 require 'pact/consumer/mock_service/interaction_mismatch'
 require 'pact/consumer_contract'
-require 'pact/consumer/interactions_filter'
 require 'pact/mock_service/response_decorator'
 require 'pact/mock_service/interaction_decorator'
 
@@ -22,13 +21,13 @@ module Pact
       include RackRequestHelper
       include PrettyGenerate
 
-      attr_accessor :name, :logger, :interaction_list, :interactions
+      attr_accessor :name, :logger, :interaction_list, :verified_interactions
 
-      def initialize name, logger, interaction_list, interactions
+      def initialize name, logger, interaction_list, verified_interactions
         @name = name
         @logger = logger
         @interaction_list = interaction_list
-        @interactions = DistinctInteractionsFilter.new(interactions)
+        @verified_interactions = verified_interactions
       end
 
       def match? env
@@ -57,7 +56,7 @@ module Pact
       end
 
       def handle_matched_interaction interaction
-        HandleMatchedInteraction.call(interaction, interactions, interaction_list, logger)
+        HandleMatchedInteraction.call(interaction, verified_interactions, interaction_list, logger)
       end
 
       def handle_more_than_one_matching_interaction actual_request, matching_interactions
@@ -139,17 +138,17 @@ module Pact
 
       extend PrettyGenerate
 
-      def self.call interaction, interactions, interaction_list, logger
+      def self.call interaction, verified_interactions, interaction_list, logger
         interaction_list.register_matched interaction
-        add_verified_interaction interaction, interactions
+        register_verified_interaction interaction, verified_interactions
         response = response_from(interaction.response)
         logger.info "Found matching response for #{interaction.request.method_and_path}"
         logger.debug pretty_generate(Pact::MockService::ResponseDecorator.new(interaction.response))
         response
       end
 
-      def self.add_verified_interaction interaction, interactions
-        interactions << interaction
+      def self.register_verified_interaction interaction, verified_interactions
+        verified_interactions << interaction
       end
 
       def self.response_from response
