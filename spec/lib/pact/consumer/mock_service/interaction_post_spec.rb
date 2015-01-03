@@ -68,6 +68,20 @@ module Pact
           expect(subject.respond(rack_env).first).to eq 500
         end
       end
+
+    end
+
+    describe InteractionPost::InteractionDiffMessage do
+      let(:interaction_1) { InteractionFactory.create }
+      let(:interaction_2) { InteractionFactory.create 'request' => {'headers' => {'foo' => 'bar'}, 'query' => 'foo=bar'}, 'response' => {'status' => 400} }
+
+      subject { InteractionPost::InteractionDiffMessage.new(interaction_1, interaction_2).to_s }
+
+      describe "to_s" do
+        it "returns a message indicating that an interaction with the same description and provider state already exists" do
+          expect(subject).to include "different request query, request headers and response status has"
+        end
+      end
     end
   end
 end

@@ -82,6 +82,7 @@ describe Pact::Consumer::MockService do
       delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
       post "/interactions", slightly_different_expected_interaction, admin_headers
       expect(last_response.status).to eq 500
+      expect(last_response.body).to include "An interaction with same description"
     end
   end
 
