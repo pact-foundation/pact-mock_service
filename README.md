@@ -22,7 +22,7 @@ Run `pact-mock-service help` for command line options.
 
 ### Mac OSX and Linux, without Ruby
 
-See the [releases][releases] page for the latest standalone executable.
+See the [releases][releases] page for the latest standalone executables.
 
 ### Windows, without Ruby
 
