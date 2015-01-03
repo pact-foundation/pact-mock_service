@@ -3,7 +3,6 @@ require 'uri'
 require 'json'
 require 'logger'
 require 'awesome_print'
-require 'awesome_print/core_ext/logger' #For some reason we get an error indicating that the method 'ap' is private unless we load this specifically
 require 'pact/consumer/request'
 require 'pact/consumer/mock_service/expected_interactions'
 require 'pact/consumer/mock_service/actual_interactions'
@@ -72,14 +71,12 @@ module Pact
           relevant_handler = @handlers.detect { |handler| handler.match? env }
           response = add_cors_header(relevant_handler.respond(env))
         rescue StandardError => e
-          @logger.error 'Error ocurred in mock service:'
-          @logger.ap e, :error
-          @logger.ap e.backtrace
+          @logger.error "Error ocurred in mock service: #{e.class} - #{e.message}"
+          @logger.error e.backtrace.join("\n")
           response = [500, {'Content-Type' => 'application/json'}, [{message: e.message, backtrace: e.backtrace}.to_json]]
         rescue Exception => e
-          @logger.error 'Exception ocurred in mock service:'
-          @logger.ap e, :error
-          @logger.ap e.backtrace
+          @logger.error "Exception ocurred in mock service: #{e.class} - #{e.message}"
+          @logger.error e.backtrace.join("\n")
           raise e
         end
         response
