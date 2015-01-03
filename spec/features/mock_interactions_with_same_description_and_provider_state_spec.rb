@@ -7,7 +7,7 @@ describe Pact::Consumer::MockService do
   include Rack::Test::Methods
 
   let(:app) do
-    Pact::Consumer::MockService.new(pact_dir: 'tmp/pacts')
+    Pact::Consumer::MockService.new(pact_dir: 'tmp/pacts', log_file: StringIO.new)
   end
 
   # NOTE: the admin_headers are Rack headers, they will be converted

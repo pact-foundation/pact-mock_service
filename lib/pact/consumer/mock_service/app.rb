@@ -5,7 +5,8 @@ require 'logger'
 require 'awesome_print'
 require 'awesome_print/core_ext/logger' #For some reason we get an error indicating that the method 'ap' is private unless we load this specifically
 require 'pact/consumer/request'
-require 'pact/consumer/mock_service/interaction_list'
+require 'pact/consumer/mock_service/expected_interactions'
+require 'pact/consumer/mock_service/actual_interactions'
 require 'pact/consumer/mock_service/verified_interactions'
 require 'pact/consumer/mock_service/interaction_delete'
 require 'pact/consumer/mock_service/interaction_post'
@@ -29,19 +30,21 @@ module Pact
 
       def initialize options = {}
         log_description = configure_logger options
-        interaction_list = InteractionList.new
 
         @name = options.fetch(:name, "MockService")
         pact_dir = options[:pact_dir]
+        expected_interactions = ExpectedInteractions.new
+        actual_interactions = ActualInteractions.new
         verified_interactions = VerifiedInteractions.new
+
         @handlers = [
-          MissingInteractionsGet.new(@name, @logger, interaction_list),
-          VerificationGet.new(@name, @logger, interaction_list, log_description),
-          InteractionPost.new(@name, @logger, interaction_list, verified_interactions),
-          InteractionDelete.new(@name, @logger, interaction_list),
+          MissingInteractionsGet.new(@name, @logger, expected_interactions, actual_interactions),
+          VerificationGet.new(@name, @logger, expected_interactions, actual_interactions, log_description),
+          InteractionPost.new(@name, @logger, expected_interactions, verified_interactions),
+          InteractionDelete.new(@name, @logger, expected_interactions, actual_interactions),
           LogGet.new(@name, @logger),
           PactPost.new(@name, @logger, verified_interactions, pact_dir),
-          InteractionReplay.new(@name, @logger, interaction_list, verified_interactions)
+          InteractionReplay.new(@name, @logger, expected_interactions, actual_interactions, verified_interactions)
         ]
       end
 

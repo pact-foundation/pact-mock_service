@@ -8,11 +8,12 @@ module Pact
 
       include RackRequestHelper
 
-      attr_accessor :interaction_list
+      attr_accessor :expected_interactions, :actual_interactions
 
-      def initialize name, logger, interaction_list
+      def initialize name, logger, expected_interactions, actual_interactions
         super name, logger
-        @interaction_list = interaction_list
+        @expected_interactions = expected_interactions
+        @actual_interactions = actual_interactions
       end
 
       def request_path
@@ -24,7 +25,8 @@ module Pact
       end
 
       def respond env
-        interaction_list.clear
+        expected_interactions.clear
+        actual_interactions.clear
         logger.info "Cleared interactions before example \"#{example_description(env)}\""
         [200, {}, ['Deleted interactions']]
       end

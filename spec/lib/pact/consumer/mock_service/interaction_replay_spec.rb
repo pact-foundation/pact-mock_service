@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'pact/consumer/mock_service/interaction_replay'
-require 'pact/consumer/mock_service/interaction_list'
+require 'pact/consumer/mock_service/expected_interactions'
+require 'pact/consumer/mock_service/actual_interactions'
 
 module Pact
   module Consumer
@@ -15,15 +16,16 @@ module Pact
         )
       end
       let(:logger) { Logger.new(StringIO.new) }
-      let(:interaction_list) { InteractionList.new }
+      let(:expected_interactions) { ExpectedInteractions.new }
+      let(:actual_interactions) { ActualInteractions.new }
       let(:verified_interactions) { [] }
       let(:actual_body) { {'a' => 'body' } }
 
       before do
-        interaction_list.add expected_interaction
+        expected_interactions << expected_interaction
       end
 
-      subject { InteractionReplay.new('provider', logger, interaction_list, verified_interactions) }
+      subject { InteractionReplay.new('provider', logger, expected_interactions, actual_interactions, verified_interactions) }
       let(:response) { subject.respond env }
       let(:response_body) { JSON.parse(response[2][0]) }
       let(:response_status) { response[0] }
@@ -86,7 +88,7 @@ module Pact
 
         context "when more than one matching request is found" do
           before do
-            interaction_list.add expected_interaction
+            expected_interactions << expected_interaction
           end
 
           let(:expected_response_body) do

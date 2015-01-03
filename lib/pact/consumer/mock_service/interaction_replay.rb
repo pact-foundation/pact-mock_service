@@ -21,12 +21,13 @@ module Pact
       include RackRequestHelper
       include PrettyGenerate
 
-      attr_accessor :name, :logger, :interaction_list, :verified_interactions
+      attr_accessor :name, :logger, :expected_interactions, :actual_interactions, :verified_interactions
 
-      def initialize name, logger, interaction_list, verified_interactions
+      def initialize name, logger, expected_interactions, actual_interactions, verified_interactions
         @name = name
         @logger = logger
-        @interaction_list = interaction_list
+        @expected_interactions = expected_interactions
+        @actual_interactions = actual_interactions
         @verified_interactions = verified_interactions
       end
 
@@ -44,7 +45,7 @@ module Pact
         actual_request = Request::Actual.from_hash(request_hash)
         logger.info "Received request #{actual_request.method_and_path}"
         logger.debug pretty_generate request_hash
-        candidate_interactions = interaction_list.find_candidate_interactions actual_request
+        candidate_interactions = expected_interactions.find_candidate_interactions actual_request
         matching_interactions = candidate_interactions.matching_interactions actual_request
 
         case matching_interactions.size
@@ -56,7 +57,7 @@ module Pact
       end
 
       def handle_matched_interaction interaction
-        HandleMatchedInteraction.call(interaction, verified_interactions, interaction_list, logger)
+        HandleMatchedInteraction.call(interaction, verified_interactions, actual_interactions, logger)
       end
 
       def handle_more_than_one_matching_interaction actual_request, matching_interactions
@@ -64,7 +65,7 @@ module Pact
       end
 
       def handle_unrecognised_request actual_request, candidate_interactions
-        HandleUnrecognisedInteraction.call(actual_request, candidate_interactions, interaction_list, logger)
+        HandleUnrecognisedInteraction.call(actual_request, candidate_interactions, actual_interactions, logger)
       end
 
       def logger_info_ap msg
@@ -103,12 +104,12 @@ module Pact
 
     class HandleUnrecognisedInteraction
 
-      def self.call actual_request, candidate_interactions, interaction_list, logger
+      def self.call actual_request, candidate_interactions, actual_interactions, logger
         interaction_mismatch = interaction_mismatch(actual_request, candidate_interactions)
         if candidate_interactions.any?
-          interaction_list.register_interaction_mismatch interaction_mismatch
+          actual_interactions.register_interaction_mismatch interaction_mismatch
         else
-          interaction_list.register_unexpected_request actual_request
+          actual_interactions.register_unexpected_request actual_request
         end
         log interaction_mismatch, logger
         response interaction_mismatch
@@ -138,17 +139,13 @@ module Pact
 
       extend PrettyGenerate
 
-      def self.call interaction, verified_interactions, interaction_list, logger
-        interaction_list.register_matched interaction
-        register_verified_interaction interaction, verified_interactions
+      def self.call interaction, verified_interactions, actual_interactions, logger
+        actual_interactions.register_matched interaction
+        verified_interactions << interaction
         response = response_from(interaction.response)
         logger.info "Found matching response for #{interaction.request.method_and_path}"
         logger.debug pretty_generate(Pact::MockService::ResponseDecorator.new(interaction.response))
         response
-      end
-
-      def self.register_verified_interaction interaction, verified_interactions
-        verified_interactions << interaction
       end
 
       def self.response_from response

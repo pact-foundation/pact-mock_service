@@ -4,9 +4,9 @@ module Pact
   module Consumer
     class InteractionPost < MockServiceAdministrationEndpoint
 
-      def initialize name, logger, interaction_list, verified_interactions
+      def initialize name, logger, expected_interactions, verified_interactions
         super name, logger
-        @interaction_list = interaction_list
+        @expected_interactions = expected_interactions
         @verified_interactions = verified_interactions
       end
 
@@ -26,7 +26,7 @@ module Pact
           logger.error message
           [500, {}, [message]]
         else
-          interaction_list.add interaction
+          expected_interactions << interaction
           logger.info "Registered expected interaction #{interaction.request.method_and_path}"
           logger.debug JSON.pretty_generate JSON.parse(request_body)
           [200, {}, ['Added interaction']]
@@ -35,7 +35,7 @@ module Pact
 
       private
 
-      attr_accessor :interaction_list, :verified_interactions
+      attr_accessor :expected_interactions, :verified_interactions
 
       def interaction_already_verified_with_same_description_and_provider_state_but_not_equal? interaction
         other = verified_interactions.find_matching_description_and_provider_state interaction

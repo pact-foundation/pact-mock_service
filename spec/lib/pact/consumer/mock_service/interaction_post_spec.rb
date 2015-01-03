@@ -5,7 +5,7 @@ module Pact
     describe InteractionPost do
 
       let(:verified_interactions) { double('Pact::Consumer::VerifiedInteractions') }
-      let(:interaction_list) { double('Pact::Consumer::InteractionList') }
+      let(:expected_interactions) { double('Pact::Consumer::ExpectedInteractions') }
       let(:logger) { double('Logger').as_null_object }
       let(:interaction_1) { InteractionFactory.create }
       let(:interaction_2) { InteractionFactory.create }
@@ -17,10 +17,10 @@ module Pact
 
       before do
         allow(Interaction).to receive(:from_hash).and_return(interaction_1)
-        allow(interaction_list).to receive(:add)
+        allow(expected_interactions).to receive(:<<)
       end
 
-      subject { InteractionPost.new('', logger, interaction_list, verified_interactions) }
+      subject { InteractionPost.new('', logger, expected_interactions, verified_interactions) }
 
       context "when there is no already verified interaction with the same description and provider state" do
         before do
@@ -28,7 +28,7 @@ module Pact
         end
 
         it "adds the new interaction to the interaction list" do
-          expect(interaction_list).to receive(:add).with(interaction_1)
+          expect(expected_interactions).to receive(:<<).with(interaction_1)
           subject.respond rack_env
         end
 
@@ -44,7 +44,7 @@ module Pact
         end
 
         it "adds the new interaction to the interaction list" do
-          expect(interaction_list).to receive(:add).with(interaction_1)
+          expect(expected_interactions).to receive(:<<).with(interaction_1)
           subject.respond rack_env
         end
 
@@ -60,7 +60,7 @@ module Pact
         end
 
         it "does not add the new interaction to the interaction list" do
-          expect(interaction_list).to_not receive(:add).with(interaction_1)
+          expect(expected_interactions).to_not receive(:<<).with(interaction_1)
           subject.respond rack_env
         end
 

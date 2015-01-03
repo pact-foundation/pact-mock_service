@@ -1,4 +1,5 @@
 require 'pact/consumer/mock_service/mock_service_administration_endpoint'
+require 'pact/consumer/mock_service/verification'
 
 module Pact
   module Consumer
@@ -6,9 +7,10 @@ module Pact
     class MissingInteractionsGet < MockServiceAdministrationEndpoint
       include RackRequestHelper
 
-      def initialize name, logger, interaction_list
+      def initialize name, logger, expected_interactions, actual_interactions
         super name, logger
-        @interaction_list = interaction_list
+        @expected_interactions = expected_interactions
+        @actual_interactions = actual_interactions
       end
 
       def request_path
@@ -20,7 +22,8 @@ module Pact
       end
 
       def respond env
-        number_of_missing_interactions = @interaction_list.missing_interactions.size
+        verification = Verification.new(@expected_interactions, @actual_interactions)
+        number_of_missing_interactions = verification.missing_interactions.size
         logger.info "Number of missing interactions for mock \"#{name}\" = #{number_of_missing_interactions}"
         [200, {}, [{size: number_of_missing_interactions}.to_json]]
       end
