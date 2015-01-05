@@ -2,7 +2,6 @@ require 'rack'
 require 'uri'
 require 'json'
 require 'logger'
-require 'awesome_print'
 require 'pact/consumer/request'
 require 'pact/consumer/mock_service/expected_interactions'
 require 'pact/consumer/mock_service/actual_interactions'
@@ -15,12 +14,6 @@ require 'pact/consumer/mock_service/verification_get'
 require 'pact/consumer/mock_service/log_get'
 require 'pact/consumer/mock_service/pact_post'
 require 'pact/support'
-
-AwesomePrint.defaults = {
-  indent: -2,
-  plain: true,
-  index: false
-}
 
 module Pact
   module Consumer
