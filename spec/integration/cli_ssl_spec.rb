@@ -49,7 +49,6 @@ describe "The pact-mock-service command line interface, with SSL", mri_only: tru
     begin
       connection = Faraday.new "https://localhost:4343", ssl: { verify: false }
       response = connection.delete "/interactions", nil, {'X-Pact-Mock-Service' => 'true'}
-      puts response.inspect
       expect(response.status).to eq 200
     rescue Faraday::ConnectionFailed => e
       sleep 0.1
