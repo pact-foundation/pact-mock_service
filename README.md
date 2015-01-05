@@ -16,13 +16,13 @@ As the Pact mock service can be used as a standalone executable and administered
 ### With Ruby
 
     $ gem install pact-mock_service
-    $ pact-mock_service --port 1234
+    $ pact-mock-service --port 1234
 
 #### With SSL
 
 If you need to use the mock service with HTTPS, you can use the built-in SSL mode which relies on a self-signed certificate.
 
-    $ pact-mock_service --port 1234 --ssl
+    $ pact-mock-service --port 1234 --ssl
 
 Run `pact-mock-service help` for command line options.
 
