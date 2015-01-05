@@ -28,38 +28,70 @@ module Pact
     class RunStandaloneMockService
 
       def self.call options
+        new(options).call
+      end
+
+      def initialize options
+        @options = options
+      end
+
+      def call
         require 'pact/consumer/mock_service/app'
 
+        trap(:INT) { shutdown_hooks.each(&:call)  }
+        trap(:TERM) { shutdown_hooks.each(&:call) }
+
+        Rack::Handler::WEBrick.run(mock_service, webbrick_opts)
+      end
+
+      private
+
+      attr_reader :options
+
+      def mock_service
+        @mock_service ||= Pact::Consumer::MockService.new(service_options)
+      end
+
+      def service_options
         service_options = {
           pact_dir: options[:pact_dir],
           consumer: options[:consumer],
           provider: options[:provider]
         }
+        service_options[:log_file] = open_log_file if options[:log]
+        service_options
+      end
 
-        if options[:log]
-          FileUtils.mkdir_p File.dirname(options[:log])
-          log = File.open(options[:log], 'w')
-          log.sync = true
-          service_options[:log_file] = log
+      def open_log_file
+        FileUtils.mkdir_p File.dirname(options[:log])
+        log = File.open(options[:log], 'w')
+        log.sync = true
+        log
+      end
+
+      def shutdown_hooks
+        hooks = []
+        if options[:consumer] && options[:provider]
+          hooks << lambda { mock_service.write_pact }
         end
+        hooks << lambda { Rack::Handler::WEBrick.shutdown }
+      end
 
-        mock_service = Pact::Consumer::MockService.new(service_options)
-
-        trap(:INT) { mock_service.write_pact; Rack::Handler::WEBrick.shutdown }
-        trap(:TERM) { mock_service.write_pact; Rack::Handler::WEBrick.shutdown }
-
-        webbrick_opts = {
+      def webbrick_opts
+        opts = {
           :Port => options[:port] || FindAPort.available_port,
           :AccessLog => []
         }
+        opts.merge!(ssl_opts) if options[:ssl]
+        opts
+      end
 
-        webbrick_opts.merge!({
+      def ssl_opts
+        {
           :SSLEnable => true,
-          :SSLCertName => [ %w[CN localhost] ] }) if options[:ssl]
-
-        Rack::Handler::WEBrick.run(mock_service, webbrick_opts)
+          :SSLCertName => [ %w[CN localhost] ]
+        }
       end
     end
-
   end
 end

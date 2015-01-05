@@ -1,76 +1,31 @@
 require 'faraday'
 require 'fileutils'
+require 'support/integration_spec_support'
 
 describe "The pact-mock-service command line interface", mri_only: true do
 
-  let(:expected_interaction) do
-    {
-      description: "a request for a greeting",
-      request: {
-        method: :get,
-        path: '/greeting'
-      },
-      response: {
-        status: 200,
-        headers: { 'Content-Type' => 'text/plain' },
-        body: "Hello world"
-      }
-    }.to_json
-  end
-
-  let(:mock_service_headers) do
-    {
-      'Content-Type' => 'application/json',
-      'X-Pact-Mock-Service' => 'true'
-    }
-  end
-
-  let(:pact_details) do
-    {
-      consumer: { name: 'Consumer' },
-      provider: { name: 'Provider' }
-    }.to_json
-  end
+  include Pact::IntegrationTestSupport
 
   before :all do
     FileUtils.rm_rf 'tmp'
-    FileUtils.rm_rf 'tmp/integration.log'
-    FileUtils.rm_rf 'tmp/pacts'
 
-    @@pid = nil
-    @@pid = fork do
+    @pid = nil
+    @pid = fork do
       exec "bundle exec bin/pact-mock-service --port 1234 --log tmp/integration.log --pact-dir tmp/pacts"
     end
 
-    tries = 0
-    begin
-      Faraday.delete "http://localhost:1234/interactions", nil, {'X-Pact-Mock-Service' => 'true'}
-    rescue Faraday::ConnectionFailed => e
-      sleep 0.1
-      tries += 1
-      retry if tries < 50
-    end
-
+    wait_until_server_started 1234
   end
 
   it "starts up and responds with mocked responses" do
-
-    response = Faraday.post "http://localhost:1234/interactions",
-      expected_interaction,
-      mock_service_headers
-
+    response = setup_interaction 1234
     expect(response.status).to eq 200
 
-    response = Faraday.get "http://localhost:1234/greeting",
-      nil
-
+    response = invoke_expected_request 1234
     expect(response.status).to eq 200
     expect(response.body).to eq 'Hello world'
 
-    response = Faraday.post "http://localhost:1234/pact",
-          pact_details,
-          mock_service_headers
-
+    write_pact 1234
     expect(response.status).to eq 200
   end
 
@@ -83,8 +38,8 @@ describe "The pact-mock-service command line interface", mri_only: true do
   end
 
   after :all do
-    if @@pid
-      Process.kill "INT", @@pid
+    if @pid
+      Process.kill "INT", @pid
     end
   end
 end
