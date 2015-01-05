@@ -64,5 +64,10 @@ module Pact
         pact_details,
         mock_service_headers
     end
+
+    def connect_via_ssl port
+      connection = Faraday.new "https://localhost:#{port}", ssl: { verify: false }
+      connection.delete "/interactions", nil, {'X-Pact-Mock-Service' => 'true'}
+    end
   end
 end

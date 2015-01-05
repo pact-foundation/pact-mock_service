@@ -13,14 +13,12 @@ describe "The pact-mock-service command line interface, with SSL", mri_only: tru
     @pid = fork do
       exec "bundle exec bin/pact-mock-service --port 4343 --ssl --log tmp/integration.log --pact-dir tmp/pacts"
     end
-
   end
 
   it "should respond with SSL" do
     tries = 0
     begin
-      connection = Faraday.new "https://localhost:4343", ssl: { verify: false }
-      response = connection.delete "/interactions", nil, {'X-Pact-Mock-Service' => 'true'}
+      response = connect_via_ssl 4343
       expect(response.status).to eq 200
     rescue Faraday::ConnectionFailed => e
       sleep 0.1

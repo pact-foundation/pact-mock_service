@@ -53,6 +53,30 @@ module Pact
         ]
       end
 
+      def call env
+        response = []
+        begin
+          relevant_handler = @handlers.detect { |handler| handler.match? env }
+          response = relevant_handler.respond(env)
+        rescue StandardError => e
+          @logger.error "Error ocurred in mock service: #{e.class} - #{e.message}"
+          @logger.error e.backtrace.join("\n")
+          response = [500, {'Content-Type' => 'application/json'}, [{message: e.message, backtrace: e.backtrace}.to_json]]
+        rescue Exception => e
+          @logger.error "Exception ocurred in mock service: #{e.class} - #{e.message}"
+          @logger.error e.backtrace.join("\n")
+          raise e
+        end
+        response
+      end
+
+      def write_pact_if_configured
+        consumer_contract_writer = ConsumerContractWriter.new(@consumer_contact_details, StdoutLogger.new)
+        consumer_contract_writer.write if consumer_contract_writer.can_write?
+      end
+
+      private
+
       def configure_logger options
         options = {log_file: $stdout}.merge options
         log_stream = options[:log_file]
@@ -71,26 +95,10 @@ module Pact
         "#{@name} #{super.to_s}"
       end
 
-      def write_pact
-        consumer_contract_writer = ConsumerContractWriter.new(@consumer_contact_details, @logger)
-        consumer_contract_writer.write trap: true
-      end
-
-      def call env
-        response = []
-        begin
-          relevant_handler = @handlers.detect { |handler| handler.match? env }
-          response = relevant_handler.respond(env)
-        rescue StandardError => e
-          @logger.error "Error ocurred in mock service: #{e.class} - #{e.message}"
-          @logger.error e.backtrace.join("\n")
-          response = [500, {'Content-Type' => 'application/json'}, [{message: e.message, backtrace: e.backtrace}.to_json]]
-        rescue Exception => e
-          @logger.error "Exception ocurred in mock service: #{e.class} - #{e.message}"
-          @logger.error e.backtrace.join("\n")
-          raise e
+      class StdoutLogger
+        def info message
+          $stdout.puts "\n#{message}"
         end
-        response
       end
 
     end

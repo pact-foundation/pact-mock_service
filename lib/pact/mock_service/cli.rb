@@ -9,7 +9,7 @@ module Pact
   module MockService
     class CLI < Thor
 
-      desc 'execute', "Start a mock service"
+      desc 'execute', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :log, aliases: "-l", desc: "File to which to log output"
@@ -38,8 +38,8 @@ module Pact
       def call
         require 'pact/consumer/mock_service/app'
 
-        trap(:INT) { shutdown_hooks.each(&:call)  }
-        trap(:TERM) { shutdown_hooks.each(&:call) }
+        trap(:INT) { call_shutdown_hooks  }
+        trap(:TERM) { call_shutdown_hooks }
 
         Rack::Handler::WEBrick.run(mock_service, webbrick_opts)
       end
@@ -50,6 +50,16 @@ module Pact
 
       def mock_service
         @mock_service ||= Pact::Consumer::MockService.new(service_options)
+      end
+
+      def call_shutdown_hooks
+        begin
+          mock_service.write_pact_if_configured
+        rescue StandardError => e
+          $stderr.puts "Error writing pact on shutdown. #{e.class} - #{e.message}"
+          $stderr.puts e.backtrace.join("\n")
+        end
+        Rack::Handler::WEBrick.shutdown
       end
 
       def service_options
@@ -67,14 +77,6 @@ module Pact
         log = File.open(options[:log], 'w')
         log.sync = true
         log
-      end
-
-      def shutdown_hooks
-        hooks = []
-        if options[:consumer] && options[:provider]
-          hooks << lambda { mock_service.write_pact }
-        end
-        hooks << lambda { Rack::Handler::WEBrick.shutdown }
       end
 
       def webbrick_opts

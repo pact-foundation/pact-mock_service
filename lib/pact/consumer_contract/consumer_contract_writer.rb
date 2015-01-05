@@ -30,30 +30,21 @@ module Pact
         interactions: interactions_for_new_consumer_contract)
     end
 
-    def write options = {trap: false}
-      update_pactfile options
+    def write
+      update_pactfile
       pact_json
     end
 
-    def pactfile_path
-      raise 'You must specify a consumer and provider name' unless (consumer_name && provider_name)
-      file_path consumer_name, provider_name, pact_dir
+    def can_write?
+      consumer_name && provider_name && consumer_contract_details[:pact_dir]
     end
 
     private
 
     attr_reader :consumer_contract_details, :pactfile_write_mode, :interactions, :logger
 
-
-    def update_pactfile options
-      action = @pactfile_write_mode == :update ? "Updating" : "Writing"
-      message = "#{action} pact for #{provider_name} at #{pactfile_path}"
-      if options[:trap]
-        $stdout.puts "\n"
-        $stdout.puts message
-      else
-        logger.info message
-      end
+    def update_pactfile
+      logger.info log_message
 
       FileUtils.mkdir_p File.dirname(pactfile_path)
       File.open(pactfile_path, 'w') do |f|
@@ -70,7 +61,7 @@ module Pact
     end
 
     def interactions_for_new_consumer_contract
-      if pactfile_write_mode == :update
+      if updating?
         merged_interactions = existing_interactions.dup
         filter = Consumer::UpdatableInteractionsFilter.new(merged_interactions)
         interactions.each {|i| filter << i }
@@ -126,12 +117,28 @@ module Pact
       consumer_contract_details[:provider][:name]
     end
 
+    def pactfile_path
+      raise 'You must specify a consumer and provider name' unless (consumer_name && provider_name)
+      file_path consumer_name, provider_name, pact_dir
+    end
+
     def pact_dir
       unless consumer_contract_details[:pact_dir]
         raise ConsumerContractWriterError.new("Please indicate the directory to write the pact to by specifying the pact_dir field")
       end
       consumer_contract_details[:pact_dir]
     end
-  end
 
+    def updating?
+      pactfile_write_mode == :update
+    end
+
+    def log_message
+      if updating?
+        "Updating pact for #{provider_name} at #{pactfile_path}"
+      else
+        "Writing pact for #{provider_name} to #{pactfile_path}"
+      end
+    end
+  end
 end
