@@ -30,22 +30,31 @@ module Pact
         interactions: interactions_for_new_consumer_contract)
     end
 
-    def write
-      update_pactfile
+    def write options = {trap: false}
+      update_pactfile options
       pact_json
     end
-
-    private
-
-    attr_reader :consumer_contract_details, :pactfile_write_mode, :interactions, :logger
 
     def pactfile_path
       raise 'You must specify a consumer and provider name' unless (consumer_name && provider_name)
       file_path consumer_name, provider_name, pact_dir
     end
 
-    def update_pactfile
-      logger.debug "Updating pact file for #{provider_name} at #{pactfile_path}"
+    private
+
+    attr_reader :consumer_contract_details, :pactfile_write_mode, :interactions, :logger
+
+
+    def update_pactfile options
+      action = @pactfile_write_mode == :update ? "Updating" : "Writing"
+      message = "#{action} pact for #{provider_name} at #{pactfile_path}"
+      if options[:trap]
+        $stdout.puts "\n"
+        $stdout.puts message
+      else
+        logger.info message
+      end
+
       FileUtils.mkdir_p File.dirname(pactfile_path)
       File.open(pactfile_path, 'w') do |f|
         f.write pact_json

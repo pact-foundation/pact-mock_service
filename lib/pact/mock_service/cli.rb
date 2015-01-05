@@ -14,6 +14,8 @@ module Pact
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :log, aliases: "-l", desc: "File to which to log output"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :consumer, desc: "Consumer name"
+      method_option :provider, desc: "Provider name"
 
       def execute
         RunStandaloneMockService.call(options)
@@ -27,7 +29,13 @@ module Pact
 
       def self.call options
         require 'pact/consumer/mock_service/app'
-        service_options = {pact_dir: options[:pact_dir]}
+
+        service_options = {
+          pact_dir: options[:pact_dir],
+          consumer: options[:consumer],
+          provider: options[:provider]
+        }
+
         if options[:log]
           FileUtils.mkdir_p File.dirname(options[:log])
           log = File.open(options[:log], 'w')
@@ -36,8 +44,9 @@ module Pact
         end
 
         mock_service = Pact::Consumer::MockService.new(service_options)
-        trap(:INT) { Rack::Handler::WEBrick.shutdown }
-        trap(:TERM) { Rack::Handler::WEBrick.shutdown }
+
+        trap(:INT) { mock_service.write_pact; Rack::Handler::WEBrick.shutdown }
+        trap(:TERM) { mock_service.write_pact; Rack::Handler::WEBrick.shutdown }
 
         webbrick_opts = {
           :Port => options[:port] || FindAPort.available_port,

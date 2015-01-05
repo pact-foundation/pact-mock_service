@@ -35,6 +35,12 @@ module Pact
         expected_interactions = ExpectedInteractions.new
         actual_interactions = ActualInteractions.new
         verified_interactions = VerifiedInteractions.new
+        @consumer_contact_details = {
+          pact_dir: options[:pact_dir],
+          consumer: {name: options[:consumer]},
+          provider: {name: options[:provider]},
+          interactions: verified_interactions
+        }
 
         @handlers = [
           MissingInteractionsGet.new(@name, @logger, expected_interactions, actual_interactions),
@@ -42,7 +48,7 @@ module Pact
           InteractionPost.new(@name, @logger, expected_interactions, verified_interactions),
           InteractionDelete.new(@name, @logger, expected_interactions, actual_interactions),
           LogGet.new(@name, @logger),
-          PactPost.new(@name, @logger, verified_interactions, pact_dir),
+          PactPost.new(@name, @logger, verified_interactions, pact_dir, options[:consumer_contract_details]),
           InteractionReplay.new(@name, @logger, expected_interactions, actual_interactions, verified_interactions)
         ]
       end
@@ -63,6 +69,11 @@ module Pact
 
       def to_s
         "#{@name} #{super.to_s}"
+      end
+
+      def write_pact
+        consumer_contract_writer = ConsumerContractWriter.new(@consumer_contact_details, @logger)
+        consumer_contract_writer.write trap: true
       end
 
       def call env
