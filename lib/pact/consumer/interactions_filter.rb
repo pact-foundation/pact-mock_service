@@ -20,7 +20,6 @@ module Pact
       end
 
       class UpdatableInteractionsFilter < InteractionsFilter
-
          def << interaction
             if (ndx = index_of(interaction))
                @interactions[ndx] = interaction
@@ -28,21 +27,6 @@ module Pact
                @interactions << interaction
             end
          end
-
       end
-
-      class DistinctInteractionsFilter < InteractionsFilter
-
-         def << interaction
-            if (ndx = index_of(interaction))
-               if @interactions[ndx] != interaction
-                  raise "Interaction with same description (#{interaction.description}) and provider state (#{interaction.provider_state}) already exists"
-               end
-            else
-               @interactions << interaction
-            end
-         end
-      end
-
    end
 end

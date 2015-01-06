@@ -5,11 +5,11 @@ module Pact
     class VerificationGet < WebRequestAdministration
 
       include RackRequestHelper
-      attr_accessor :interaction_list, :log_description
 
-      def initialize name, logger, interaction_list, log_description
+      def initialize name, logger, expected_interactions, actual_interactions, log_description
         super name, logger
-        @interaction_list = interaction_list
+        @expected_interactions = expected_interactions
+        @actual_interactions = actual_interactions
         @log_description = log_description
       end
 
@@ -22,16 +22,21 @@ module Pact
       end
 
       def respond env
-        if interaction_list.all_matched?
+        verification = Verification.new(expected_interactions, actual_interactions)
+        if verification.all_matched?
           logger.info "Verifying - interactions matched for example \"#{example_description(env)}\""
           [200, {'Content-Type' => 'text/plain'}, ['Interactions matched']]
         else
-          error_message = FailureMessage.new(interaction_list).to_s
+          error_message = FailureMessage.new(verification).to_s
           logger.warn "Verifying - actual interactions do not match expected interactions for example \"#{example_description(env)}\". \n#{error_message}"
           logger.warn error_message
           [500, {'Content-Type' => 'text/plain'}, ["Actual interactions do not match expected interactions for mock #{name}.\n\n#{error_message}See #{log_description} for details."]]
         end
       end
+
+      private
+
+      attr_accessor :expected_interactions, :actual_interactions, :log_description
 
       def example_description env
         params_hash(env).fetch("example_description", [])[0]
@@ -39,8 +44,8 @@ module Pact
 
       class FailureMessage
 
-        def initialize interaction_list
-          @interaction_list = interaction_list
+        def initialize verification
+          @verification = verification
         end
 
         def to_s
@@ -52,13 +57,13 @@ module Pact
 
         private
 
-        attr_reader :interaction_list
+        attr_reader :verification
 
         def titles_and_summaries
           {
-            "Incorrect requests" => interaction_list.interaction_mismatches_summaries,
-            "Missing requests" => interaction_list.missing_interactions_summaries,
-            "Unexpected requests" => interaction_list.unexpected_requests_summaries,
+            "Incorrect requests" => verification.interaction_mismatches_summaries,
+            "Missing requests" => verification.missing_interactions_summaries,
+            "Unexpected requests" => verification.unexpected_requests_summaries,
           }
         end
 

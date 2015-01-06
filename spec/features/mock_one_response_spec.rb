@@ -13,7 +13,12 @@ describe Pact::Consumer::MockService do
   end
 
   let(:log_file) { File.open ONE_LOG_PATH, 'a' }
-  let(:app) { Pact::Consumer::MockService.new(log_file: log_file) }
+  let(:log_formatter_without_date) do
+    proc { |severity, datetime, progname, msg| severity + " -- : " + msg + "\n" }
+  end
+  let(:app) do
+    Pact::Consumer::MockService.new(log_file: log_file, log_formatter: log_formatter_without_date)
+  end
 
   # NOTE: the admin_headers are Rack headers, they will be converted
   # to X-Pact-Mock-Service and Content-Type by the framework

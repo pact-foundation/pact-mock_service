@@ -11,7 +11,8 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{Provides a mock service for use with Pact}
   gem.homepage      = "https://github.com/bethesque/pact-mock_service"
 
-  gem.files         = `git ls-files`.split($/)
+  gem.files         = Dir.glob("{bin,lib}/**/*") + Dir.glob(%w(Gemfile LICENSE.txt README.md CHANGELOG.md))
+
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
@@ -21,12 +22,10 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'rspec', '>=2.14'
   gem.add_runtime_dependency 'find_a_port', '~> 1.0.1'
   gem.add_runtime_dependency 'rack-test', '~> 0.6.2'
-  gem.add_runtime_dependency 'awesome_print', '~> 1.1'
   gem.add_runtime_dependency 'thor'
   gem.add_runtime_dependency 'json' #Not locking down a version because buncher gem requires 1.6, while other projects use 1.7.
   gem.add_runtime_dependency 'webrick'
   gem.add_runtime_dependency 'term-ansicolor', '~> 1.0'
-
   gem.add_runtime_dependency 'pact-support', '~> 0.1.1'
 
   gem.add_development_dependency 'rake', '~> 10.0.3'

@@ -1,15 +1,24 @@
 require 'spec_helper'
 require 'pact/consumer/mock_service/verification_get'
+require 'pact/consumer/mock_service/verification'
+require 'pact/consumer/mock_service/expected_interactions'
+require 'pact/consumer/mock_service/actual_interactions'
 
 module Pact
   module Consumer
     describe VerificationGet do
 
-      let(:interaction_list) { instance_double("Pact::Consumer::InteractionList")}
+      let(:expected_interactions) { instance_double("Pact::Consumer::ExpectedInteractions") }
+      let(:actual_interactions) { instance_double("Pact::Consumer::ActualInteractions") }
+      let(:verification) { instance_double("Pact::Consumer::Verification") }
       let(:logger) { double("Logger").as_null_object }
       let(:log_description) { "/log/pact.log" }
 
-      subject { VerificationGet.new('VerificationGet', logger, interaction_list, log_description) }
+      before do
+        allow(Pact::Consumer::Verification).to receive(:new).and_return(verification)
+      end
+
+      subject { VerificationGet.new('VerificationGet', logger, expected_interactions, actual_interactions, log_description) }
 
       describe "request_path" do
         it "is /interactions/verification" do
@@ -29,7 +38,7 @@ module Pact
         } }
 
         before do
-          allow(interaction_list).to receive(:all_matched?).and_return(all_matched)
+          allow(verification).to receive(:all_matched?).and_return(all_matched)
         end
 
         let(:response) { subject.respond env }
@@ -71,6 +80,11 @@ module Pact
             expect(response[1]).to eq 'Content-Type' => 'text/plain'
           end
 
+          it "creates a failure message" do
+            expect(VerificationGet::FailureMessage).to receive(:new).with(verification)
+            response
+          end
+
           it "returns a message" do
             expect(response.last.first).to include "Actual interactions do not match"
             expect(response.last.first).to include failure_message
@@ -91,13 +105,13 @@ module Pact
         let(:missing_interactions_summaries) { ["Blah", "Thing"]}
         let(:interaction_mismatches_summaries) { []}
         let(:unexpected_requests_summaries) { []}
-        let(:interaction_list) { instance_double("Pact::Consumer::InteractionList") }
-        subject { VerificationGet::FailureMessage.new(interaction_list).to_s }
+        let(:verification) { instance_double("Pact::Consumer::Verification") }
+        subject { VerificationGet::FailureMessage.new(verification).to_s }
 
         before do
-          allow(interaction_list).to receive(:missing_interactions_summaries).and_return(missing_interactions_summaries)
-          allow(interaction_list).to receive(:interaction_mismatches_summaries).and_return(interaction_mismatches_summaries)
-          allow(interaction_list).to receive(:unexpected_requests_summaries).and_return(unexpected_requests_summaries)
+          allow(verification).to receive(:missing_interactions_summaries).and_return(missing_interactions_summaries)
+          allow(verification).to receive(:interaction_mismatches_summaries).and_return(interaction_mismatches_summaries)
+          allow(verification).to receive(:unexpected_requests_summaries).and_return(unexpected_requests_summaries)
         end
 
         context "with only a missing interactions" do

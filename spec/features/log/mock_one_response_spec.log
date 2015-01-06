@@ -1,6 +1,6 @@
-I, [2014-12-30T15:41:53.299106 #11491]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
-I, [2014-12-30T15:41:53.299572 #11491]  INFO -- : Registered expected interaction GET /alligators
-D, [2014-12-30T15:41:53.299631 #11491] DEBUG -- : {
+INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
+INFO -- : Registered expected interaction GET /alligators
+DEBUG -- : {
   "description": "a request for alligators",
   "provider_state": "alligators exist",
   "request": {
@@ -22,8 +22,8 @@ D, [2014-12-30T15:41:53.299631 #11491] DEBUG -- : {
     ]
   }
 }
-I, [2014-12-30T15:41:53.300275 #11491]  INFO -- : Received request GET /alligators
-D, [2014-12-30T15:41:53.300366 #11491] DEBUG -- : {
+INFO -- : Received request GET /alligators
+DEBUG -- : {
   "method": "get",
   "query": "",
   "path": "/alligators",
@@ -35,8 +35,8 @@ D, [2014-12-30T15:41:53.300366 #11491] DEBUG -- : {
     "Cookie": ""
   }
 }
-I, [2014-12-30T15:41:53.300500 #11491]  INFO -- : Found matching response for GET /alligators
-D, [2014-12-30T15:41:53.300562 #11491] DEBUG -- : {
+INFO -- : Found matching response for GET /alligators
+DEBUG -- : {
   "status": 200,
   "headers": {
     "Content-Type": "application/json"
@@ -47,10 +47,10 @@ D, [2014-12-30T15:41:53.300562 #11491] DEBUG -- : {
     }
   ]
 }
-I, [2014-12-30T15:41:53.300999 #11491]  INFO -- : Verifying - interactions matched for example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
-I, [2014-12-30T15:41:53.301916 #11491]  INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response"
-I, [2014-12-30T15:41:53.302313 #11491]  INFO -- : Registered expected interaction GET /alligators
-D, [2014-12-30T15:41:53.302362 #11491] DEBUG -- : {
+INFO -- : Verifying - interactions matched for example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
+INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response"
+INFO -- : Registered expected interaction GET /alligators
+DEBUG -- : {
   "description": "a request for alligators",
   "provider_state": "alligators exist",
   "request": {
@@ -72,8 +72,8 @@ D, [2014-12-30T15:41:53.302362 #11491] DEBUG -- : {
     ]
   }
 }
-I, [2014-12-30T15:41:53.302924 #11491]  INFO -- : Received request GET /alligators
-D, [2014-12-30T15:41:53.302997 #11491] DEBUG -- : {
+INFO -- : Received request GET /alligators
+DEBUG -- : {
   "method": "get",
   "query": "",
   "path": "/alligators",
@@ -85,9 +85,9 @@ D, [2014-12-30T15:41:53.302997 #11491] DEBUG -- : {
     "Cookie": ""
   }
 }
-E, [2014-12-30T15:41:53.303100 #11491] ERROR -- : No matching interaction found on Pact::Consumer::HandleUnrecognisedInteraction for GET /alligators
-E, [2014-12-30T15:41:53.303125 #11491] ERROR -- : Interaction diffs for that route:
-E, [2014-12-30T15:41:53.303339 #11491] ERROR -- : Diff with interaction: "a request for alligators" given "alligators exist"
+ERROR -- : No matching interaction found for GET /alligators
+ERROR -- : Interaction diffs for that route:
+ERROR -- : Diff with interaction: "a request for alligators" given "alligators exist"
 @@ -1,6 +1,6 @@
  {
    "headers": {
@@ -100,12 +100,12 @@ Key: - means "expected, but was not found".
      + means "actual, should not be found". 
      Values where the expected matches the actual are not shown.
 
-W, [2014-12-30T15:41:53.303835 #11491]  WARN -- : Verifying - actual interactions do not match expected interactions for example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response". 
+WARN -- : Verifying - actual interactions do not match expected interactions for example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response". 
 Incorrect requests:
 	GET /alligators (request headers did not match)
 
 
-W, [2014-12-30T15:41:53.303856 #11491]  WARN -- : Incorrect requests:
+WARN -- : Incorrect requests:
 	GET /alligators (request headers did not match)
 
 

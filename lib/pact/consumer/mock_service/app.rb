@@ -3,9 +3,10 @@ require 'uri'
 require 'json'
 require 'logger'
 require 'awesome_print'
-require 'awesome_print/core_ext/logger' #For some reason we get an error indicating that the method 'ap' is private unless we load this specifically
 require 'pact/consumer/request'
-require 'pact/consumer/mock_service/interaction_list'
+require 'pact/consumer/mock_service/expected_interactions'
+require 'pact/consumer/mock_service/actual_interactions'
+require 'pact/consumer/mock_service/verified_interactions'
 require 'pact/consumer/mock_service/interaction_delete'
 require 'pact/consumer/mock_service/interaction_post'
 require 'pact/consumer/mock_service/interaction_options'
@@ -31,23 +32,26 @@ module Pact
 
       def initialize options = {}
         log_description = configure_logger options
-        interaction_list = InteractionList.new
 
         @name = options.fetch(:name, "MockService")
         pact_dir = options[:pact_dir]
-        interactions = []
+        expected_interactions = ExpectedInteractions.new
+        actual_interactions = ActualInteractions.new
+        verified_interactions = VerifiedInteractions.new
         cors_enabled= options[:cors_enabled]
+
         @handlers = [
-          MissingInteractionsGet.new(@name, @logger, interaction_list),
-          VerificationGet.new(@name, @logger, interaction_list, log_description),
-          InteractionPost.new(@name, @logger, interaction_list),
-          InteractionDelete.new(@name, @logger, interaction_list),
+          MissingInteractionsGet.new(@name, @logger, expected_interactions, actual_interactions),
+          VerificationGet.new(@name, @logger, expected_interactions, actual_interactions, log_description),
+          InteractionPost.new(@name, @logger, expected_interactions, verified_interactions),
+          InteractionDelete.new(@name, @logger, expected_interactions, actual_interactions),
           InteractionOptions.new(@name, @logger),
           LogGet.new(@name, @logger),
-          PactPost.new(@name, @logger, interactions, pact_dir),
+          PactPost.new(@name, @logger, verified_interactions, pact_dir),
           PactOptions.new(@name, @logger),
           CandidateOptions.new(@name, @logger, cors_enabled),
-          InteractionReplay.new(@name, @logger, interaction_list, interactions, cors_enabled),
+          InteractionReplay.new(@name, @logger, expected_interactions, actual_interactions, verified_interactions, cors_enabled)
+        ### WARNING HERE: InteractionReplay has one more param before cors_enabled.
         ]
       end
 
@@ -55,6 +59,7 @@ module Pact
         options = {log_file: $stdout}.merge options
         log_stream = options[:log_file]
         @logger = Logger.new log_stream
+        @logger.formatter = options[:log_formatter] if options[:log_formatter]
         @logger.level = Pact.configuration.logger.level
 
         if log_stream.is_a? File
@@ -75,16 +80,12 @@ module Pact
           res= relevant_handler.respond(env)
           response= relevant_handler.enable_cors? ? add_cors_header(res) : res
         rescue StandardError => e
-          @logger.error 'Error ocurred in mock service:'
-          @logger.ap e, :error
-          puts e.inspect
-          puts e.backtrace
-          @logger.ap e.backtrace
+          @logger.error "Error ocurred in mock service: #{e.class} - #{e.message}"
+          @logger.error e.backtrace.join("\n")
           response = [500, {'Content-Type' => 'application/json'}, [{message: e.message, backtrace: e.backtrace}.to_json]]
         rescue Exception => e
-          @logger.error 'Exception occurred in mock service:'
-          @logger.ap e, :error
-          @logger.ap e.backtrace
+          @logger.error "Exception ocurred in mock service: #{e.class} - #{e.message}"
+          @logger.error e.backtrace.join("\n")
           raise e
         end
         response
