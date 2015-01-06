@@ -2,7 +2,6 @@ require 'rack'
 require 'uri'
 require 'json'
 require 'logger'
-require 'awesome_print'
 require 'pact/consumer/request'
 require 'pact/consumer/mock_service/expected_interactions'
 require 'pact/consumer/mock_service/actual_interactions'
@@ -19,12 +18,6 @@ require 'pact/consumer/mock_service/pact_options'
 require 'pact/consumer/mock_service/candidate_options'
 require 'pact/support'
 
-AwesomePrint.defaults = {
-  indent: -2,
-  plain: true,
-  index: false
-}
-
 module Pact
   module Consumer
 
@@ -38,6 +31,12 @@ module Pact
         expected_interactions = ExpectedInteractions.new
         actual_interactions = ActualInteractions.new
         verified_interactions = VerifiedInteractions.new
+        @consumer_contact_details = {
+          pact_dir: options[:pact_dir],
+          consumer: {name: options[:consumer]},
+          provider: {name: options[:provider]},
+          interactions: verified_interactions
+        }
         cors_enabled= options[:cors_enabled]
 
         @handlers = [
@@ -47,12 +46,37 @@ module Pact
           InteractionDelete.new(@name, @logger, expected_interactions, actual_interactions),
           InteractionOptions.new(@name, @logger),
           LogGet.new(@name, @logger),
-          PactPost.new(@name, @logger, verified_interactions, pact_dir),
+          PactPost.new(@name, @logger, verified_interactions, pact_dir, options[:consumer_contract_details]),
           PactOptions.new(@name, @logger),
           CandidateOptions.new(@name, @logger, cors_enabled),
           InteractionReplay.new(@name, @logger, expected_interactions, actual_interactions, verified_interactions, cors_enabled)
         ]
       end
+
+      def call env
+        response = []
+        begin
+          relevant_handler = @handlers.detect { |handler| handler.match? env }
+          res= relevant_handler.respond(env)
+          response= relevant_handler.enable_cors? ? add_cors_header(res) : res
+        rescue StandardError => e
+          @logger.error "Error ocurred in mock service: #{e.class} - #{e.message}"
+          @logger.error e.backtrace.join("\n")
+          response = [500, {'Content-Type' => 'application/json'}, [{message: e.message, backtrace: e.backtrace}.to_json]]
+        rescue Exception => e
+          @logger.error "Exception ocurred in mock service: #{e.class} - #{e.message}"
+          @logger.error e.backtrace.join("\n")
+          raise e
+        end
+        response
+      end
+
+      def write_pact_if_configured
+        consumer_contract_writer = ConsumerContractWriter.new(@consumer_contact_details, StdoutLogger.new)
+        consumer_contract_writer.write if consumer_contract_writer.can_write?
+      end
+
+      private
 
       def configure_logger options
         options = {log_file: $stdout}.merge options
@@ -72,22 +96,10 @@ module Pact
         "#{@name} #{super.to_s}"
       end
 
-      def call env
-        response = []
-        begin
-          relevant_handler = @handlers.detect { |handler| handler.match? env }
-          res= relevant_handler.respond(env)
-          response= relevant_handler.enable_cors? ? add_cors_header(res) : res
-        rescue StandardError => e
-          @logger.error "Error ocurred in mock service: #{e.class} - #{e.message}"
-          @logger.error e.backtrace.join("\n")
-          response = [500, {'Content-Type' => 'application/json'}, [{message: e.message, backtrace: e.backtrace}.to_json]]
-        rescue Exception => e
-          @logger.error "Exception ocurred in mock service: #{e.class} - #{e.message}"
-          @logger.error e.backtrace.join("\n")
-          raise e
+      class StdoutLogger
+        def info message
+          $stdout.puts "\n#{message}"
         end
-        response
       end
 
       def add_cors_header response

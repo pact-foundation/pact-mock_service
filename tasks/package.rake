@@ -6,23 +6,23 @@ PACKAGE_NAME = "pact-mock-service"
 VERSION = "#{Pact::MockService::VERSION}-1"
 TRAVELING_RUBY_VERSION = "20141215-2.1.5"
 
-desc "Package the mock service as a standalone executable"
+desc "Package pact-mock-service for OSX, Linux x86 and Linux x86_64"
 task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx']
 
 namespace :package do
   namespace :linux do
-    desc "Package your app for Linux x86"
+    desc "Package pact-mock-service for Linux x86"
     task :x86 => [:bundle_install, "build/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86.tar.gz"] do
       create_package("linux-x86")
     end
 
-    desc "Package your app for Linux x86_64"
+    desc "Package pact-mock-service for Linux x86_64"
     task :x86_64 => [:bundle_install, "build/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64.tar.gz"] do
       create_package("linux-x86_64")
     end
   end
 
-  desc "Package your app for OS X"
+  desc "Package pact-mock-service for OS X"
   task :osx => [:bundle_install, "build/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz"] do
     create_package("osx")
   end
