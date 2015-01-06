@@ -37,7 +37,6 @@ module Pact
           provider: {name: options[:provider]},
           interactions: verified_interactions
         }
-        cors_enabled= options[:cors_enabled]
 
         @handlers = [
           MissingInteractionsGet.new(@name, @logger, expected_interactions, actual_interactions),
@@ -48,8 +47,8 @@ module Pact
           LogGet.new(@name, @logger),
           PactPost.new(@name, @logger, verified_interactions, pact_dir, options[:consumer_contract_details]),
           PactOptions.new(@name, @logger),
-          CandidateOptions.new(@name, @logger, cors_enabled),
-          InteractionReplay.new(@name, @logger, expected_interactions, actual_interactions, verified_interactions, cors_enabled)
+          CandidateOptions.new(@name, @logger, options[:cors_enabled]),
+          InteractionReplay.new(@name, @logger, expected_interactions, actual_interactions, verified_interactions, options[:cors_enabled])
         ]
       end
 
