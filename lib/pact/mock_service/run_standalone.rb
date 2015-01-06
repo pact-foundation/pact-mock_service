@@ -30,12 +30,7 @@ module Pact
       def call_shutdown_hooks
         unless @shutting_down
           @shutting_down = true
-          begin
-            mock_service.write_pact_if_configured
-          rescue StandardError => e
-            $stderr.puts "Error writing pact on shutdown. #{e.class} - #{e.message}"
-            $stderr.puts e.backtrace.join("\n")
-          end
+          mock_service.shutdown
           Rack::Handler::WEBrick.shutdown
         end
       end

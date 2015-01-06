@@ -17,7 +17,6 @@ module Pact
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
 
-
       def execute
         require 'pact/mock_service/run_standalone'
         RunStandalone.call(options)
@@ -25,9 +24,8 @@ module Pact
 
       desc 'control', "Start a control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
-      method_option :log, aliases: "-l", desc: "File to which to log output"
+      method_option :log_dir, aliases: "-l", desc: "File to which to log output"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
-
 
       def control
         require 'pact/mock_service/control_server/run'

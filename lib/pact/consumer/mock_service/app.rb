@@ -63,9 +63,12 @@ module Pact
         response
       end
 
-      def write_pact_if_configured
+      def shutdown
         consumer_contract_writer = ConsumerContractWriter.new(@consumer_contact_details, StdoutLogger.new)
         consumer_contract_writer.write if consumer_contract_writer.can_write?
+      rescue StandardError => e
+        $stderr.puts "Error writing pact on shutdown. #{e.class} - #{e.message}"
+        $stderr.puts e.backtrace.join("\n")
       end
 
       private

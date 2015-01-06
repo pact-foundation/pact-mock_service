@@ -14,35 +14,42 @@ module Pact
         end
 
         def call
-          control_server = Pact::MockService::ControlServer::App.new
-          webrick_server = nil
-          trap(:INT) {
-            unless @shutting_down
-              @shutting_down = true
-              webrick_server.shutdown
-            end
-          }
-          trap(:TERM) {
-            unless @shutting_down
-               @shutting_down = true
-               webrick_server.shutdown
-             end
-          }
+          trap(:INT) { shutdown }
+          trap(:TERM) { shutdown }
 
-          # https://github.com/rack/rack/blob/master/lib/rack/handler/webrick.rb
+          # https://github.com/rack/rack/blob/ae78184e5c1fcf4ac133171ed4b47b0548cd9b44/lib/rack/handler/webrick.rb#L32
           # Rack adapter for webrick uses class variable for the server which contains the port,
           # so if we use it more than once in the same process, we lose the reference to the first
           # server, and can't shut it down. So, keep a manual reference to the Webrick server, and
           # shut it down directly rather than use Rack::Handler::WEBrick.shutdown
           # Ruby!
           Rack::Handler::WEBrick.run(control_server, webbrick_opts) do | server |
-            webrick_server = server
+            @webrick_server = server
           end
         end
 
         private
 
         attr_reader :options
+
+        def control_server
+          @control_server ||= Pact::MockService::ControlServer::App.new control_server_options
+        end
+
+        def shutdown
+          unless @shutting_down
+            @shutting_down = true
+            @control_server.shutdown
+            @webrick_server.shutdown
+          end
+        end
+
+        def control_server_options
+          {
+            log_dir: options[:log_dir] || "log",
+            pact_dir: options[:pact_dir] || "."
+          }
+        end
 
         def webbrick_opts
           {

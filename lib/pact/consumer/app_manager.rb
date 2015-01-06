@@ -37,15 +37,6 @@ module Pact
         port
       end
 
-      def existing_app_on_port port
-        app_registration = @app_registrations.find { |app_registration| app_registration.port == port }
-        app_registration ? app_registration.app : nil
-      end
-
-      def app_registered_on?(port)
-        app_registrations.any? { |app_registration| app_registration.port == port }
-      end
-
       def ports_of_mock_services
         app_registrations.find_all(&:is_a_mock_service?).collect(&:port)
       end
@@ -65,7 +56,20 @@ module Pact
         @apps_spawned = true
       end
 
+      def app_registered_on?(port)
+        app_registrations.any? { |app_registration| app_registration.port == port }
+      end
+
       private
+
+      def existing_app_on_port port
+        app_registration = registration_on_port port
+        app_registration ? app_registration.app : nil
+      end
+
+      def registration_on_port port
+        @app_registrations.find { |app_registration| app_registration.port == port }
+      end
 
       def pact_dir
         Pact.configuration.pact_dir
@@ -106,22 +110,17 @@ module Pact
       include Pact::Logging
       attr_accessor :port
       attr_accessor :app
-      attr_accessor :pid
 
       def initialize opts
         @max_wait = 10
         @port = opts[:port]
-        @pid = opts[:pid]
         @app = opts[:app]
+        @spawned = false
       end
 
       def kill
-        # TODO: need to work out how to kill
-        # logger.info "Killing #{self}"
-        # Process.kill(9, pid)
-        # Process.wait(pid)
-        # self.pid = nil
-        self.pid = nil
+        logger.debug "Supposed to be stopping"
+        @spawned = false
       end
 
       def not_spawned?
@@ -129,7 +128,7 @@ module Pact
       end
 
       def spawned?
-        self.pid != nil
+        @spawned
       end
 
       def is_a_mock_service?
@@ -137,27 +136,15 @@ module Pact
       end
 
       def to_s
-        "#{app} on port #{port}" + (@pid ? " with pid #{pid}" : "")
+        "#{app} on port #{port}"
       end
 
       def spawn
         logger.info "Starting app #{self}..."
-        Pact::Server.new(app, port).boot
-        self.pid = 'unknown'
-        logger.info "Started with pid #{pid}"
+        @server = Pact::Server.new(app, port).boot
+        @spawned = true
+        logger.info "Started on port #{port}"
       end
-
-      def wait_until
-        waited = 0
-        wait_time = 0.1
-        while waited < @max_wait do
-          break if yield
-          sleep wait_time
-          waited += wait_time
-          raise "Waited longer than #{@max_wait} seconds" if waited >= @max_wait
-        end
-      end
-
     end
   end
 end

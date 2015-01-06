@@ -1,4 +1,3 @@
-require 'faraday'
 require 'fileutils'
 require 'support/integration_spec_support'
 
