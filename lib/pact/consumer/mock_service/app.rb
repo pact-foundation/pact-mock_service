@@ -51,7 +51,6 @@ module Pact
           PactOptions.new(@name, @logger),
           CandidateOptions.new(@name, @logger, cors_enabled),
           InteractionReplay.new(@name, @logger, expected_interactions, actual_interactions, verified_interactions, cors_enabled)
-        ### WARNING HERE: InteractionReplay has one more param before cors_enabled.
         ]
       end
 
