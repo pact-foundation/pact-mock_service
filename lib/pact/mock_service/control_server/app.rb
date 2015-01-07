@@ -1,5 +1,7 @@
 require 'pact/consumer/mock_service/rack_request_helper'
-require 'pact/mock_service/control_server/mock_services'
+require 'pact/mock_service/control_server/header_checker'
+require 'pact/mock_service/control_server/mock_service_creator'
+
 
 module Pact
   module MockService
@@ -9,23 +11,37 @@ module Pact
         include Pact::Consumer::RackRequestHelper
 
         def initialize options = {}
-          @mock_services = MockServices.new(options)
+          @mock_services = ShutdownableCascade.new([])
+          mock_service_creator = MockServiceCreator.new(@mock_services, options)
+          @app = HeaderChecker.new(Rack::Cascade.new([@mock_services, mock_service_creator]))
         end
 
         def call env
-          headers = headers_from(env)
-          consumer = headers['X-Pact-Consumer']
-          provider = headers['X-Pact-Provider']
-
-          unless consumer && provider
-            return [500, {}, ["Please specify the consumer and the provider by setting the X-Pact-Consumer and X-Pact-Provider headers"]]
-          end
-
-          @mock_services.delegate env, consumer, provider
+          @app.call(env)
         end
 
         def shutdown
           @mock_services.shutdown
+        end
+
+        private
+
+        class ShutdownableCascade < Rack::Cascade
+
+          def add app
+            to_shutdown << app
+            super
+          end
+
+          def shutdown
+            to_shutdown.collect(&:shutdown)
+          end
+
+          private
+
+          def to_shutdown
+            @to_shutdown ||= []
+          end
         end
 
       end
