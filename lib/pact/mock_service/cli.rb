@@ -4,6 +4,8 @@ require 'thwait'
 require 'webrick/https'
 require 'rack/handler/webrick'
 require 'fileutils'
+require 'pact/mock_service/wait_for_server_up'
+require 'pidfile'
 
 module Pact
   module MockService
@@ -39,38 +41,69 @@ module Pact
       method_option :pid_dir, desc: "PID dir, defaults to tmp/pids", default: "tmp/pids"
 
       def start
-        pid = fork do
-          control
+
+        pidfile = PidFile.new(:pidfile => "pact-control-server.pid")
+        if pidfile
+
+        if port_available? options[:port]
+
+          pid = fork do
+
+            control
+          end
+          Process.detach(pid)
+          FileUtils.mkdir_p File.dirname(pid_path)
+          WaitForServerUp.(options[:port])
+          File.open(pid_path, "w") { |file|  file << pid }
+        else
+          puts "ERROR: Port #{options[:port]} already in use."
+          exit 1
         end
-
-        sleep 1
-
-        FileUtils.mkdir_p File.dirname(pid_path)
-        File.open(pid_path, "w") { |file|  file << pid }
-        Process.detach(pid)
-
       end
 
       desc 'stop', "Stop a Pact mock service control server."
       method_option :pid_dir, desc: "PID dir, defaults to tmp/pids", default: "tmp/pids"
 
       def stop
-
-        if File.exist?(pid_path)
-          Process.kill -2, File.read(pid_path).to_i
+        if pidfile_exists?
+          Process.kill 2, pid_from_pidfile
           sleep 1
           FileUtils.rm pid_path
         else
-          $stderr.puts "PID file not found at #{pid_path}, control server probably not running."
+          $stderr.puts "No PID file found at #{pid_path}, control server probably not running."
         end
-
       end
 
       default_task :execute
 
       no_commands do
+
+        def port_available? port
+          server = TCPServer.new('127.0.0.1', port)
+          true
+        rescue
+          false
+        ensure
+          server.close if server
+        end
+
+        def process_exists? pid
+          Process.kill 0, pid
+          true
+        rescue  Errno::ESRCH
+          false
+        end
+
+        def pid_from_pidfile
+          File.read(pid_path).to_i
+        end
+
         def pid_path
           pid_path = File.join(options[:pid_dir], "pact-control-server.pid")
+        end
+
+        def pidfile_exists?
+          File.exist?(pid_path)
         end
       end
     end

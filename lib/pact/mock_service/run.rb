@@ -25,6 +25,8 @@ module Pact
         mock_service
       end
 
+      private
+
       def create_mock_service
         name = "#{provider} mock service"
         Pact::Consumer::MockService.new(
