@@ -2,7 +2,6 @@ require 'pact/consumer/mock_service/rack_request_helper'
 require 'pact/mock_service/control_server/header_checker'
 require 'pact/mock_service/control_server/mock_service_creator'
 
-
 module Pact
   module MockService
     module ControlServer
