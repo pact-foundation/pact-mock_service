@@ -39,7 +39,12 @@ module Pact
         def shutdown
           unless @shutting_down
             @shutting_down = true
-            @control_server.shutdown
+            begin
+              @control_server.shutdown
+            rescue => e
+              $stderr.puts "Error shutting down control server. #{e.class} - #{e.message}"
+              $stderr.puts e.backtrace.join("\n")
+            end
             @webrick_server.shutdown
           end
         end
