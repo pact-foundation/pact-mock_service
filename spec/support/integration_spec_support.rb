@@ -1,4 +1,5 @@
 require 'faraday'
+require 'pact/mock_service/wait_for_server_up'
 
 module Pact
   module IntegrationTestSupport
@@ -8,14 +9,7 @@ module Pact
     PACT_DIR = 'tmp/pacts'
 
     def wait_until_server_started port
-      tries = 0
-      begin
-        Faraday.delete "http://localhost:#{port}/interactions", nil, {'X-Pact-Mock-Service' => 'true'}
-      rescue Faraday::ConnectionFailed => e
-        sleep 0.1
-        tries += 1
-        retry if tries < 50
-      end
+      Pact::MockService::WaitForServerUp.(port)
     end
 
     def clear_dirs

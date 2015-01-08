@@ -1,4 +1,5 @@
 require 'find_a_port'
+require 'pact/mock_service/server/diagnostic'
 
 module Pact
   module MockService
@@ -26,7 +27,9 @@ module Pact
       attr_reader :options
 
       def mock_service
-        @mock_service ||= Pact::Consumer::MockService.new(service_options)
+        @mock_service ||= begin
+          Pact::MockService::Server::Diagnostic.new(Pact::Consumer::MockService.new(service_options))
+        end
       end
 
       def call_shutdown_hooks
