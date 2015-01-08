@@ -2,7 +2,7 @@ require 'thor'
 require 'webrick/https'
 require 'rack/handler/webrick'
 require 'fileutils'
-require 'pact/mock_service/wait_for_server_up'
+require 'pact/mock_service/server/wait_for_server_up'
 require 'pact/mock_service/cli/pidfile'
 require 'socket'
 
@@ -140,7 +140,7 @@ module Pact
               end
               pidfile.pid = pid
               Process.detach(pid)
-              WaitForServerUp.(options[:port])
+              Server::WaitForServerUp.(options[:port])
               pidfile.write
             end
           else

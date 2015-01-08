@@ -1,5 +1,5 @@
 require 'faraday'
-require 'pact/mock_service/wait_for_server_up'
+require 'pact/mock_service/server/wait_for_server_up'
 
 module Pact
   module IntegrationTestSupport
@@ -9,7 +9,7 @@ module Pact
     PACT_DIR = 'tmp/pacts'
 
     def wait_until_server_started port
-      Pact::MockService::WaitForServerUp.(port)
+      Pact::MockService::Server::WaitForServerUp.(port)
     end
 
     def clear_dirs
