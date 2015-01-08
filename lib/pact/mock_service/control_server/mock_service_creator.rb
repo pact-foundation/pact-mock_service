@@ -1,6 +1,6 @@
 require 'pact/mock_service/run'
-
 require 'pact/mock_service/control_server/delegator'
+require 'find_a_port'
 
 module Pact
   module MockService

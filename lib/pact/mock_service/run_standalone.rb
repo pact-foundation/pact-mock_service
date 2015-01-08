@@ -1,3 +1,5 @@
+require 'find_a_port'
+
 module Pact
   module MockService
     class RunStandalone

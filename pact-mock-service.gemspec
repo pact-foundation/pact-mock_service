@@ -28,8 +28,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'term-ansicolor', '~> 1.0'
   gem.add_runtime_dependency 'pact-support', '~> 0.1.1'
   gem.add_runtime_dependency 'daemons'
-  gem.add_runtime_dependency 'pidfile'
-
 
   gem.add_development_dependency 'rake', '~> 10.0.3'
   gem.add_development_dependency 'webmock', '~> 1.18.0'

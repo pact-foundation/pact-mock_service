@@ -18,15 +18,10 @@ module Pact
         res = Net::HTTP.start("localhost", port) do |http|
           http.get('/')
         end
-
-        puts res
-
         true
       rescue SystemCallError => e
-        puts e
         return false
       rescue EOFError
-        puts EOFError
         return false
       end
     end
