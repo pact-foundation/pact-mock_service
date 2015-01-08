@@ -59,6 +59,23 @@ module Pact
         pidfile.kill_process
       end
 
+      desc 'restart', "Start or restart a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
+      method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
+      method_option :log, aliases: "-l", desc: "File to which to log output"
+      method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :consumer, desc: "Consumer name"
+      method_option :provider, desc: "Provider name"
+      method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
+
+      def restart
+        pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: mock_service_pidfile_name)
+
+        restart_server(pidfile) do
+          service
+        end
+      end
+
       desc 'start-control', "Start a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
@@ -79,6 +96,19 @@ module Pact
       def stop_control
         pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: control_pidfile_name)
         pidfile.kill_process
+      end
+
+      desc 'restart-control', "Start a Pact mock service control server."
+      method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
+      method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
+      method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
+      method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
+
+      def restart_control
+        pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: control_pidfile_name)
+        restart_server(pidfile) do
+          control
+        end
       end
 
       default_task :service
@@ -116,6 +146,16 @@ module Pact
           else
             puts "ERROR: Port #{options[:port]} already in use."
             exit 1
+          end
+        end
+
+        def restart_server pidfile
+          if pidfile.file_exists_and_process_running?
+            pidfile.kill_process
+          end
+
+          start_server(pidfile) do
+            yield
           end
         end
       end

@@ -12,7 +12,6 @@ module Pact
           @pid_dir = options[:pid_dir] || 'tmp/pids'
           @name = options[:name] || default_name
           @pid = options[:pid] || Process.pid
-          puts pidfile_path
         end
 
         def file_exists?
@@ -28,7 +27,7 @@ module Pact
         end
 
         def pid_from_file
-          File.read(pidfile_path).to_i.tap { |it| puts "pid in file #{it}" }
+          File.read(pidfile_path).to_i
         end
 
         def default_name
@@ -40,6 +39,10 @@ module Pact
           true
         rescue  Errno::ESRCH
           false
+        end
+
+        def file_exists_and_process_running?
+          file_exists? && process_running?
         end
 
         def can_start?
@@ -63,13 +66,23 @@ module Pact
           FileUtils.rm pidfile_path
         end
 
+        def waitpid
+          tries = 0
+          sleep_time = 0.1
+          while process_running? && tries < 100
+            sleep sleep_time
+            tries += 1
+          end
+          raise "Process #{pid_from_file} not stopped after {100 * sleep_time} seconds." if process_running?
+        end
+
         def kill_process
           if file_exists?
             begin
+              `ps -ef | grep pact`
               Process.kill 2, pid_from_file
+              waitpid
               delete
-              sleep 1
-              $stdout.puts "Service stopped."
             rescue Errno::ESRCH
               $stderr.puts "Process in PID file #{pidfile_path} not running. Deleting PID file."
               delete
