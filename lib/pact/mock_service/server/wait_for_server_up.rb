@@ -8,11 +8,12 @@ module Pact
 
         def self.call(port, options = {ssl: false})
           tries = 0
-          while !responsive?(port, options) && tries < 100
+          responsive = false
+          while !(responsive = responsive?(port, options)) && tries < 100
             tries += 1
             sleep 1
           end
-
+          raise "Timed out waiting for server to start up on port #{port}" if !responsive
         end
 
         def self.responsive? port, options
