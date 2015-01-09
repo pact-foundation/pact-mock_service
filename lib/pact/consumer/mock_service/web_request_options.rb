@@ -43,7 +43,7 @@ module Pact
       # For OPTIONS request, headers are different
       def request_header_match? env
         headers_from(env)["Access-Control-Request-Headers"].nil? ? false
-        : headers_from(env)["Access-Control-Request-Headers"].match(/x-pact-mock-service/)
+        : headers_from(env)["Access-Control-Request-Headers"].match(/x-pact-mock-service/i)
       end
 
     end

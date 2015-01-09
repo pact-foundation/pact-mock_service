@@ -8,7 +8,9 @@ module Pact
     def wait_until_server_started port
       tries = 0
       begin
-        Faraday.delete "http://localhost:#{port}/interactions", nil, {'X-Pact-Mock-Service' => 'true'}
+        Faraday.delete "http://localhost:#{port}/interactions",
+          nil,
+          {'X-Pact-Mock-Service' => 'true'}
       rescue Faraday::ConnectionFailed => e
         sleep 0.1
         tries += 1
@@ -25,6 +27,7 @@ module Pact
         description: "a request for a greeting",
         request: {
           method: :get,
+          headers: {'Foo' => 'Bar'},
           path: '/greeting'
         },
         response: {
@@ -56,7 +59,9 @@ module Pact
     end
 
     def invoke_expected_request port
-      Faraday.get "http://localhost:#{port}/greeting"
+      Faraday.get "http://localhost:#{port}/greeting",
+        nil,
+        {'Foo' => 'Bar'}
     end
 
     def write_pact port
@@ -68,6 +73,13 @@ module Pact
     def connect_via_ssl port
       connection = Faraday.new "https://localhost:#{port}", ssl: { verify: false }
       connection.delete "/interactions", nil, {'X-Pact-Mock-Service' => 'true'}
+    end
+
+    def make_options_request port
+      Faraday.run_request :options,
+        "http://localhost:#{port}/interactions",
+        nil,
+        {'Access-Control-Request-Headers' => 'foo'}
     end
   end
 end

@@ -51,13 +51,12 @@ describe Pact::Consumer::MockService do
         expect(last_response.status).to be 200
 
         # OPTIONS request from the browser for the request under test
-        options '/alligators/new', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'x-pact-mock-service, content-type' }
+        options '/alligators/new', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'accept' }
 
         # Ensure it allows the browser to actually make the request
         expect(last_response.status).to eq 200
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
-        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'x-pact-mock-service'
-        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'content-type'
+        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'accept'
         expect(last_response.headers['Access-Control-Allow-Methods']).to include "DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
 
         # Make the request
@@ -84,13 +83,12 @@ describe Pact::Consumer::MockService do
         post "/interactions", expected_interaction, admin_headers
 
         # Make the preflight request - this one will not have been created by the user
-        options '/alligators/new', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'x-pact-mock-service, content-type' }
+        options '/alligators/new', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'accept' }
 
         # Ensure it allows the browser to actually make the request
         expect(last_response.status).to eq 200
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
-        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'x-pact-mock-service'
-        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'content-type'
+        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'accept'
         expect(last_response.headers['Access-Control-Allow-Methods']).to include "DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
 
         # Make the request
