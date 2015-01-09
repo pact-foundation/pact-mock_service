@@ -8,14 +8,12 @@ require 'pact/consumer/mock_service/actual_interactions'
 require 'pact/consumer/mock_service/verified_interactions'
 require 'pact/consumer/mock_service/interaction_delete'
 require 'pact/consumer/mock_service/interaction_post'
-require 'pact/consumer/mock_service/interaction_options'
 require 'pact/consumer/mock_service/interaction_replay'
 require 'pact/consumer/mock_service/missing_interactions_get'
 require 'pact/consumer/mock_service/verification_get'
 require 'pact/consumer/mock_service/log_get'
 require 'pact/consumer/mock_service/pact_post'
-require 'pact/consumer/mock_service/pact_options'
-require 'pact/consumer/mock_service/interaction_replay_options'
+require 'pact/consumer/mock_service/options'
 require 'pact/support'
 
 module Pact
@@ -39,15 +37,13 @@ module Pact
         }
 
         @handlers = [
+          Options.new(@name, @logger, options[:cors_enabled]),
           MissingInteractionsGet.new(@name, @logger, expected_interactions, actual_interactions),
           VerificationGet.new(@name, @logger, expected_interactions, actual_interactions, log_description),
           InteractionPost.new(@name, @logger, expected_interactions, verified_interactions),
           InteractionDelete.new(@name, @logger, expected_interactions, actual_interactions),
-          InteractionOptions.new(@name, @logger),
           LogGet.new(@name, @logger),
           PactPost.new(@name, @logger, verified_interactions, pact_dir, options[:consumer_contract_details]),
-          PactOptions.new(@name, @logger),
-          InteractionReplayOptions.new(@name, @logger, options[:cors_enabled]),
           InteractionReplay.new(@name, @logger, expected_interactions, actual_interactions, verified_interactions, options[:cors_enabled])
         ]
       end

@@ -57,9 +57,7 @@ describe Pact::Consumer::MockService do
     context "pact mock service is setup" do
 
       it "responds to OPTIONS for /interactions" do
-        # OPTIONS request sent by the browser
-        options 'interactions', nil, { 'HTTP_Access_Control_Request_Headers' => 'X-Pact-Mock-Service, Content-Type' }
-        # Ensure it allows the browser to actually make the request
+        options 'interactions', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'X-Pact-Mock-Service, Content-Type' }
         expect(last_response.status).to eq 200
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
         expect(last_response.headers['Access-Control-Allow-Headers']).to include 'X-Pact-Mock-Service'
@@ -68,13 +66,19 @@ describe Pact::Consumer::MockService do
       end
 
       it "responds to OPTIONS for /pact" do
-        # OPTIONS request sent by the browser
-        options '/pact', nil, { 'HTTP_Access_Control_Request_Headers' => 'X-Pact-Mock-Service, Content-Type' }
-        # Ensure it allows the browser to actually make the request
+        options '/pact', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'X-Pact-Mock-Service, Content-Type' }
         expect(last_response.status).to eq 200
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
         expect(last_response.headers['Access-Control-Allow-Headers']).to include 'X-Pact-Mock-Service'
         expect(last_response.headers['Access-Control-Allow-Headers']).to include 'Content-Type'
+        expect(last_response.headers['Access-Control-Allow-Methods']).to include "DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
+      end
+
+      it "ignores the case of the HTTP-Access-Control-Request-Headers value" do
+        options '/pact', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'x-pact-mock-service' }
+        expect(last_response.status).to eq 200
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
+        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'x-pact-mock-service'
         expect(last_response.headers['Access-Control-Allow-Methods']).to include "DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
       end
 
@@ -84,7 +88,6 @@ describe Pact::Consumer::MockService do
       end
 
       it "includes the CORS headers in the response to POST /interactions" do | example |
-        # Set up expected interaction - this would be done by the Pact DSL
         post "/interactions", expected_interaction, admin_headers
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
       end
@@ -95,7 +98,6 @@ describe Pact::Consumer::MockService do
       end
 
       it "includes the CORS headers in the response to GET /interactions/verification" do | example |
-        # Verify that all the expected interactions were executed
         get "/interactions/verification", nil, admin_headers
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
       end

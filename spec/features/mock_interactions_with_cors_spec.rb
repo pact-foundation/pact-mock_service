@@ -121,7 +121,7 @@ describe Pact::Consumer::MockService do
         post "/interactions", expected_interaction, admin_headers
 
         # Make the preflight request - this one will not have been created by the user
-        options '/alligators/new', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'x-pact-mock-service, content-type' }
+        options '/alligators/new', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'accept' }
         expect(last_response.status).to eq 500
         expect(last_response.body).to include 'No interaction found'
       end
