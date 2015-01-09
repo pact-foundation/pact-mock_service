@@ -20,6 +20,7 @@ module Pact
       end
 
       private
+
       def request_header_match? env
         headers_from(env)['X-Pact-Mock-Service']
       end

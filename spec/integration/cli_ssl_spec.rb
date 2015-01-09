@@ -23,8 +23,8 @@ describe "The pact-mock-service command line interface, with SSL", mri_only: tru
     rescue Faraday::ConnectionFailed => e
       sleep 0.1
       tries += 1
-      retry if tries < 50
-      expect(tries < 50).to be true
+      retry if tries < 100
+      expect(tries < 100).to be true
     end
   end
 

@@ -55,49 +55,48 @@ describe Pact::Consumer::MockService do
 
   context "when in a cross domain environment (CORS)" do
     context "pact mock service is setup" do
-      it "answsers to OPTIONS for /interactions" do
-        # Make the preflight request
-        options 'interactions', nil, { 'HTTP_Access_Control_Request_Headers' => 'x-pact-mock-service, application/json' }
+
+      it "responds to OPTIONS for /interactions" do
+        # OPTIONS request sent by the browser
+        options 'interactions', nil, { 'HTTP_Access_Control_Request_Headers' => 'x-pact-mock-service, content-type' }
         # Ensure it allows the browser to actually make the request
         expect(last_response.status).to eq 200
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
         expect(last_response.headers['Access-Control-Allow-Headers']).to include 'x-pact-mock-service'
-        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'application/json'
+        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'content-type'
         expect(last_response.headers['Access-Control-Allow-Methods']).to include "DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
       end
 
-      it "answsers to OPTIONS for /pact" do
-        # Make the preflight request
-        options '/pact', nil, { 'HTTP_Access_Control_Request_Headers' => 'x-pact-mock-service, application/json' }
+      it "responds to OPTIONS for /pact" do
+        # OPTIONS request sent by the browser
+        options '/pact', nil, { 'HTTP_Access_Control_Request_Headers' => 'x-pact-mock-service, content-type' }
         # Ensure it allows the browser to actually make the request
         expect(last_response.status).to eq 200
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
         expect(last_response.headers['Access-Control-Allow-Headers']).to include 'x-pact-mock-service'
-        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'application/json'
+        expect(last_response.headers['Access-Control-Allow-Headers']).to include 'content-type'
         expect(last_response.headers['Access-Control-Allow-Methods']).to include "DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
       end
 
-      it "includes the CORS headers on the system interactions" do |example|
-        # Clear interactions - this would typically be done in a before hook
-        delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
+      it "includes the CORS headers in the response to DELETE /interactions" do | example |
+        delete "/interactions", nil, admin_headers
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
+      end
 
+      it "includes the CORS headers in the response to POST /interactions" do | example |
         # Set up expected interaction - this would be done by the Pact DSL
         post "/interactions", expected_interaction, admin_headers
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
+      end
 
-        # Make the preflight request - this one will not have been created by the user
-        options '/alligators/new', nil, { 'HTTP_Access_Control_Request_Headers' => 'x-pact-mock-service, application/json' }
-
-        # Make the user request
-        post "/alligators/new", { id: 123, name: 'Mary'}.to_json , { 'HTTP_ACCEPT' => 'application/json' }
-
+      it "includes the CORS headers in the response to POST /pact" do | example |
         post "/pact", pact_details, admin_headers
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
-        expect(pact_json['interactions']).to_not be_empty
+      end
 
+      it "includes the CORS headers in the response to GET /interactions/verification" do | example |
         # Verify that all the expected interactions were executed
-        get "/interactions/verification?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
+        get "/interactions/verification", nil, admin_headers
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
       end
     end

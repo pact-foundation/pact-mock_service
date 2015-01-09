@@ -36,6 +36,7 @@ module Pact
       end
 
       private
+
       # 'X-Pact-Mock-Service' header is set as a normal header in regular requests (PUT, GET, POST, etc.)
       # However, browsers set it within Access-Control-Request-Headers in case of OPTIONS request
       # (web browsers make an OPTIONS request prior to the normal request in case of CORS request)

@@ -12,7 +12,7 @@ module Pact
       rescue Faraday::ConnectionFailed => e
         sleep 0.1
         tries += 1
-        retry if tries < 50
+        retry if tries < 100
       end
     end
 

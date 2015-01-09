@@ -15,7 +15,7 @@ require 'pact/consumer/mock_service/verification_get'
 require 'pact/consumer/mock_service/log_get'
 require 'pact/consumer/mock_service/pact_post'
 require 'pact/consumer/mock_service/pact_options'
-require 'pact/consumer/mock_service/candidate_options'
+require 'pact/consumer/mock_service/interaction_replay_options'
 require 'pact/support'
 
 module Pact
@@ -47,7 +47,7 @@ module Pact
           LogGet.new(@name, @logger),
           PactPost.new(@name, @logger, verified_interactions, pact_dir, options[:consumer_contract_details]),
           PactOptions.new(@name, @logger),
-          CandidateOptions.new(@name, @logger, options[:cors_enabled]),
+          InteractionReplayOptions.new(@name, @logger, options[:cors_enabled]),
           InteractionReplay.new(@name, @logger, expected_interactions, actual_interactions, verified_interactions, options[:cors_enabled])
         ]
       end
@@ -56,8 +56,8 @@ module Pact
         response = []
         begin
           relevant_handler = @handlers.detect { |handler| handler.match? env }
-          res= relevant_handler.respond(env)
-          response= relevant_handler.enable_cors? ? add_cors_header(res) : res
+          res = relevant_handler.respond(env)
+          response = relevant_handler.enable_cors? ? add_cors_header(res) : res
         rescue StandardError => e
           @logger.error "Error ocurred in mock service: #{e.class} - #{e.message}"
           @logger.error e.backtrace.join("\n")
