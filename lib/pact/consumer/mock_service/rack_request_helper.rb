@@ -1,3 +1,4 @@
+require 'cgi/core'
 module Pact
   module Consumer
 

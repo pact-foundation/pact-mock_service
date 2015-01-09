@@ -1,10 +1,10 @@
-require 'pact/consumer/mock_service/mock_service_administration_endpoint'
+require 'pact/consumer/mock_service/web_request_administration'
 require 'pact/mock_service/interaction_decorator'
 require 'pact/shared/json_differ'
 
 module Pact
   module Consumer
-    class InteractionPost < MockServiceAdministrationEndpoint
+    class InteractionPost < WebRequestAdministration
 
       def initialize name, logger, expected_interactions, verified_interactions
         super name, logger

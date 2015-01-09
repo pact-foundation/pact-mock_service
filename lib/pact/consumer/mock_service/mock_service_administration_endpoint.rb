@@ -13,9 +13,7 @@ module Pact
       include RackRequestHelper
 
       def match? env
-        headers_from(env)['X-Pact-Mock-Service'] &&
-        env['PATH_INFO'] == request_path &&
-          env['REQUEST_METHOD'] == request_method
+        (request_header_match? env) && (request_path_match? env) && (request_method_match? env)
       end
 
       def request_path
@@ -25,6 +23,18 @@ module Pact
       def request_method
         raise NotImplementedError
       end
+
+      private
+      def request_header_match? env
+        raise NotImplementedError
+      end
+      def request_path_match? env
+        env['PATH_INFO'] == request_path
+      end
+      def request_method_match? env
+        env['REQUEST_METHOD'] == request_method
+      end
+
 
     end
   end

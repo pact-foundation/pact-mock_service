@@ -23,12 +23,13 @@ module Pact
 
       attr_accessor :name, :logger, :expected_interactions, :actual_interactions, :verified_interactions
 
-      def initialize name, logger, expected_interactions, actual_interactions, verified_interactions
+      def initialize name, logger, expected_interactions, actual_interactions, verified_interactions, cors_enabled=false
         @name = name
         @logger = logger
         @expected_interactions = expected_interactions
         @actual_interactions = actual_interactions
         @verified_interactions = verified_interactions
+        @cors_enabled = cors_enabled
       end
 
       def match? env
@@ -37,6 +38,10 @@ module Pact
 
       def respond env
         find_response request_as_hash_from(env)
+      end
+
+      def enable_cors?
+        @cors_enabled
       end
 
       private

@@ -1,10 +1,10 @@
 require 'pact/consumer/mock_service/rack_request_helper'
-require 'pact/consumer/mock_service/mock_service_administration_endpoint'
+require 'pact/consumer/mock_service/web_request_administration'
 
 module Pact
   module Consumer
 
-    class InteractionDelete < MockServiceAdministrationEndpoint
+    class InteractionDelete < WebRequestAdministration
 
       include RackRequestHelper
 
