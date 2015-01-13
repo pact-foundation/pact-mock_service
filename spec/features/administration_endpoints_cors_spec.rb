@@ -101,6 +101,13 @@ describe Pact::Consumer::MockService do
         get "/interactions/verification", nil, admin_headers
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
       end
+
+      context "when the Origin header is set" do
+        it "sets the Access-Control-Allow-Origin header to be the Origin" do
+          options '/pact', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'X-Pact-Mock-Service, Content-Type', 'HTTP_ORIGIN' => 'http://localhost:1234' }
+          expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://localhost:1234'
+        end
+      end
     end
   end
 end
