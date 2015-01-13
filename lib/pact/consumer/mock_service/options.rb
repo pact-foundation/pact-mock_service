@@ -30,11 +30,6 @@ module Pact
         [200, cors_headers, []]
       end
 
-      # Access-Control-Domain does not work on OPTIONs requests.
-      def enable_cors?
-        false
-      end
-
       def is_options_request? env
         env['REQUEST_METHOD'] == 'OPTIONS'
       end

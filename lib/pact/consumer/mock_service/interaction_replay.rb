@@ -40,10 +40,6 @@ module Pact
         find_response request_as_hash_from(env)
       end
 
-      def enable_cors?
-        @cors_enabled
-      end
-
       private
 
       def find_response request_hash

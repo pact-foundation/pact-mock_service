@@ -15,14 +15,10 @@ module Pact
         raise NotImplementedError
       end
 
-      def enable_cors?
-        true
-      end
-
       private
 
       def request_header_match? env
-        headers_from(env)['X-Pact-Mock-Service']
+        env['HTTP_X_PACT_MOCK_SERVICE']
       end
 
     end
