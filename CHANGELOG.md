@@ -2,6 +2,12 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)'
 
+### 0.2.3.rc2 (13 Jan 2015)
+
+* daf0696 - Added --consumer and --provider options to CLI. Automatically write pact if both options are given at startup. (Beth, Mon Jan 5 20:48:47 2015 +1100)
+* 351c44e - Write pact on shutdown (Beth, Mon Jan 5 17:17:24 2015 +1100)
+* e206c9f - Adding cross domain headers (André Allavena, Tue Dec 23 18:01:46 2014 +1000)
+
 ### 0.2.3.rc1 (3 Jan 2015)
 
 * afd9cf3 - Removed awesome print gem dependency. (Beth, Sat Jan 3 16:49:40 2015 +1100)
