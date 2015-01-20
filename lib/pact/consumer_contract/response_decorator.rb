@@ -10,10 +10,6 @@ module Pact
     end
 
     def as_json options = {}
-      to_hash
-    end
-
-    def to_hash
       hash = {}
       hash[:status]  = response.status  if response.specified?(:status)
       hash[:headers] = response.headers if response.specified?(:headers)
