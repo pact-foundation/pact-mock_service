@@ -13,7 +13,7 @@ module Pact
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :log, aliases: "-l", desc: "File to which to log output"
-      method_option :cors_enabled, aliases: "-o", desc: "If true, mocks requests will have access control origin headers set to '*'"
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
@@ -68,7 +68,7 @@ module Pact
           pact_dir: options[:pact_dir],
           consumer: options[:consumer],
           provider: options[:provider],
-          cors_enabled: options[:cors_enabled]
+          cors_enabled: options[:cors]
         }
         service_options[:log_file] = open_log_file if options[:log]
         service_options

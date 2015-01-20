@@ -11,7 +11,7 @@ describe "The pact-mock-service command line interface", mri_only: true do
 
     @pid = nil
     @pid = fork do
-      exec "bundle exec bin/pact-mock-service --cors-enabled --port 1234 --log tmp/integration.log --pact-dir tmp/pacts"
+      exec "bundle exec bin/pact-mock-service --cors --port 1234 --log tmp/integration.log --pact-dir tmp/pacts"
     end
 
     wait_until_server_started 1234
