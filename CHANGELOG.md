@@ -2,6 +2,12 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)'
 
+### 0.2.3 (21 Jan 2015)
+
+* 560671e - Add support for using Pact::Terms in the path (Beth, Wed Jan 21 07:42:10 2015 +1100)
+* 4324a97 - Renamed --cors-enabled to --cors (Beth, Wed Jan 21 07:28:34 2015 +1100)
+* 5f5ee7e - Set Access-Control-Allow-Origin header to the the request Origin when populated. (Beth, Tue Jan 13 16:03:37 2015 +1100)
+
 ### 0.2.3.rc2 (13 Jan 2015)
 
 * daf0696 - Added --consumer and --provider options to CLI. Automatically write pact if both options are given at startup. (Beth, Mon Jan 5 20:48:47 2015 +1100)
