@@ -21,7 +21,6 @@ module Pact
     end
 
     let(:request) { Pact::Request::Expected.from_hash(request_params) }
-
     subject { RequestDecorator.new(request) }
 
     describe "#to_json" do
@@ -36,6 +35,18 @@ module Pact
         expect(subject.to_json).to_not include('options')
       end
 
+
+      context "when the path is a Pact::Term" do
+        let(:request_params) do
+          {
+            method: :get, path: Pact::Term.new(matcher: %r{/alligators/.*}, generate: '/alligators/Mary')
+          }
+        end
+
+        it "reifies the path" do
+          expect(parsed_json[:path]).to eq '/alligators/Mary'
+        end
+      end
     end
   end
 end

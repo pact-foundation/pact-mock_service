@@ -18,7 +18,7 @@ module Pact
     def to_hash
       hash = {
         method: request.method,
-        path: request.path,
+        path: path,
       }
       hash[:query]   = query   if request.specified?(:query)
       hash[:headers] = headers if request.specified?(:headers)
@@ -29,6 +29,10 @@ module Pact
     private
 
     attr_reader :request
+
+    def path
+      Pact::Reification.from_term(request.path)
+    end
 
     def headers
       Pact::Reification.from_term(request.headers)
