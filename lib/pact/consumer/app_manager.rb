@@ -6,7 +6,7 @@ require 'find_a_port'
 require 'pact/logging'
 require 'pact/consumer/server'
 require 'singleton'
-require 'pact/consumer/mock_service/app'
+require 'pact/consumer/mock_service'
 require 'find_a_port'
 
 module Pact

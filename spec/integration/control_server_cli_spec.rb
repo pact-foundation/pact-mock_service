@@ -33,6 +33,7 @@ describe "The pact-mock-service control server command line interface", mri_only
 
   it "starts up and responds with mocked responses" do
     response = setup_interaction 1234
+    puts response.body unless response.status == 200
     expect(response.status).to eq 200
     mock_service_port = URI(response.headers['X-Pact-Mock-Service-Location']).port
 

@@ -1,5 +1,5 @@
 require 'pact/consumer/mock_service/rack_request_helper'
-require 'pact/mock_service/control_server/pacticipant_header_checker'
+require 'pact/mock_service/control_server/require_pacticipant_headers'
 require 'pact/mock_service/control_server/index'
 require 'pact/mock_service/control_server/mock_services'
 require 'pact/mock_service/control_server/mock_service_creator'
@@ -19,7 +19,7 @@ module Pact
             run Rack::Cascade.new([
               Index.new,
               Rack::Builder.new {
-                use PacticipantHeaderChecker
+                use RequirePacticipantHeaders
                 run Rack::Cascade.new([
                   mock_services,
                   MockServiceCreator.new(mock_services, options)

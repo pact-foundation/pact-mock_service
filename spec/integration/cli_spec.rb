@@ -21,6 +21,7 @@ describe "The pact-mock-service command line interface", mri_only: true do
     expect(response.status).to eq 200
 
     response = invoke_expected_request 1234
+    puts response.body if response.status != 200
     expect(response.status).to eq 200
     expect(response.body).to eq 'Hello world'
 

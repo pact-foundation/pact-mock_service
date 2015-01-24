@@ -1,4 +1,5 @@
 require 'find_a_port'
+require 'pact/consumer/mock_service'
 
 module Pact
   module MockService
@@ -13,7 +14,7 @@ module Pact
       end
 
       def call
-        require 'pact/consumer/mock_service/app'
+        require 'pact/consumer/mock_service'
 
         trap(:INT) { call_shutdown_hooks  }
         trap(:TERM) { call_shutdown_hooks }

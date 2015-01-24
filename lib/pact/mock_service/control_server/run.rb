@@ -62,7 +62,6 @@ module Pact
             :AccessLog => []
           }
         end
-
       end
     end
   end

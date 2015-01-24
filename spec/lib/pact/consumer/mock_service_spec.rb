@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'rack/test'
 require 'tempfile'
-require 'pact/consumer/mock_service/app'
+require 'pact/consumer/mock_service'
 
 module Pact
   module Consumer
@@ -47,7 +47,7 @@ module Pact
 
         it "includes the error message" do
           subject
-          expect(response['message']).to eq "an error"
+          expect(response['message']).to include "RuntimeError - an error"
         end
 
         it "includes the backtrace" do

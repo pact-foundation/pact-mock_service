@@ -1,4 +1,4 @@
-require 'pact/consumer/mock_service/app'
+require 'pact/consumer/mock_service'
 require 'rack/test'
 require 'cgi'
 

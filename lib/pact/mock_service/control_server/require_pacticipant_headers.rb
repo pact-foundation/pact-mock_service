@@ -1,7 +1,7 @@
 module Pact
   module MockService
     module ControlServer
-      class PacticipantHeaderChecker
+      class RequirePacticipantHeaders
 
         def initialize app
           @app = app
