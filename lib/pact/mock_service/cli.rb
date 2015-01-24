@@ -12,8 +12,8 @@ module Pact
 
       desc 'service', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
-      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :log, aliases: "-l", desc: "File to which to log output"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :consumer, desc: "Consumer name"
@@ -28,6 +28,7 @@ module Pact
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
       method_option :log_dir, aliases: "-l", desc: "File to which to log output"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
 
       def control
@@ -37,8 +38,8 @@ module Pact
 
       desc 'start', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
       method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
-      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :log, aliases: "-l", desc: "File to which to log output"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :consumer, desc: "Consumer name"
@@ -61,8 +62,8 @@ module Pact
 
       desc 'restart', "Start or restart a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
       method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
-      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :log, aliases: "-l", desc: "File to which to log output"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :consumer, desc: "Consumer name"
@@ -78,6 +79,7 @@ module Pact
       desc 'control-start', "Start a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
@@ -99,6 +101,7 @@ module Pact
       desc 'control-restart', "Start a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"

@@ -51,7 +51,8 @@ module Pact
           {
             log_dir: options[:log_dir] || "log",
             pact_dir: options[:pact_dir] || ".",
-            cors_enabled: options[:cors] || false
+            cors_enabled: options[:cors] || false,
+            ssl: options[:ssl]
           }
         end
 

@@ -40,7 +40,7 @@ module Pact
       end
 
       def start_mock_service app, port
-        Pact::Server.new(app, port).boot
+        Pact::Server.new(app, port, ssl: options[:ssl]).boot
       end
 
       def create_log_file service_name

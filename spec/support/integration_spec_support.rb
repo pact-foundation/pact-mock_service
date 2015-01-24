@@ -8,13 +8,13 @@ module Pact
     LOG_PATH = 'tmp/integration.log'
     PACT_DIR = 'tmp/pacts'
 
-    def start_server port, options = ''
+    def start_server port, options = '', wait = true
       FileUtils.rm_rf 'tmp'
       pid = fork do
         exec "bundle exec bin/pact-mock-service --port #{port} --log tmp/integration.log --pact-dir tmp/pacts #{options}"
       end
 
-      wait_until_server_started port
+      wait_until_server_started(port) if wait
       pid
     end
 
@@ -29,6 +29,18 @@ module Pact
 
     def wait_until_server_started port
       Pact::MockService::Server::WaitForServerUp.(port)
+    end
+
+    def wait_until_server_started_on_ssl port
+      tries = 0
+      begin
+        connect_via_ssl port
+      rescue Faraday::ConnectionFailed => e
+        sleep 0.1
+        tries += 1
+        retry if tries < 100
+        raise "Could not connect to server"
+      end
     end
 
     def kill_server pid
@@ -92,7 +104,7 @@ module Pact
 
     def connect_via_ssl port
       connection = Faraday.new "https://localhost:#{port}", ssl: { verify: false }
-      connection.delete "/interactions", nil, {'X-Pact-Mock-Service' => 'true'}
+      connection.get "/", nil, {'X-Pact-Mock-Service' => 'true'}
     end
 
     def make_options_request port

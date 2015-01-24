@@ -32,13 +32,14 @@ module Pact
       end
     end
 
-    attr_reader :app, :port
+    attr_reader :app, :port, :options
 
-    def initialize(app, port)
+    def initialize(app, port, options = {})
       @app = app
       @middleware = Middleware.new(@app)
       @server_thread = nil
       @port = port
+      @options = options
     end
 
     def reset_error!
@@ -55,9 +56,7 @@ module Pact
 
     def responsive?
       return false if @server_thread && @server_thread.join(0)
-
-      res = Net::HTTP.start(host, @port) { |http| http.get('/__identify__') }
-
+      res = get_identity
       if res.is_a?(Net::HTTPSuccess) or res.is_a?(Net::HTTPRedirection)
         return res.body == @app.object_id.to_s
       end
@@ -69,7 +68,29 @@ module Pact
 
     def run_default_server(app, port)
       require 'rack/handler/webrick'
-      Rack::Handler::WEBrick.run(app, :Port => port, :AccessLog => [], :Logger => WEBrick::Log::new(nil, 0))
+      Rack::Handler::WEBrick.run(app, webrick_opts)
+    end
+
+    def get_identity
+      http = Net::HTTP.new host, @port
+      if options[:ssl]
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      end
+      http.get('/__identify__')
+    end
+
+    def webrick_opts
+      opts = {:Port => port, :AccessLog => [], :Logger => WEBrick::Log::new(nil, 0)}
+      opts.merge!(ssl_opts) if options[:ssl]
+      opts
+    end
+
+    def ssl_opts
+      {
+        :SSLEnable => true,
+        :SSLCertName => [ %w[CN localhost] ]
+      }
     end
 
     def boot
