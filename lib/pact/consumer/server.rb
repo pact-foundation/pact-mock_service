@@ -37,7 +37,7 @@ module Pact
     def initialize(app, port)
       @app = app
       @middleware = Middleware.new(@app)
-      @server_thread = nil # supress warnings
+      @server_thread = nil
       @port = port
     end
 

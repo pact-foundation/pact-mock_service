@@ -77,35 +77,35 @@ module Pact
         end
       end
 
-      desc 'start-control', "Start a Pact mock service control server."
+      desc 'control-start', "Start a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
 
-      def start_control
+      def control_start
         pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: control_pidfile_name)
         start_server(pidfile) do
           service
         end
       end
 
-      desc 'stop-control', "Stop a Pact mock service control server."
+      desc 'control-stop', "Stop a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port of control server to stop", default: "1234"
       method_option :pid_dir, desc: "PID dir, defaults to tmp/pids", default: "tmp/pids"
 
-      def stop_control
+      def control_stop
         pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: control_pidfile_name)
         pidfile.kill_process
       end
 
-      desc 'restart-control', "Start a Pact mock service control server."
+      desc 'control-restart', "Start a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
 
-      def restart_control
+      def control_restart
         pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: control_pidfile_name)
         restart_server(pidfile) do
           control

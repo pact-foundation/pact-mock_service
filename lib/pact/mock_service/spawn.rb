@@ -3,7 +3,7 @@ require 'pact/consumer/server'
 
 module Pact
   module MockService
-    class Run
+    class Spawn
 
       def self.call consumer, provider, port, options
         new(consumer, provider, port, options).call
