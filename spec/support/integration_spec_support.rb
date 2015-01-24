@@ -128,5 +128,12 @@ module Pact
         'X-Pact-Provider' => 'Provider'
       }
     end
+
+    def make_options_request port
+      Faraday.run_request :options,
+        "http://localhost:#{port}/interactions",
+        nil,
+        {'Access-Control-Request-Headers' => 'foo'}
+    end
   end
 end
