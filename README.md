@@ -13,12 +13,16 @@ As the Pact mock service can be used as a standalone executable and administered
 
 ## Usage
 
-### With Ruby
+### With Ruby on Mac OSX and Linux
 
     $ gem install pact-mock_service
     $ pact-mock-service --port 1234
 
 Run `pact-mock-service help` for command line options.
+
+### With Ruby on Windows
+
+Check out the wiki page [here][install-windows].
 
 #### With SSL
 
@@ -43,3 +47,4 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md)
 [javascript]: https://github.com/DiUS/pact-consumer-js-dsl
 [pact-dev]: https://groups.google.com/forum/#!forum/pact-dev
 [windows]: https://github.com/bethesque/pact-mock_service/wiki/Building-a-Windows-standalone-executable
+[install-windows]: https://github.com/bethesque/pact-mock_service/wiki/Installing-the-pact-mock_service-gem-on-Windows

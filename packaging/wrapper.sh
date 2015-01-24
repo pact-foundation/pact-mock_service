@@ -3,7 +3,7 @@ set -e
 
 # Figure out where this script is located.
 SELFDIR="`dirname \"$0\"`"
-SELFDIR="`cd \"$SELFDIR\" && pwd`"
+SELFDIR="`cd \"$SELFDIR\" && cd .. && pwd`"
 
 # Tell Bundler where the Gemfile and gems are.
 export BUNDLE_GEMFILE="$SELFDIR/lib/vendor/Gemfile"

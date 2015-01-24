@@ -44,7 +44,8 @@ module Pact
         service_options = {
           pact_dir: options[:pact_dir],
           consumer: options[:consumer],
-          provider: options[:provider]
+          provider: options[:provider],
+          cors_enabled: options[:cors]
         }
         service_options[:log_file] = open_log_file if options[:log]
         service_options
