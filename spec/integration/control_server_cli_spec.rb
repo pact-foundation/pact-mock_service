@@ -21,14 +21,7 @@ describe "The pact-mock-service control server command line interface", mri_only
   include Pact::ControlServerTestSupport
 
   before :all do
-    FileUtils.rm_rf 'tmp'
-
-    @pid = nil
-    @pid = fork do
-      exec "bundle exec bin/pact-mock-service control --port 1234 --log-dir tmp/log --pact-dir tmp/pacts"
-    end
-
-    wait_until_server_started 1234
+    @pid = start_control 1234
   end
 
   it "starts up and responds with mocked responses" do
@@ -56,8 +49,6 @@ describe "The pact-mock-service control server command line interface", mri_only
   end
 
   after :all do
-    if @pid
-      Process.kill "INT", @pid
-    end
+    kill_server @pid
   end
 end

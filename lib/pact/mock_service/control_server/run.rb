@@ -50,7 +50,8 @@ module Pact
         def control_server_options
           {
             log_dir: options[:log_dir] || "log",
-            pact_dir: options[:pact_dir] || "."
+            pact_dir: options[:pact_dir] || ".",
+            cors_enabled: options[:cors] || false
           }
         end
 

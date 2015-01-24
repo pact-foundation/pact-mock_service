@@ -28,6 +28,7 @@ module Pact
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
       method_option :log_dir, aliases: "-l", desc: "File to which to log output"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
 
       def control
         require 'pact/mock_service/control_server/run'
@@ -38,6 +39,7 @@ module Pact
       method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :log, aliases: "-l", desc: "File to which to log output"
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
@@ -54,14 +56,14 @@ module Pact
       method_option :pid_dir, desc: "PID dir, defaults to tmp/pids", default: "tmp/pids"
 
       def stop
-        pidfile = mock_service_pidfile
-        pidfile.kill_process
+        mock_service_pidfile.kill_process
       end
 
       desc 'restart', "Start or restart a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
       method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :log, aliases: "-l", desc: "File to which to log output"
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
@@ -76,6 +78,7 @@ module Pact
       desc 'control-start', "Start a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
 
@@ -90,13 +93,13 @@ module Pact
       method_option :pid_dir, desc: "PID dir, defaults to tmp/pids", default: "tmp/pids"
 
       def control_stop
-        pidfile = control_server_pidfile
-        pidfile.kill_process
+        control_server_pidfile.kill_process
       end
 
       desc 'control-restart', "Start a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
 
@@ -126,7 +129,6 @@ module Pact
           "mock-service-control-#{options[:port]}.pid"
         end
 
-
         def start_server pidfile
           require 'pact/mock_service/server/spawn'
           Pact::MockService::Server::Spawn.(pidfile, options[:port]) do
@@ -142,6 +144,5 @@ module Pact
         end
       end
     end
-
   end
 end

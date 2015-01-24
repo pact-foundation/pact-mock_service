@@ -8,8 +8,34 @@ module Pact
     LOG_PATH = 'tmp/integration.log'
     PACT_DIR = 'tmp/pacts'
 
+    def start_server port, options = ''
+      FileUtils.rm_rf 'tmp'
+      pid = fork do
+        exec "bundle exec bin/pact-mock-service --port #{port} --log tmp/integration.log --pact-dir tmp/pacts #{options}"
+      end
+
+      wait_until_server_started port
+      pid
+    end
+
+    def start_control port, options = ''
+      FileUtils.rm_rf 'tmp'
+      pid = fork do
+        exec "bundle exec bin/pact-mock-service control --port #{port} --log-dir tmp/log --pact-dir tmp/pacts #{options}"
+      end
+      wait_until_server_started port
+      pid
+    end
+
     def wait_until_server_started port
       Pact::MockService::Server::WaitForServerUp.(port)
+    end
+
+    def kill_server pid
+      if pid
+        Process.kill "INT", pid
+        Process.wait pid
+      end
     end
 
     def clear_dirs
@@ -74,6 +100,21 @@ module Pact
         "http://localhost:#{port}/interactions",
         nil,
         {'Access-Control-Request-Headers' => 'foo'}
+    end
+  end
+end
+
+module Pact
+  module ControlServerTestSupport
+    include IntegrationTestSupport
+
+    def mock_service_headers
+      {
+        'Content-Type' => 'application/json',
+        'X-Pact-Mock-Service' => 'true',
+        'X-Pact-Consumer' => 'Consumer',
+        'X-Pact-Provider' => 'Provider'
+      }
     end
   end
 end
