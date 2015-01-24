@@ -18,11 +18,11 @@ module Pact
 
         def self.responsive? port, options
           res = Net::HTTP.start("localhost", port) do |http|
-            request = Net::HTTP::Get.new "http://localhost:#{port}/__identify__"
+            request = Net::HTTP::Get.new "http://localhost:#{port}/"
             request['X-Pact-Mock-Service'] = 'true'
             response = http.request request
           end
-          true
+          res.code == '200'
         rescue SystemCallError => e
           return false
         rescue EOFError

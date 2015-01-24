@@ -3,6 +3,8 @@ module Pact
   module Consumer
     class MockServiceAdministrationEndpoint
 
+      include RackRequestHelper
+
       attr_accessor :logger, :name
 
       def initialize name, logger
@@ -10,12 +12,20 @@ module Pact
         @logger = logger
       end
 
-      include RackRequestHelper
-
       def match? env
-        headers_from(env)['X-Pact-Mock-Service'] &&
-        env['PATH_INFO'] == request_path &&
-          env['REQUEST_METHOD'] == request_method
+        has_mock_service_header?(env) && path_matches?(env) && method_matches?(env)
+      end
+
+      def has_mock_service_header? env
+        env['HTTP_X_PACT_MOCK_SERVICE']
+      end
+
+      def path_matches? env
+        env['PATH_INFO'].chomp("/") == request_path
+      end
+
+      def method_matches? env
+        env['REQUEST_METHOD'] == request_method
       end
 
       def request_path
@@ -25,7 +35,6 @@ module Pact
       def request_method
         raise NotImplementedError
       end
-
     end
   end
 end

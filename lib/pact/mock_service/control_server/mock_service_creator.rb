@@ -1,6 +1,9 @@
 require 'pact/mock_service/run'
 require 'pact/mock_service/control_server/delegator'
 require 'find_a_port'
+require 'pact/mock_service/server/wait_for_server_up'
+
+# Create a new MockService on a random port and delegate the incoming request to it
 
 module Pact
   module MockService
@@ -22,7 +25,9 @@ module Pact
           mock_service = Pact::MockService::Run.(consumer_name, provider_name, port, options)
           delegator = Delegator.new(mock_service, "http://localhost:#{port}", consumer_name, provider_name)
           @mock_services.add(delegator)
-          delegator.call(env)
+          response = delegator.call(env)
+          Pact::MockService::Server::WaitForServerUp.(port)
+          response
         end
       end
     end

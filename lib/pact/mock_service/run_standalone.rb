@@ -1,5 +1,4 @@
 require 'find_a_port'
-require 'pact/mock_service/server/diagnostic'
 
 module Pact
   module MockService
@@ -28,7 +27,7 @@ module Pact
 
       def mock_service
         @mock_service ||= begin
-          Pact::MockService::Server::Diagnostic.new(Pact::Consumer::MockService.new(service_options))
+          Pact::Consumer::MockService.new(service_options)
         end
       end
 

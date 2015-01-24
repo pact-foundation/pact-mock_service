@@ -1,6 +1,5 @@
 require 'pact/consumer/mock_service/app'
 require 'pact/consumer/server'
-require 'pact/mock_service/server/diagnostic'
 
 module Pact
   module MockService
@@ -30,20 +29,13 @@ module Pact
 
       def create_mock_service
         name = "#{provider} mock service"
-
-        with_diagnostic_middleware(
-          Pact::Consumer::MockService.new(
-            log_file: create_log_file(name),
-            name: name,
-            consumer: consumer,
-            provider: provider,
-            pact_dir: options[:pact_dir] || "."
-          )
+        Pact::Consumer::MockService.new(
+          log_file: create_log_file(name),
+          name: name,
+          consumer: consumer,
+          provider: provider,
+          pact_dir: options[:pact_dir] || "."
         )
-      end
-
-      def with_diagnostic_middleware app
-        Pact::MockService::Server::Diagnostic.new(app)
       end
 
       def start_mock_service app, port

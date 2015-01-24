@@ -13,6 +13,7 @@ require 'pact/consumer/mock_service/missing_interactions_get'
 require 'pact/consumer/mock_service/verification_get'
 require 'pact/consumer/mock_service/log_get'
 require 'pact/consumer/mock_service/pact_post'
+require 'pact/consumer/mock_service/index_get'
 require 'pact/consumer/mock_service/options'
 require 'pact/consumer/mock_service/cors_origin_header_middleware'
 require 'pact/support'
@@ -60,6 +61,7 @@ module Pact
             InteractionDelete.new(@name, @logger, expected_interactions, actual_interactions),
             LogGet.new(@name, @logger),
             PactPost.new(@name, @logger, verified_interactions, pact_dir, options[:consumer_contract_details]),
+            IndexGet.new(@name, @logger),
             InteractionReplay.new(@name, @logger, expected_interactions, actual_interactions, verified_interactions, options[:cors_enabled])
           ]
         end

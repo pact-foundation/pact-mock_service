@@ -41,10 +41,8 @@ describe "The pact-mock-service control server command line interface", mri_only
     expect(response.body).to eq 'Hello world'
 
     Process.kill "INT", @pid
-    sleep 1
+    sleep 1 # Naughty, but so much less code
     @pid = nil
-    # write_pact 1234
-    # expect(response.status).to eq 200
   end
 
   it "writes logs to the specified log file" do

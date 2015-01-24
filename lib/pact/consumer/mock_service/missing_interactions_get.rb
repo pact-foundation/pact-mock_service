@@ -27,7 +27,6 @@ module Pact
         logger.info "Number of missing interactions for mock \"#{name}\" = #{number_of_missing_interactions}"
         [200, {}, [{size: number_of_missing_interactions}.to_json]]
       end
-
     end
   end
 end
