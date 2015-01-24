@@ -2,6 +2,8 @@ require 'pact/consumer/mock_service'
 require 'pact/consumer/server'
 require 'pact/consumer/mock_service/set_location'
 
+# Starts a new MockService on a new Thread. Called by the Control Server.
+
 module Pact
   module MockService
     class Spawn
