@@ -2,6 +2,14 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)'
 
+### 0.2.4 (24 Jan 2015)
+
+* b14050e - Add --ssl option for control server (Beth, Sat Jan 24 22:14:14 2015 +1100)
+* a9821fd - Add --cors option to control command (Beth, Sat Jan 24 21:51:40 2015 +1100)
+* 16d62c8 - Added endpoint to check if server is up and running without causing an error (Beth, Thu Jan 8 14:33:26 2015 +1100)
+* f93ff1f - Added restart for control and mock service (Beth, Thu Jan 8 14:02:19 2015 +1100)
+* 54b2cb8 - Added control server to allow mock servers to be dynamically set up (Beth, Wed Jan 7 08:24:19 2015 +1100)
+
 ### 0.2.3 (21 Jan 2015)
 
 * 560671e - Add support for using Pact::Terms in the path (Beth, Wed Jan 21 07:42:10 2015 +1100)
