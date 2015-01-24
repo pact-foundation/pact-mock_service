@@ -47,6 +47,7 @@ module Pact
 
       end
 
+      # Can't write to a file in a TRAP, might deadlock
       class StdoutLogger
         def info message
           $stdout.puts "\n#{message}"
