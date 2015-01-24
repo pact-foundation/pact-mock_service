@@ -1,5 +1,6 @@
 require 'pact/consumer/mock_service'
 require 'pact/consumer/server'
+require 'pact/consumer/mock_service/set_location'
 
 module Pact
   module MockService
@@ -19,7 +20,7 @@ module Pact
       end
 
       def call
-        mock_service = create_mock_service
+        mock_service = build_app
         start_mock_service mock_service, port
         puts "Started mock service for #{provider} on #{port}"
         mock_service
@@ -27,10 +28,13 @@ module Pact
 
       private
 
-      def create_mock_service
-        name = "#{provider} mock service"
+      def build_app
+        Pact::Consumer::SetLocation.new(mock_service, base_url)
+      end
+
+      def mock_service
         Pact::Consumer::MockService.new(
-          log_file: create_log_file(name),
+          log_file: create_log_file,
           name: name,
           consumer: consumer,
           provider: provider,
@@ -43,15 +47,15 @@ module Pact
         Pact::Server.new(app, port, ssl: options[:ssl]).boot
       end
 
-      def create_log_file service_name
+      def create_log_file
         FileUtils::mkdir_p options[:log_dir]
-        log = File.open(log_file_path(service_name), 'w')
+        log = File.open(log_file_path, 'w')
         log.sync = true
         log
       end
 
-      def log_file_name service_name
-        lower_case_name = service_name.downcase.gsub(/\s+/, '_')
+      def log_file_name
+        lower_case_name = name.downcase.gsub(/\s+/, '_')
         if lower_case_name.include?('_service')
           lower_case_name.gsub('_service', '_mock_service')
         else
@@ -59,8 +63,16 @@ module Pact
         end
       end
 
-      def log_file_path service_name
-        File.join(options[:log_dir], "#{log_file_name(service_name)}.log")
+      def log_file_path
+        File.join(options[:log_dir], "#{log_file_name}.log")
+      end
+
+      def base_url
+        options[:ssl] ? "https://localhost:#{port}" : "http://localhost:#{port}"
+      end
+
+      def name
+        "#{provider} mock service"
       end
     end
 

@@ -1,5 +1,6 @@
 require 'find_a_port'
 require 'pact/consumer/mock_service'
+require 'pact/consumer/mock_service/set_location'
 
 module Pact
   module MockService
@@ -28,7 +29,8 @@ module Pact
 
       def mock_service
         @mock_service ||= begin
-          Pact::Consumer::MockService.new(service_options)
+          mock_service = Pact::Consumer::MockService.new(service_options)
+          Pact::Consumer::SetLocation.new(mock_service, base_url)
         end
       end
 
@@ -63,7 +65,7 @@ module Pact
 
       def webbrick_opts
         opts = {
-          :Port => options[:port] || FindAPort.available_port,
+          :Port => port,
           :AccessLog => []
         }
         opts.merge!(ssl_opts) if options[:ssl]
@@ -75,6 +77,14 @@ module Pact
           :SSLEnable => true,
           :SSLCertName => [ %w[CN localhost] ]
         }
+      end
+
+      def port
+        @port ||= options[:port] || FindAPort.available_port
+      end
+
+      def base_url
+        options[:ssl] ? "https://localhost:#{port}" : "http://localhost:#{port}"
       end
     end
   end

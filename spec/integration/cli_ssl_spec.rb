@@ -14,7 +14,13 @@ describe "The pact-mock-service command line interface, with SSL", mri_only: tru
     expect(response.status).to eq 200
   end
 
-  after :each do
+  it "sets the X-Pact-Mock-Service-Location header with https" do
+    wait_until_server_started_on_ssl 4343
+    response = wait_until_server_started_on_ssl 4343
+    expect(response.headers['X-Pact-Mock-Service-Location']).to eq 'https://localhost:4343'
+  end
+
+  after :all do
     kill_server @pid
   end
 end
