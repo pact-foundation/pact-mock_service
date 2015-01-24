@@ -20,8 +20,8 @@ module Pact
       method_option :provider, desc: "Provider name"
 
       def service
-        require 'pact/mock_service/run_standalone'
-        RunStandalone.(options)
+        require 'pact/mock_service/run'
+        Run.(options)
       end
 
       desc 'control', "Run a Pact mock service control server."
@@ -31,7 +31,7 @@ module Pact
 
       def control
         require 'pact/mock_service/control_server/run'
-        Pact::MockService::ControlServer::Run.(options)
+        ControlServer::Run.(options)
       end
 
       desc 'start', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
@@ -44,9 +44,7 @@ module Pact
       method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
 
       def start
-        pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: mock_service_pidfile_name)
-
-        start_server(pidfile) do
+        start_server(mock_service_pidfile) do
           service
         end
       end
@@ -56,7 +54,7 @@ module Pact
       method_option :pid_dir, desc: "PID dir, defaults to tmp/pids", default: "tmp/pids"
 
       def stop
-        pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: mock_service_pidfile_name)
+        pidfile = mock_service_pidfile
         pidfile.kill_process
       end
 
@@ -70,9 +68,7 @@ module Pact
       method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
 
       def restart
-        pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: mock_service_pidfile_name)
-
-        restart_server(pidfile) do
+        restart_server(mock_service_pidfile) do
           service
         end
       end
@@ -84,9 +80,8 @@ module Pact
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
 
       def control_start
-        pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: control_pidfile_name)
-        start_server(pidfile) do
-          service
+        start_server(control_server_pidfile) do
+          control
         end
       end
 
@@ -95,7 +90,7 @@ module Pact
       method_option :pid_dir, desc: "PID dir, defaults to tmp/pids", default: "tmp/pids"
 
       def control_stop
-        pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: control_pidfile_name)
+        pidfile = control_server_pidfile
         pidfile.kill_process
       end
 
@@ -106,8 +101,7 @@ module Pact
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
 
       def control_restart
-        pidfile = Pidfile.new(pid_dir: options[:pid_dir], name: control_pidfile_name)
-        restart_server(pidfile) do
+        restart_server(control_server_pidfile) do
           control
         end
       end
@@ -115,6 +109,14 @@ module Pact
       default_task :service
 
       no_commands do
+
+        def control_server_pidfile
+          Pidfile.new(pid_dir: options[:pid_dir], name: control_pidfile_name)
+        end
+
+        def mock_service_pidfile
+          Pidfile.new(pid_dir: options[:pid_dir], name: mock_service_pidfile_name)
+        end
 
         def mock_service_pidfile_name
           "mock-service-#{options[:port]}.pid"
@@ -124,38 +126,17 @@ module Pact
           "mock-service-control-#{options[:port]}.pid"
         end
 
-        def port_available? port
-          server = TCPServer.new('127.0.0.1', port)
-          true
-        rescue
-          false
-        ensure
-          server.close if server
-        end
 
         def start_server pidfile
-          if port_available? options[:port]
-            if pidfile.can_start?
-              pid = fork do
-                yield
-              end
-              pidfile.pid = pid
-              Process.detach(pid)
-              Server::WaitForServerUp.(options[:port])
-              pidfile.write
-            end
-          else
-            puts "ERROR: Port #{options[:port]} already in use."
-            exit 1
+          require 'pact/mock_service/server/spawn'
+          Pact::MockService::Server::Spawn.(pidfile, options[:port]) do
+            yield
           end
         end
 
         def restart_server pidfile
-          if pidfile.file_exists_and_process_running?
-            pidfile.kill_process
-          end
-
-          start_server(pidfile) do
+          require 'pact/mock_service/server/respawn'
+          Pact::MockService::Server::Respawn.(pidfile, options[:port]) do
             yield
           end
         end

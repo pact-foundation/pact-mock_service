@@ -3,7 +3,7 @@ require 'pact/consumer/mock_service'
 
 module Pact
   module MockService
-    class RunStandalone
+    class Run
 
       def self.call options
         new(options).call
@@ -35,8 +35,11 @@ module Pact
       def call_shutdown_hooks
         unless @shutting_down
           @shutting_down = true
-          mock_service.shutdown
-          Rack::Handler::WEBrick.shutdown
+          begin
+            mock_service.shutdown
+          ensure
+            Rack::Handler::WEBrick.shutdown
+          end
         end
       end
 

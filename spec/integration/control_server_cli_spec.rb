@@ -36,6 +36,7 @@ describe "The pact-mock-service control server command line interface", mri_only
     puts response.body unless response.status == 200
     expect(response.status).to eq 200
     mock_service_port = URI(response.headers['X-Pact-Mock-Service-Location']).port
+    expect(mock_service_port).to_not eq 1234
 
     response = invoke_expected_request mock_service_port
     expect(response.status).to eq 200
