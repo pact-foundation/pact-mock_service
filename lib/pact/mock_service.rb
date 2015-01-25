@@ -1,1 +1,1 @@
-require 'pact/consumer/mock_service'
+require 'pact/mock_service/app'

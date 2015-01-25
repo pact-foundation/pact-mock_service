@@ -1,4 +1,4 @@
-require 'pact/consumer/mock_service'
+require 'pact/mock_service/app'
 require 'rack/test'
 
 describe Pact::Consumer::MockService do
@@ -16,7 +16,7 @@ describe Pact::Consumer::MockService do
     proc { |severity, datetime, progname, msg| severity + " -- : " + msg + "\n" }
   end
   let(:app) do
-    Pact::Consumer::MockService.new(log_file: log_file, log_formatter: log_formatter_without_date)
+    Pact::MockService.new(log_file: log_file, log_formatter: log_formatter_without_date)
   end
 
   # NOTE: the admin_headers are Rack headers, they will be converted

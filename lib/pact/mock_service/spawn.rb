@@ -1,4 +1,4 @@
-require 'pact/consumer/mock_service'
+require 'pact/mock_service/app'
 require 'pact/consumer/server'
 require 'pact/consumer/mock_service/set_location'
 
@@ -35,7 +35,7 @@ module Pact
       end
 
       def mock_service
-        Pact::Consumer::MockService.new(
+        Pact::MockService.new(
           log_file: create_log_file,
           name: name,
           consumer: consumer,

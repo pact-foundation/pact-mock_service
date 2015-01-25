@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'rack/test'
 require 'tempfile'
-require 'pact/consumer/mock_service'
+require 'pact/mock_service/app'
 
 module Pact
   module Consumer
@@ -11,9 +11,10 @@ module Pact
       include Rack::Test::Methods
 
       def app
-        MockService.new(log_file: temp_file)
+        Pact::MockService.new(log_file: temp_file, logger: logger)
       end
 
+      let(:logger) { double('logger').as_null_object }
       let(:temp_file) { Tempfile.new('log') }
 
       after do

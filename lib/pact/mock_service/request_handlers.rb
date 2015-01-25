@@ -14,9 +14,14 @@ require 'pact/consumer/request'
 require 'pact/support'
 
 module Pact
-  module Consumer
-    class MockService
-      class RequestHandlers
+  module MockService
+    module RequestHandlers
+
+      def self.new *args
+        App.new(*args)
+      end
+
+      class App
         def initialize name, logger, expected_interactions, actual_interactions, verified_interactions, options
           @handlers = [
             Pact::MockService::RequestHandlers::Options.new(name, logger, options[:cors_enabled]),

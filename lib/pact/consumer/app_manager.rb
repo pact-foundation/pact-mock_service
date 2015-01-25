@@ -6,7 +6,7 @@ require 'find_a_port'
 require 'pact/logging'
 require 'pact/consumer/server'
 require 'singleton'
-require 'pact/consumer/mock_service'
+require 'pact/mock_service/app'
 require 'find_a_port'
 
 module Pact
@@ -27,7 +27,7 @@ module Pact
         raise "Currently only http is supported" unless uri.scheme == 'http'
         raise "Currently only services on localhost are supported" unless uri.host == 'localhost'
 
-        register(MockService.new(log_file: create_log_file(name), name: name, pact_dir: pact_dir), uri.port)
+        register(Pact::MockService.new(log_file: create_log_file(name), name: name, pact_dir: pact_dir), uri.port)
       end
 
       def register(app, port = FindAPort.available_port)

@@ -1,5 +1,5 @@
 require 'find_a_port'
-require 'pact/consumer/mock_service'
+require 'pact/mock_service/app'
 require 'pact/consumer/mock_service/set_location'
 
 module Pact
@@ -15,7 +15,7 @@ module Pact
       end
 
       def call
-        require 'pact/consumer/mock_service'
+        require 'pact/mock_service/app'
 
         trap(:INT) { call_shutdown_hooks  }
         trap(:TERM) { call_shutdown_hooks }
@@ -29,7 +29,7 @@ module Pact
 
       def mock_service
         @mock_service ||= begin
-          mock_service = Pact::Consumer::MockService.new(service_options)
+          mock_service = Pact::MockService.new(service_options)
           Pact::Consumer::SetLocation.new(mock_service, base_url)
         end
       end
