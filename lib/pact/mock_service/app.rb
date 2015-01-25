@@ -7,23 +7,27 @@ require 'pact/mock_service/request_handlers'
 
 require 'pact/mock_service/app'
 require 'pact/consumer/mock_service/error_handler'
+require 'pact/mock_service/session'
 
 module Pact
   module MockService
 
     def self.new *args
-      Outer.new(*args)
+      App.new(*args)
     end
 
-    class Outer
+    class App
 
       def initialize options = {}
+        @name = options.fetch(:name, "MockService")
         logger, log_description = configure_logger(options)
         app_options = options.merge(logger: logger, log_description: log_description)
+        @session = Session.new(options)
+        request_handlers = Pact::MockService::RequestHandlers.new(@name, logger, @session, app_options)
         @app = Rack::Builder.app do
           use Pact::Consumer::MockService::ErrorHandler, logger
           use Pact::Consumer::CorsOriginHeaderMiddleware, options[:cors_enabled]
-          run Inner.new(app_options)
+          run request_handlers
         end
       end
 
@@ -32,7 +36,12 @@ module Pact
       end
 
       def shutdown
-        @app.shutdown
+        write_pact_if_configured
+      end
+
+      def write_pact_if_configured
+        consumer_contract_writer = ConsumerContractWriter.new(@session.consumer_contract_details, StdoutLogger.new)
+        consumer_contract_writer.write if consumer_contract_writer.can_write?
       end
 
       def configure_logger options
@@ -49,45 +58,10 @@ module Pact
         end
         return logger, log_description
       end
-    end
-
-    class Inner
-
-      def initialize options = {}
-        @name = options.fetch(:name, "MockService")
-        @logger = options.fetch(:logger)
-        expected_interactions = Interactions::ExpectedInteractions.new
-        actual_interactions = Interactions::ActualInteractions.new
-        verified_interactions = Interactions::VerifiedInteractions.new
-        @consumer_contact_details = {
-          pact_dir: options[:pact_dir],
-          consumer: {name: options[:consumer]},
-          provider: {name: options[:provider]},
-          interactions: verified_interactions
-        }
-
-        @request_handlers = Pact::MockService::RequestHandlers.new(@name, @logger, expected_interactions, actual_interactions, verified_interactions, options)
-      end
-
-      def call env
-        @request_handlers.call(env)
-      end
-
-      def shutdown
-        write_pact_if_configured
-      end
-
-      private
-
-      def write_pact_if_configured
-        consumer_contract_writer = ConsumerContractWriter.new(@consumer_contact_details, StdoutLogger.new)
-        consumer_contract_writer.write if consumer_contract_writer.can_write?
-      end
 
       def to_s
         "#{@name} #{super.to_s}"
       end
-
     end
 
     # Can't write to a file in a TRAP, might deadlock
