@@ -23,7 +23,7 @@ module Pact
           @handlers = [
             Options.new(name, logger, options[:cors_enabled]),
             MissingInteractionsGet.new(name, logger, session.expected_interactions, session.actual_interactions),
-            VerificationGet.new(name, logger, session.expected_interactions, session.actual_interactions, options.fetch(:log_description)),
+            VerificationGet.new(name, logger, session.expected_interactions, session.actual_interactions),
             InteractionPost.new(name, logger, session.expected_interactions, session.verified_interactions),
             InteractionDelete.new(name, logger, session.expected_interactions, session.actual_interactions),
             LogGet.new(name, logger),

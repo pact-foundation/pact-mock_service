@@ -5,11 +5,10 @@ module Pact
     module RequestHandlers
       class VerificationGet < MockServiceAdministrationEndpoint
 
-        def initialize name, logger, expected_interactions, actual_interactions, log_description
+        def initialize name, logger, expected_interactions, actual_interactions
           super name, logger
           @expected_interactions = expected_interactions
           @actual_interactions = actual_interactions
-          @log_description = log_description
         end
 
         def request_path
@@ -29,13 +28,13 @@ module Pact
             error_message = FailureMessage.new(verification).to_s
             logger.warn "Verifying - actual interactions do not match expected interactions for example \"#{example_description(env)}\". \n#{error_message}"
             logger.warn error_message
-            [500, {'Content-Type' => 'text/plain'}, ["Actual interactions do not match expected interactions for mock #{name}.\n\n#{error_message}See #{log_description} for details."]]
+            [500, {'Content-Type' => 'text/plain'}, ["Actual interactions do not match expected interactions for mock #{name}.\n\n#{error_message}See #{logger.description} for details."]]
           end
         end
 
         private
 
-        attr_accessor :expected_interactions, :actual_interactions, :log_description
+        attr_accessor :expected_interactions, :actual_interactions
 
         def example_description env
           params_hash(env).fetch("example_description", [])[0]

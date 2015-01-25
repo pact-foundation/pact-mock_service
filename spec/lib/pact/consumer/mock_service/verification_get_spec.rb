@@ -11,14 +11,14 @@ module Pact
         let(:expected_interactions) { instance_double("Pact::MockService::Interactions::ExpectedInteractions") }
         let(:actual_interactions) { instance_double("Pact::MockService::Interactions::ActualInteractions") }
         let(:verification) { instance_double("Pact::Consumer::Verification") }
-        let(:logger) { double("Logger").as_null_object }
+        let(:logger) { double("Logger", description: log_description).as_null_object }
         let(:log_description) { "/log/pact.log" }
 
         before do
           allow(Pact::MockService::Interactions::Verification).to receive(:new).and_return(verification)
         end
 
-        subject { VerificationGet.new('VerificationGet', logger, expected_interactions, actual_interactions, log_description) }
+        subject { VerificationGet.new('VerificationGet', logger, expected_interactions, actual_interactions) }
 
         describe "request_path" do
           it "is /interactions/verification" do
