@@ -21,7 +21,7 @@ module Pact
         end
 
         def respond env
-          verification = Pact::Consumer::Verification.new(expected_interactions, actual_interactions)
+          verification = Pact::MockService::Interactions::Verification.new(expected_interactions, actual_interactions)
           if verification.all_matched?
             logger.info "Verifying - interactions matched for example \"#{example_description(env)}\""
             [200, {'Content-Type' => 'text/plain'}, ['Interactions matched']]

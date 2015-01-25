@@ -1,21 +1,21 @@
 require 'pact/mock_service/request_handlers/verification_get'
-require 'pact/consumer/mock_service/verification'
-require 'pact/consumer/mock_service/expected_interactions'
-require 'pact/consumer/mock_service/actual_interactions'
+require 'pact/mock_service/interactions/verification'
+require 'pact/mock_service/interactions/expected_interactions'
+require 'pact/mock_service/interactions/actual_interactions'
 
 module Pact
   module MockService
     module RequestHandlers
       describe VerificationGet do
 
-        let(:expected_interactions) { instance_double("Pact::Consumer::ExpectedInteractions") }
-        let(:actual_interactions) { instance_double("Pact::Consumer::ActualInteractions") }
+        let(:expected_interactions) { instance_double("Pact::MockService::Interactions::ExpectedInteractions") }
+        let(:actual_interactions) { instance_double("Pact::MockService::Interactions::ActualInteractions") }
         let(:verification) { instance_double("Pact::Consumer::Verification") }
         let(:logger) { double("Logger").as_null_object }
         let(:log_description) { "/log/pact.log" }
 
         before do
-          allow(Pact::Consumer::Verification).to receive(:new).and_return(verification)
+          allow(Pact::MockService::Interactions::Verification).to receive(:new).and_return(verification)
         end
 
         subject { VerificationGet.new('VerificationGet', logger, expected_interactions, actual_interactions, log_description) }

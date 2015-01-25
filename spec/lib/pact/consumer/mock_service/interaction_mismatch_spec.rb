@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'pact/consumer/mock_service/interaction_mismatch'
+require 'pact/mock_service/interactions/interaction_mismatch'
 
 module Pact
-  module Consumer
+  module MockService::Interactions
     describe InteractionMismatch do
       let(:content_type) { 'some/content' }
       let(:actual_request) { instance_double('Pact::Consumer::Request::Actual', :method_and_path => 'GET /path') }

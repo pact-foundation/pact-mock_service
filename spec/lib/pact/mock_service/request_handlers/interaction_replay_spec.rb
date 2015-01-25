@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'pact/mock_service/request_handlers/interaction_replay'
-require 'pact/consumer/mock_service/expected_interactions'
-require 'pact/consumer/mock_service/actual_interactions'
+require 'pact/mock_service/interactions/expected_interactions'
+require 'pact/mock_service/interactions/actual_interactions'
 
 module Pact
   module MockService
@@ -17,8 +17,8 @@ module Pact
           )
         end
         let(:logger) { Logger.new(StringIO.new) }
-        let(:expected_interactions) { Pact::Consumer::ExpectedInteractions.new }
-        let(:actual_interactions) { Pact::Consumer::ActualInteractions.new }
+        let(:expected_interactions) { Pact::MockService::Interactions::ExpectedInteractions.new }
+        let(:actual_interactions) { Pact::MockService::Interactions::ActualInteractions.new }
         let(:verified_interactions) { [] }
         let(:actual_body) { {'a' => 'body' } }
 

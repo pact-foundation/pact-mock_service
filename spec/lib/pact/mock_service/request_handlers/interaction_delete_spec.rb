@@ -7,8 +7,8 @@ module Pact
 
       describe InteractionDelete do
 
-        let(:actual_interactions) { double('Pact::Consumer::ActualInteractions') }
-        let(:expected_interactions) { double('Pact::Consumer::ExpectedInteractions') }
+        let(:actual_interactions) { double('Pact::MockService::Interactions::ActualInteractionsActualInteractions') }
+        let(:expected_interactions) { double('Pact::MockService::Interactions::ExpectedInteractions') }
         let(:logger) { double('Logger').as_null_object }
         let(:rack_env) do
           {

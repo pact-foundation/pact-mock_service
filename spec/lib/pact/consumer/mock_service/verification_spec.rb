@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'pact/consumer/mock_service/expected_interactions'
-require 'pact/consumer/mock_service/actual_interactions'
-require 'pact/consumer/mock_service/verification'
+require 'pact/mock_service/interactions/expected_interactions'
+require 'pact/mock_service/interactions/actual_interactions'
+require 'pact/mock_service/interactions/verification'
 
-module Pact::Consumer
+module Pact::MockService::Interactions
 
   describe Verification do
     shared_context "unexpected requests and missed interactions" do
@@ -14,8 +14,8 @@ module Pact::Consumer
       let(:interaction_mismatch) { instance_double("Pact::Consumer::InteractionMismatch", :short_summary => 'blah', :candidate_interactions => candidate_interactions)}
 
       subject do
-        expected_interactions = ExpectedInteractions.new
-        actual_interactions = ActualInteractions.new
+        expected_interactions = Pact::MockService::Interactions::ExpectedInteractions.new
+        actual_interactions = Pact::MockService::Interactions::ActualInteractions.new
         expected_interactions << expected_interaction
         actual_interactions.register_unexpected_request unexpected_request
         actual_interactions.register_interaction_mismatch interaction_mismatch
@@ -28,8 +28,8 @@ module Pact::Consumer
       let(:expected_interaction) { InteractionFactory.create }
 
       subject do
-        expected_interactions = ExpectedInteractions.new
-        actual_interactions = ActualInteractions.new
+        expected_interactions = Pact::MockService::Interactions::ExpectedInteractions.new
+        actual_interactions = Pact::MockService::Interactions::ActualInteractions.new
         expected_interactions << expected_interaction
         actual_interactions.register_matched expected_interaction
         Verification.new(expected_interactions, actual_interactions)

@@ -6,7 +6,7 @@ module Pact
       describe InteractionPost do
 
         let(:verified_interactions) { double('Pact::Consumer::VerifiedInteractions') }
-        let(:expected_interactions) { double('Pact::Consumer::ExpectedInteractions') }
+        let(:expected_interactions) { double('Pact::MockService::Interactions::ExpectedInteractions') }
         let(:logger) { double('Logger').as_null_object }
         let(:interaction_1) { InteractionFactory.create }
         let(:interaction_2) { InteractionFactory.create }

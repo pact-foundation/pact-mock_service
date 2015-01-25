@@ -1,5 +1,5 @@
 require 'pact/mock_service/request_handlers/mock_service_administration_endpoint'
-require 'pact/consumer/mock_service/verification'
+require 'pact/mock_service/interactions/verification'
 
 module Pact
   module MockService
@@ -22,7 +22,7 @@ module Pact
         end
 
         def respond env
-          verification = Pact::Consumer::Verification.new(@expected_interactions, @actual_interactions)
+          verification = Pact::MockService::Interactions::Verification.new(@expected_interactions, @actual_interactions)
           number_of_missing_interactions = verification.missing_interactions.size
           logger.info "Number of missing interactions for mock \"#{name}\" = #{number_of_missing_interactions}"
           [200, {}, [{size: number_of_missing_interactions}.to_json]]

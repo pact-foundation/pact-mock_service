@@ -56,9 +56,9 @@ module Pact
       def initialize options = {}
         @name = options.fetch(:name, "MockService")
         @logger = options.fetch(:logger)
-        expected_interactions = Pact::Consumer::ExpectedInteractions.new
-        actual_interactions = Pact::Consumer::ActualInteractions.new
-        verified_interactions = Pact::Consumer::VerifiedInteractions.new
+        expected_interactions = Interactions::ExpectedInteractions.new
+        actual_interactions = Interactions::ActualInteractions.new
+        verified_interactions = Interactions::VerifiedInteractions.new
         @consumer_contact_details = {
           pact_dir: options[:pact_dir],
           consumer: {name: options[:consumer]},

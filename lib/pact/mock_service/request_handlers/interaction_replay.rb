@@ -1,7 +1,7 @@
 require 'pact/matchers'
 require 'pact/consumer/request'
 require 'pact/consumer/mock_service/rack_request_helper'
-require 'pact/consumer/mock_service/interaction_mismatch'
+require 'pact/mock_service/interactions/interaction_mismatch'
 require 'pact/consumer_contract'
 require 'pact/mock_service/response_decorator'
 require 'pact/mock_service/interaction_decorator'
@@ -126,7 +126,7 @@ module Pact
         end
 
         def self.interaction_mismatch actual_request, candidate_interactions
-          Pact::Consumer::InteractionMismatch.new(candidate_interactions, actual_request)
+          Pact::MockService::Interactions::InteractionMismatch.new(candidate_interactions, actual_request)
         end
 
         def self.log interaction_mismatch, logger
