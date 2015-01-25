@@ -1,15 +1,15 @@
 require 'pact/consumer/mock_service/expected_interactions'
 require 'pact/consumer/mock_service/actual_interactions'
 require 'pact/consumer/mock_service/verified_interactions'
-require 'pact/consumer/mock_service/interaction_delete'
-require 'pact/consumer/mock_service/interaction_post'
-require 'pact/consumer/mock_service/interaction_replay'
-require 'pact/consumer/mock_service/missing_interactions_get'
-require 'pact/consumer/mock_service/verification_get'
-require 'pact/consumer/mock_service/log_get'
-require 'pact/consumer/mock_service/pact_post'
-require 'pact/consumer/mock_service/index_get'
-require 'pact/consumer/mock_service/options'
+require 'pact/mock_service/request_handlers/interaction_post'
+require 'pact/mock_service/request_handlers/index_get'
+require 'pact/mock_service/request_handlers/interaction_delete'
+require 'pact/mock_service/request_handlers/interaction_replay'
+require 'pact/mock_service/request_handlers/log_get'
+require 'pact/mock_service/request_handlers/options'
+require 'pact/mock_service/request_handlers/missing_interactions_get'
+require 'pact/mock_service/request_handlers/pact_post'
+require 'pact/mock_service/request_handlers/verification_get'
 require 'pact/consumer/request'
 require 'pact/support'
 
@@ -19,15 +19,15 @@ module Pact
       class RequestHandlers
         def initialize name, logger, expected_interactions, actual_interactions, verified_interactions, options
           @handlers = [
-            Options.new(name, logger, options[:cors_enabled]),
-            MissingInteractionsGet.new(name, logger, expected_interactions, actual_interactions),
-            VerificationGet.new(name, logger, expected_interactions, actual_interactions, options[:log_description]),
-            InteractionPost.new(name, logger, expected_interactions, verified_interactions),
-            InteractionDelete.new(name, logger, expected_interactions, actual_interactions),
-            LogGet.new(name, logger),
-            PactPost.new(name, logger, verified_interactions, options[:pact_dir], options[:consumer_contract_details]),
-            IndexGet.new(name, logger),
-            InteractionReplay.new(name, logger, expected_interactions, actual_interactions, verified_interactions, options[:cors_enabled])
+            Pact::MockService::RequestHandlers::Options.new(name, logger, options[:cors_enabled]),
+            Pact::MockService::RequestHandlers::MissingInteractionsGet.new(name, logger, expected_interactions, actual_interactions),
+            Pact::MockService::RequestHandlers::VerificationGet.new(name, logger, expected_interactions, actual_interactions, options[:log_description]),
+            Pact::MockService::RequestHandlers::InteractionPost.new(name, logger, expected_interactions, verified_interactions),
+            Pact::MockService::RequestHandlers::InteractionDelete.new(name, logger, expected_interactions, actual_interactions),
+            Pact::MockService::RequestHandlers::LogGet.new(name, logger),
+            Pact::MockService::RequestHandlers::PactPost.new(name, logger, verified_interactions, options[:pact_dir], options[:consumer_contract_details]),
+            Pact::MockService::RequestHandlers::IndexGet.new(name, logger),
+            Pact::MockService::RequestHandlers::InteractionReplay.new(name, logger, expected_interactions, actual_interactions, verified_interactions, options[:cors_enabled])
           ]
         end
 

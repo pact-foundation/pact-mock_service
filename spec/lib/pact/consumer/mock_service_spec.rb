@@ -27,12 +27,12 @@ module Pact
       subject { get "/" }
 
       before do
-        allow(InteractionReplay).to receive(:new).and_return(interaction_replay)
+        allow(Pact::MockService::RequestHandlers::InteractionReplay).to receive(:new).and_return(interaction_replay)
       end
 
       context "when a StandardError is encountered" do
         let(:response) { JSON.parse(last_response.body)}
-        let(:interaction_replay) { double(InteractionReplay, :match? => true)}
+        let(:interaction_replay) { double(Pact::MockService::RequestHandlers::InteractionReplay, :match? => true)}
 
         before do
           expect(interaction_replay).to receive(:respond).and_raise("an error")
