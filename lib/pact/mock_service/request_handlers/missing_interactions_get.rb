@@ -1,11 +1,11 @@
-require 'pact/mock_service/request_handlers/mock_service_administration_endpoint'
+require 'pact/mock_service/request_handlers/base_administration_request_handler'
 require 'pact/mock_service/interactions/verification'
 
 module Pact
   module MockService
     module RequestHandlers
 
-      class MissingInteractionsGet < MockServiceAdministrationEndpoint
+      class MissingInteractionsGet < BaseAdministrationRequestHandler
 
         def initialize name, logger, expected_interactions, actual_interactions
           super name, logger

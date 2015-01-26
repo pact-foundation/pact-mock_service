@@ -36,7 +36,7 @@ module Pact
         let(:interaction_replay) { double(Pact::MockService::RequestHandlers::InteractionReplay, :match? => true)}
 
         before do
-          expect(interaction_replay).to receive(:respond).and_raise("an error")
+          expect(interaction_replay).to receive(:call).and_raise("an error")
         end
 
         subject { get "/" }

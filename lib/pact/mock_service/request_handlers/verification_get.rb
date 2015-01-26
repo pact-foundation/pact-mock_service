@@ -1,9 +1,9 @@
-require 'pact/mock_service/request_handlers/mock_service_administration_endpoint'
+require 'pact/mock_service/request_handlers/base_administration_request_handler'
 
 module Pact
   module MockService
     module RequestHandlers
-      class VerificationGet < MockServiceAdministrationEndpoint
+      class VerificationGet < BaseAdministrationRequestHandler
 
         def initialize name, logger, expected_interactions, actual_interactions
           super name, logger

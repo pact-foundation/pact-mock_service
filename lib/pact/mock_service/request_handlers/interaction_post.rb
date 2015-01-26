@@ -1,11 +1,11 @@
-require 'pact/mock_service/request_handlers/mock_service_administration_endpoint'
+require 'pact/mock_service/request_handlers/base_administration_request_handler'
 require 'pact/mock_service/interaction_decorator'
 require 'pact/shared/json_differ'
 
 module Pact
   module MockService
     module RequestHandlers
-      class InteractionPost < MockServiceAdministrationEndpoint
+      class InteractionPost < BaseAdministrationRequestHandler
 
         def initialize name, logger, expected_interactions, verified_interactions
           super name, logger
@@ -89,7 +89,6 @@ module Pact
           def raw_hash interaction
             JSON.parse(Pact::MockService::InteractionDecorator.new(interaction).to_json)
           end
-
         end
       end
     end

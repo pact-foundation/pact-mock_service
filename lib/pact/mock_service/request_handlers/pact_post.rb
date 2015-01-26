@@ -1,10 +1,10 @@
-require 'pact/mock_service/request_handlers/mock_service_administration_endpoint'
+require 'pact/mock_service/request_handlers/base_administration_request_handler'
 require 'pact/consumer_contract/consumer_contract_writer'
 
 module Pact
   module MockService
     module RequestHandlers
-      class PactPost < MockServiceAdministrationEndpoint
+      class PactPost < BaseAdministrationRequestHandler
 
         attr_accessor :consumer_contract, :verified_interactions, :default_options
 

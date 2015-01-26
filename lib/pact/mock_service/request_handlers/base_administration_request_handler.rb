@@ -1,11 +1,10 @@
 require 'pact/consumer/mock_service/rack_request_helper'
+require 'pact/mock_service/request_handlers/base_request_handler'
 
 module Pact
   module MockService
     module RequestHandlers
-      class MockServiceAdministrationEndpoint
-
-        include Pact::Consumer::RackRequestHelper
+      class BaseAdministrationRequestHandler < BaseRequestHandler
 
         attr_accessor :logger, :name
 

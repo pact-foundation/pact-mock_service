@@ -18,9 +18,9 @@ module Pact
         App.new(*args)
       end
 
-      class App
+      class App < ::Rack::Cascade
         def initialize name, logger, session, options
-          @handlers = [
+          super [
             Options.new(name, logger, options[:cors_enabled]),
             MissingInteractionsGet.new(name, logger, session.expected_interactions, session.actual_interactions),
             VerificationGet.new(name, logger, session.expected_interactions, session.actual_interactions),
@@ -33,10 +33,10 @@ module Pact
           ]
         end
 
-        def call env
-          relevant_handler = @handlers.detect { |handler| handler.match? env }
-          response = relevant_handler.respond(env)
-        end
+        # def call env
+        #   relevant_handler = @handlers.detect { |handler| handler.match? env }
+        #   response = relevant_handler.respond(env)
+        # end
       end
     end
   end

@@ -1,9 +1,9 @@
-require 'pact/mock_service/request_handlers/mock_service_administration_endpoint'
+require 'pact/mock_service/request_handlers/base_administration_request_handler'
 
 module Pact
   module MockService
     module RequestHandlers
-      class LogGet < MockServiceAdministrationEndpoint
+      class LogGet < BaseAdministrationRequestHandler
 
         def request_path
           '/log'
@@ -12,7 +12,6 @@ module Pact
         def request_method
           'GET'
         end
-
 
         def respond env
           logger.info "Debug message from client - #{message(env)}"

@@ -1,13 +1,10 @@
-require 'pact/consumer/mock_service/rack_request_helper'
-require 'pact/mock_service/request_handlers/mock_service_administration_endpoint'
+require 'pact/mock_service/request_handlers/base_administration_request_handler'
 
 module Pact
   module MockService
     module RequestHandlers
 
-      class InteractionDelete < MockServiceAdministrationEndpoint
-
-        include Pact::Consumer::RackRequestHelper
+      class InteractionDelete < BaseAdministrationRequestHandler
 
         attr_accessor :expected_interactions, :actual_interactions
 

@@ -1,10 +1,10 @@
 require 'pact/matchers'
 require 'pact/consumer/request'
-require 'pact/consumer/mock_service/rack_request_helper'
 require 'pact/mock_service/interactions/interaction_mismatch'
 require 'pact/consumer_contract'
 require 'pact/mock_service/response_decorator'
 require 'pact/mock_service/interaction_decorator'
+require 'pact/mock_service/request_handlers/base_request_handler'
 
 module Pact
   module MockService
@@ -17,9 +17,8 @@ module Pact
         end
       end
 
-      class InteractionReplay
+      class InteractionReplay < BaseRequestHandler
         include Pact::Matchers
-        include Pact::Consumer::RackRequestHelper
         include PrettyGenerate
 
         attr_accessor :name, :logger, :expected_interactions, :actual_interactions, :verified_interactions
