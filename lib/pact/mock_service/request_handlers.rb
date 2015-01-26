@@ -32,11 +32,6 @@ module Pact
             InteractionReplay.new(name, logger, session.expected_interactions, session.actual_interactions, session.verified_interactions, options[:cors_enabled])
           ]
         end
-
-        # def call env
-        #   relevant_handler = @handlers.detect { |handler| handler.match? env }
-        #   response = relevant_handler.respond(env)
-        # end
       end
     end
   end

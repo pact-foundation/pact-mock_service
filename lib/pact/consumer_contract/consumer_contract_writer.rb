@@ -1,5 +1,5 @@
 require 'pact/consumer_contract'
-require 'pact/consumer/interactions_filter'
+require 'pact/mock_service/interactions/interactions_filter'
 require 'pact/consumer_contract/file_name'
 require 'pact/consumer_contract/pact_file'
 require 'pact/consumer_contract/consumer_contract_decorator'
@@ -63,7 +63,7 @@ module Pact
     def interactions_for_new_consumer_contract
       if updating?
         merged_interactions = existing_interactions.dup
-        filter = Consumer::UpdatableInteractionsFilter.new(merged_interactions)
+        filter = Pact::MockService::Interactions::UpdatableInteractionsFilter.new(merged_interactions)
         interactions.each {|i| filter << i }
         merged_interactions
       else
