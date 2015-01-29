@@ -23,12 +23,12 @@ module Pact
 
         attr_accessor :name, :logger, :expected_interactions, :actual_interactions, :verified_interactions
 
-        def initialize name, logger, expected_interactions, actual_interactions, verified_interactions, cors_enabled=false
+        def initialize name, logger, session, cors_enabled=false
           @name = name
           @logger = logger
-          @expected_interactions = expected_interactions
-          @actual_interactions = actual_interactions
-          @verified_interactions = verified_interactions
+          @expected_interactions = session.expected_interactions
+          @actual_interactions = session.actual_interactions
+          @verified_interactions = session.verified_interactions
           @cors_enabled = cors_enabled
         end
 

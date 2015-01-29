@@ -8,11 +8,11 @@ module Pact
 
         attr_accessor :consumer_contract, :verified_interactions, :default_options
 
-        def initialize name, logger, verified_interactions, consumer_contract_details
+        def initialize name, logger, session
           super name, logger
-          @verified_interactions = verified_interactions
+          @verified_interactions = session.verified_interactions
           @default_options = {}
-          @default_options.merge!(consumer_contract_details)
+          @default_options.merge!(session.consumer_contract_details)
         end
 
         def request_path

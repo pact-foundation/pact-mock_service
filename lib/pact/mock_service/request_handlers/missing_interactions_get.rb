@@ -7,10 +7,10 @@ module Pact
 
       class MissingInteractionsGet < BaseAdministrationRequestHandler
 
-        def initialize name, logger, expected_interactions, actual_interactions
+        def initialize name, logger, session
           super name, logger
-          @expected_interactions = expected_interactions
-          @actual_interactions = actual_interactions
+          @expected_interactions = session.expected_interactions
+          @actual_interactions = session.actual_interactions
         end
 
         def request_path
