@@ -7,8 +7,7 @@ module Pact
 
       describe InteractionDelete do
 
-        let(:actual_interactions) { double('Pact::MockService::Interactions::ActualInteractionsActualInteractions') }
-        let(:expected_interactions) { double('Pact::MockService::Interactions::ExpectedInteractions') }
+        let(:session) { instance_double('Pact::MockService::Session', clear_expected_and_actual_interactions: nil)}
         let(:logger) { double('Logger').as_null_object }
         let(:rack_env) do
           {
@@ -16,21 +15,11 @@ module Pact
           }
         end
 
-        before do
-          allow(expected_interactions).to receive(:clear)
-          allow(actual_interactions).to receive(:clear)
-        end
-
-        subject { InteractionDelete.new '', logger, expected_interactions, actual_interactions }
+        subject { InteractionDelete.new '', logger, session }
 
 
-        it "clears the expected interactions" do
-          expect(expected_interactions).to receive(:clear)
-          subject.respond rack_env
-        end
-
-        it "clears the actual interactions" do
-          expect(actual_interactions).to receive(:clear)
+        it "clears the expected and actual interactions" do
+          expect(session).to receive(:clear_expected_and_actual_interactions)
           subject.respond rack_env
         end
 

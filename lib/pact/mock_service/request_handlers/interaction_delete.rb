@@ -6,12 +6,11 @@ module Pact
 
       class InteractionDelete < BaseAdministrationRequestHandler
 
-        attr_accessor :expected_interactions, :actual_interactions
+        attr_accessor :session
 
-        def initialize name, logger, expected_interactions, actual_interactions
+        def initialize name, logger, session
           super name, logger
-          @expected_interactions = expected_interactions
-          @actual_interactions = actual_interactions
+          @session = session
         end
 
         def request_path
@@ -23,8 +22,7 @@ module Pact
         end
 
         def respond env
-          expected_interactions.clear
-          actual_interactions.clear
+          session.clear_expected_and_actual_interactions
           logger.info "Cleared interactions before example \"#{example_description(env)}\""
           [200, {}, ['Deleted interactions']]
         end

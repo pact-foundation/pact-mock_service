@@ -27,7 +27,7 @@ module Pact
             VerificationGet.new(name, logger, session.expected_interactions, session.actual_interactions),
             InteractionPost.new(name, logger, session),
             InteractionsPut.new(name, logger, session),
-            InteractionDelete.new(name, logger, session.expected_interactions, session.actual_interactions),
+            InteractionDelete.new(name, logger, session),
             LogGet.new(name, logger),
             PactPost.new(name, logger, session.verified_interactions, session.consumer_contract_details),
             IndexGet.new(name, logger),
