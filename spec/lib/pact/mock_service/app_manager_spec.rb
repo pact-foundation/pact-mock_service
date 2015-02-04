@@ -1,7 +1,6 @@
-require 'spec_helper'
-require 'pact/consumer/app_manager'
+require 'pact/mock_service/app_manager'
 
-module Pact::Consumer
+module Pact::MockService
   describe AppManager do
     before do
       AppManager.instance.clear_all

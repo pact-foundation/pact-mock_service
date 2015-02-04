@@ -2,8 +2,8 @@ require 'net/http'
 require 'pact/mock_service/interaction_decorator'
 
 module Pact
-  module Consumer
-    class MockServiceClient
+  module MockService
+    class Client
 
       MOCK_SERVICE_ADMINISTRATON_HEADERS = {'X-Pact-Mock-Service' => 'true'}
 
