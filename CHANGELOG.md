@@ -2,6 +2,12 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)'
 
+### 0.4.0 (13 Feb 2015)
+
+* 73ddd98 - Added option to AppManager to set the pact_specification_version (Beth Skurrie, Fri Feb 13 17:41:42 2015 +1100)
+* e4a7405 - Make pactSpecificationVersion in pact file dynamic. (Beth Skurrie, Fri Feb 13 17:20:28 2015 +1100)
+* ed9c550 - Create --pact-specification-version option to toggle between v1 and v2 serialization (Beth Skurrie, Fri Feb 13 16:56:30 2015 +1100)
+
 ### 0.3.0 (4 Feb 2015)
 
 * 60869be - Refactor - moving classes from Pact::Consumer module into Pact::MockService module. (Beth Skurrie, Wed Feb 4 19:28:54 2015 +1100)
