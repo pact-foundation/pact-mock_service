@@ -12,6 +12,8 @@ module Pact
 
   class ConsumerContractWriter
 
+    DEFAULT_PACT_SPECIFICATION_VERSION = '1.0.0'
+
     include Pact::FileName
     include Pact::PactFile
     include ActiveSupportSupport
@@ -21,7 +23,7 @@ module Pact
       @consumer_contract_details = consumer_contract_details
       @pactfile_write_mode = consumer_contract_details.fetch(:pactfile_write_mode, :overwrite).to_sym
       @interactions = consumer_contract_details.fetch(:interactions)
-      @pact_specification_version = consumer_contract_details[:pact_specification_version] || '1'
+      @pact_specification_version = (consumer_contract_details[:pact_specification_version] || DEFAULT_PACT_SPECIFICATION_VERSION).to_s
     end
 
     def consumer_contract

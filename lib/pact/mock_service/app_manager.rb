@@ -22,12 +22,12 @@ module Pact
         @app_registrations = []
       end
 
-      def register_mock_service_for name, url
+      def register_mock_service_for name, url, options = {}
         uri = URI(url)
         raise "Currently only http is supported" unless uri.scheme == 'http'
         raise "Currently only services on localhost are supported" unless uri.host == 'localhost'
 
-        register(Pact::MockService.new(log_file: create_log_file(name), name: name, pact_dir: pact_dir), uri.port)
+        register(Pact::MockService.new(log_file: create_log_file(name), name: name, pact_dir: pact_dir, pact_specification_version: options[:pact_specification_version]), uri.port)
       end
 
       def register(app, port = FindAPort.available_port)

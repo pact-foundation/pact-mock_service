@@ -34,6 +34,11 @@ module Pact::MockService
           end
           AppManager.instance.register_mock_service_for name, url
         end
+
+        it "passes in the pact_specification_verson to the MockService" do
+          expect(Pact::MockService).to receive(:new).with(hash_including(pact_specification_version: '3')).and_call_original
+          AppManager.instance.register_mock_service_for name, url, pact_specification_version: '3'
+        end
       end
 
       context "for https://" do

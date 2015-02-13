@@ -22,13 +22,15 @@ module Pact
     let(:tmp_pact_dir) { "./tmp/pacts" }
     let(:logger) { double("logger").as_null_object }
     let(:pactfile_write_mode) { :overwrite }
+    let(:pact_specification_version) { nil }
     let(:consumer_contract_details) {
       {
           consumer: { name: consumer_name },
           provider: { name: provider_name },
           pactfile_write_mode: pactfile_write_mode,
           interactions: new_interactions,
-          pact_dir: tmp_pact_dir
+          pact_dir: tmp_pact_dir,
+          pact_specification_version: pact_specification_version
       }
     }
 
@@ -121,8 +123,30 @@ module Pact
           expect{ consumer_contract_writer.write }.to raise_error ConsumerContractWriterError, /Please indicate the directory/
         end
       end
+
+      context "when no pact_specification_version is specified" do
+        let(:pact_specification_version) { nil }
+        it "defaults to 1" do
+          expect(Pact::ConsumerContractDecorator).to receive(:new).with(anything, hash_including(pact_specification_version: '1.0.0')).and_call_original
+          consumer_contract_writer.write
+        end
+      end
+
+      context "when a pact_specification_version is specified" do
+        let(:pact_specification_version) { '1.0' }
+        it "uses the specified version" do
+          expect(Pact::ConsumerContractDecorator).to receive(:new).with(anything, hash_including(pact_specification_version: '1.0')).and_call_original
+          consumer_contract_writer.write
+        end
+      end
+
+      context "when a numeric pact_specification_version is specified" do
+        let(:pact_specification_version) { 1 }
+        it "converts it to a String" do
+          expect(Pact::ConsumerContractDecorator).to receive(:new).with(anything, hash_including(pact_specification_version: '1')).and_call_original
+          consumer_contract_writer.write
+        end
+      end
     end
-
   end
-
 end
