@@ -17,7 +17,7 @@ module Pact
         provider: consumer_contract.provider.as_json,
         interactions: consumer_contract.interactions.collect{ |i| InteractionDecorator.new(i, @decorator_options).as_json},
         metadata: {
-          pactSpecificationVersion: "1.0.0"
+          pactSpecificationVersion: pact_specification_version
         }
       )
     end
@@ -30,5 +30,9 @@ module Pact
 
     attr_reader :consumer_contract
 
+    def pact_specification_version
+      version = @decorator_options.fetch(:pact_specification_version)
+      "#{version[0]}.0.0" # Only care about the first digit
+    end
   end
 end
