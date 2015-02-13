@@ -6,15 +6,16 @@ module Pact
 
     include ActiveSupportSupport
 
-    def initialize consumer_contract
+    def initialize consumer_contract, decorator_options = {}
       @consumer_contract = consumer_contract
+      @decorator_options = decorator_options
     end
 
     def as_json(options = {})
       fix_all_the_things(
         consumer: consumer_contract.consumer.as_json,
         provider: consumer_contract.provider.as_json,
-        interactions: consumer_contract.interactions.collect{ |i| InteractionDecorator.new(i).as_json},
+        interactions: consumer_contract.interactions.collect{ |i| InteractionDecorator.new(i, @decorator_options).as_json},
         metadata: {
           pactSpecificationVersion: "1.0.0"
         }

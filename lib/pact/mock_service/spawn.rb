@@ -41,7 +41,8 @@ module Pact
           consumer: consumer,
           provider: provider,
           pact_dir: options[:pact_dir] || ".",
-          cors_enabled: options[:cors_enabled]
+          cors_enabled: options[:cors_enabled],
+          pact_specification_version: options[:pact_specification_version]
         )
       end
 

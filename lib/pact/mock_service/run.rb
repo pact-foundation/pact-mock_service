@@ -50,7 +50,8 @@ module Pact
           pact_dir: options[:pact_dir],
           consumer: options[:consumer],
           provider: options[:provider],
-          cors_enabled: options[:cors]
+          cors_enabled: options[:cors],
+          pact_specification_version: options[:pact_specification_version]
         }
         service_options[:log_file] = open_log_file if options[:log]
         service_options

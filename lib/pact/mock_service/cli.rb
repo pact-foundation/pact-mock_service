@@ -16,6 +16,7 @@ module Pact
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
 
@@ -28,6 +29,7 @@ module Pact
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
       method_option :log_dir, aliases: "-l", desc: "File to which to log output"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
 
@@ -42,6 +44,7 @@ module Pact
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
       method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
@@ -66,6 +69,7 @@ module Pact
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
       method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
@@ -82,6 +86,7 @@ module Pact
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
 
       def control_start
@@ -104,6 +109,7 @@ module Pact
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
 
       def control_restart

@@ -3,8 +3,9 @@ require 'pact/reification'
 module Pact
   class RequestDecorator
 
-    def initialize request
+    def initialize request, decorator_options = {}
       @request = request
+      @decorator_options = decorator_options
     end
 
     def to_json(options = {})

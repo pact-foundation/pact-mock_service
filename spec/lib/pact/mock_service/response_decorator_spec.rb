@@ -5,7 +5,7 @@ module Pact
   module MockService
     describe ResponseDecorator do
 
-      include_examples "request decorator to_json"
+      include_examples "response decorator to_json"
 
     end
   end

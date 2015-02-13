@@ -22,7 +22,8 @@ module Pact
           pact_dir: options[:pact_dir],
           consumer: {name: options[:consumer]},
           provider: {name: options[:provider]},
-          interactions: verified_interactions
+          interactions: verified_interactions,
+          pact_specification_version: options[:pact_specification_version]
         }
       end
 

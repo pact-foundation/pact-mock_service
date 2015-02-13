@@ -1,6 +1,6 @@
 require 'pact/consumer_contract/response'
 
-shared_examples_for "request decorator to_json" do
+shared_examples_for "response decorator to_json" do
 
   describe "#to_json" do
 

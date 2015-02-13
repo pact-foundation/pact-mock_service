@@ -21,6 +21,7 @@ module Pact
       @consumer_contract_details = consumer_contract_details
       @pactfile_write_mode = consumer_contract_details.fetch(:pactfile_write_mode, :overwrite).to_sym
       @interactions = consumer_contract_details.fetch(:interactions)
+      @pact_specification_version = consumer_contract_details[:pact_specification_version] || '1'
     end
 
     def consumer_contract
@@ -41,7 +42,7 @@ module Pact
 
     private
 
-    attr_reader :consumer_contract_details, :pactfile_write_mode, :interactions, :logger
+    attr_reader :consumer_contract_details, :pactfile_write_mode, :interactions, :logger, :pact_specification_version
 
     def update_pactfile
       logger.info log_message
@@ -57,7 +58,7 @@ module Pact
     end
 
     def decorated_pact
-      @decorated_pact ||= Pact::ConsumerContractDecorator.new(consumer_contract)
+      @decorated_pact ||= Pact::ConsumerContractDecorator.new(consumer_contract, pact_specification_version: pact_specification_version)
     end
 
     def interactions_for_new_consumer_contract
