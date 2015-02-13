@@ -1,10 +1,12 @@
 require 'pact/mock_service/request_handlers/base_administration_request_handler'
-require 'pact/mock_service/session'
+require 'pact/mock_service/interaction_decorator'
+require 'pact/shared/json_differ'
+require 'pact/mock_service/request_handlers/interaction_post' #Refactor diff message
 
 module Pact
   module MockService
     module RequestHandlers
-      class InteractionPost < BaseAdministrationRequestHandler
+      class InteractionsPut < BaseAdministrationRequestHandler
 
         def initialize name, logger, session
           super name, logger
@@ -16,25 +18,24 @@ module Pact
         end
 
         def request_method
-          'POST'
+          'PUT'
         end
 
         def respond env
-          request_body = env['rack.input'].string
-          interaction = Interaction.from_hash(JSON.load(request_body)) # Load creates the Pact::XXX classes
-
+          request_body = JSON.load(env['rack.input'].string)
+          interactions = request_body['interactions'].collect { | hash | Interaction.from_hash(hash) }
           begin
-            session.add_expected_interaction interaction
+            session.set_expected_interactions interactions
             [200, {}, ['Set interactions']]
           rescue AlmostDuplicateInteractionError => e
             [500, {}, e.message]
           end
-
         end
 
         private
 
         attr_accessor :session
+
       end
     end
   end

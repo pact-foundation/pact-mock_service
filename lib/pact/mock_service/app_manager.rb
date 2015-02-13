@@ -10,7 +10,7 @@ require 'pact/mock_service/app'
 require 'find_a_port'
 
 module Pact
-  module Consumer
+  module MockService
     class AppManager
 
       include Pact::Logging
@@ -133,7 +133,7 @@ module Pact
       end
 
       def is_a_mock_service?
-        app.is_a? MockService
+        app.is_a? Pact::MockService::App
       end
 
       def to_s

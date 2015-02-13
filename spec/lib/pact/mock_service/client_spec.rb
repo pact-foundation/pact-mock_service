@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'pact/consumer/mock_service_client'
+require 'pact/mock_service/client'
 
 module Pact
-  module Consumer
-    describe MockServiceClient do
+  module MockService
+    describe Client do
 
-      subject { MockServiceClient.new(4444) }
+      subject { Client.new(4444) }
 
       let(:administration_headers) { {'X-Pact-Mock-Service' => 'true'} }
 
@@ -53,7 +53,7 @@ module Pact
         end
 
         it "deletes the interactions" do
-          MockServiceClient.clear_interactions 4444, "some example"
+          Pact::MockService::Client.clear_interactions 4444, "some example"
           expect(delete_verifications).to have_been_made
         end
       end

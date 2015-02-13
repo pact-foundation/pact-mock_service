@@ -18,8 +18,8 @@ module Pact
 
       def initialize options = {}
         @name = options.fetch(:name, "MockService")
-        @session = Session.new(options)
         logger = Logger.from_options(options)
+        @session = Session.new(options.merge(logger: logger))
         request_handlers = RequestHandlers.new(@name, logger, @session, options)
         @app = Rack::Builder.app do
           use Pact::Consumer::MockService::ErrorHandler, logger

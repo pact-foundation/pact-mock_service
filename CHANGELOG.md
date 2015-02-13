@@ -2,6 +2,12 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)'
 
+### 0.3.0 (4 Feb 2015)
+
+* 60869be - Refactor - moving classes from Pact::Consumer module into Pact::MockService module. (Beth Skurrie, Wed Feb 4 19:28:54 2015 +1100)
+* 4ada4f0 - Added endpoint for PUT /interactions. Allow javascript client to set up all interactions at once and avoid callback hell. (Beth Skurrie, Thu Jan 29 21:48:00 2015 +1100)
+* a329f49 - Add X-Pact-Mock-Service-Location header to all responses from the MockService (Beth Skurrie, Sun Jan 25 09:00:20 2015 +1100)
+
 ### 0.2.4 (24 Jan 2015)
 
 * b14050e - Add --ssl option for control server (Beth, Sat Jan 24 22:14:14 2015 +1100)

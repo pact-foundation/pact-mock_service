@@ -20,13 +20,20 @@ module Pact
         let(:expected_interactions) { Pact::MockService::Interactions::ExpectedInteractions.new }
         let(:actual_interactions) { Pact::MockService::Interactions::ActualInteractions.new }
         let(:verified_interactions) { [] }
+        let(:session) do
+          instance_double("Pact::MockService::Session",
+            expected_interactions: expected_interactions,
+            actual_interactions: actual_interactions,
+            verified_interactions: verified_interactions)
+        end
+
         let(:actual_body) { {'a' => 'body' } }
 
         before do
           expected_interactions << expected_interaction
         end
 
-        subject { InteractionReplay.new('provider', logger, expected_interactions, actual_interactions, verified_interactions) }
+        subject { InteractionReplay.new('provider', logger, session) }
         let(:response) { subject.respond env }
         let(:response_body) { JSON.parse(response[2][0]) }
         let(:response_status) { response[0] }
