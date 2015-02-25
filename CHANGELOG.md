@@ -2,6 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)'
 
+### 0.4.1 (13 Feb 2015)
+
+* 7be9338 - Fixed broken require that stopped restart working (Beth Skurrie, Wed Feb 25 13:55:32 2015 +1100)
+
 ### 0.4.0 (13 Feb 2015)
 
 * 73ddd98 - Added option to AppManager to set the pact_specification_version (Beth Skurrie, Fri Feb 13 17:41:42 2015 +1100)
