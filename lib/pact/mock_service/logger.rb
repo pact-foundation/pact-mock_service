@@ -19,7 +19,7 @@ module Pact
         log_stream = options[:log_file] || $stdout
         logger = new log_stream
         logger.formatter = options[:log_formatter] if options[:log_formatter]
-        logger.level = Pact.configuration.logger.level
+        logger.level = ::Logger::DEBUG
         logger
       end
     end
