@@ -109,6 +109,22 @@ module Pact
         expect(File.exist?(target_pact_file_location)).to be true
       end
 
+      context "when pactfile_write_mode is update" do
+        let(:pactfile_write_mode) { :update }
+        let(:new_interactions) { [InteractionFactory.create] }
+
+        before do
+          allow($stdout).to receive(:puts)
+        end
+
+        it "merges in the existing interactions" do
+          consumer_contract_writer.write
+          pact_hash =JSON.parse(File.read(target_pact_file_location))
+          expect(pact_hash['interactions'].size).to eq 3
+        end
+
+      end
+
       context "when the pact_dir is not specified" do
         let(:consumer_contract_details) {
           {

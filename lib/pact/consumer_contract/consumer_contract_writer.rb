@@ -50,8 +50,9 @@ module Pact
       logger.info log_message
 
       FileUtils.mkdir_p File.dirname(pactfile_path)
+      new_pact_json = pact_json
       File.open(pactfile_path, 'w') do |f|
-        f.write pact_json
+        f.write new_pact_json
       end
     end
 
