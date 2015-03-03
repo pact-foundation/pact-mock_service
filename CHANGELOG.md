@@ -2,6 +2,11 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)'
 
+### 0.4.2 (3 Mar 2015)
+
+* 4c0e48b - Fixed bug where pact file was being cleared before being merged (Beth Skurrie, Tue Mar 3 17:27:02 2015 +1100)
+* 661321a - Stop log/pact.log from being created automatically https://github.com/bethesque/pact-mock_service/issues/15 (Beth Skurrie, Tue Mar 3 08:45:15 2015 +1100)
+
 ### 0.4.1 (13 Feb 2015)
 
 * 7be9338 - Fixed broken require that stopped restart working (Beth Skurrie, Wed Feb 25 13:55:32 2015 +1100)
