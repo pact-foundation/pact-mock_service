@@ -4,27 +4,33 @@ require 'pact/mock_service/version'
 
 PACKAGE_NAME = "pact-mock-service"
 VERSION = "#{Pact::MockService::VERSION}-1"
-TRAVELING_RUBY_VERSION = "20141215-2.1.5"
+TRAVELING_RUBY_VERSION = "20150210-2.2.0"
+TRAVELING_RUBY_WIN32_VERSION = "20150210-2.1.5"
 
 desc "Package pact-mock-service for OSX, Linux x86 and Linux x86_64"
-task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx']
+task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx', 'package:win32']
 
 namespace :package do
   namespace :linux do
     desc "Package pact-mock-service for Linux x86"
     task :x86 => [:bundle_install, "build/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86.tar.gz"] do
-      create_package("linux-x86")
+      create_package(TRAVELING_RUBY_VERSION, "linux-x86")
     end
 
     desc "Package pact-mock-service for Linux x86_64"
     task :x86_64 => [:bundle_install, "build/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64.tar.gz"] do
-      create_package("linux-x86_64")
+      create_package(TRAVELING_RUBY_VERSION, "linux-x86_64")
     end
   end
 
   desc "Package pact-mock-service for OS X"
   task :osx => [:bundle_install, "build/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz"] do
-    create_package("osx")
+    create_package(TRAVELING_RUBY_VERSION, "osx")
+  end
+
+  desc "Package pact-mock-service for Windows x86"
+  task :win32 => [:bundle_install, "packaging/traveling-ruby-#{TRAVELING_RUBY_WIN32_VERSION}-win32.tar.gz"] do
+    create_package(TRAVELING_RUBY_WIN32_VERSION, "win32", :windows)
   end
 
   desc "Install gems to local directory"
@@ -46,18 +52,22 @@ namespace :package do
 end
 
 file "build/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86.tar.gz" do
-  download_runtime("linux-x86")
+  download_runtime(TRAVELING_RUBY_VERSION, "linux-x86")
 end
 
 file "build/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64.tar.gz" do
-  download_runtime("linux-x86_64")
+  download_runtime(TRAVELING_RUBY_VERSION, "linux-x86_64")
 end
 
 file "build/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz" do
-  download_runtime("osx")
+  download_runtime(TRAVELING_RUBY_VERSION, "osx")
 end
 
-def create_package(target)
+file "packaging/traveling-ruby-#{TRAVELING_RUBY_WIN32_VERSION}-win32.tar.gz" do
+  download_runtime(TRAVELING_RUBY_WIN32_VERSION, "win32")
+end
+
+def create_package(version, target, os_type = :unix)
   package_dir = "#{PACKAGE_NAME}-#{VERSION}-#{target}"
   sh "rm -rf #{package_dir}"
   sh "mkdir #{package_dir}"
@@ -66,20 +76,32 @@ def create_package(target)
   sh "cp packaging/pact-mock-service.rb #{package_dir}/lib/app/pact-mock-service.rb"
   sh "cp -pR lib #{package_dir}/lib/app"
   sh "mkdir #{package_dir}/lib/ruby"
-  sh "tar -xzf build/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C #{package_dir}/lib/ruby"
-  sh "cp packaging/wrapper.sh #{package_dir}/bin/pact-mock-service"
+  sh "tar -xzf build/traveling-ruby-#{version}-#{target}.tar.gz -C #{package_dir}/lib/ruby"
+
+  if os_type == :unix
+    sh "cp packaging/wrapper.sh #{package_dir}/bin/pact-mock-service"
+  else
+    sh "cp packaging/wrapper.bat #{package_dir}/bin/pact-mock-service.bat"
+  end
+
   sh "cp -pR build/vendor #{package_dir}/lib/"
   sh "cp pact-mock-service.gemspec Gemfile Gemfile.lock #{package_dir}/lib/vendor/"
   sh "mkdir #{package_dir}/lib/vendor/.bundle"
   sh "cp packaging/bundler-config #{package_dir}/lib/vendor/.bundle/config"
   if !ENV['DIR_ONLY']
     sh "mkdir -p pkg"
-    sh "tar -czf pkg/#{package_dir}.tar.gz #{package_dir}"
+
+    if os_type == :unix
+      sh "tar -czf pkg/#{package_dir}.tar.gz #{package_dir}"
+    else
+      sh "zip -9r pkg/#{package_dir}.zip #{package_dir}"
+    end
+
     sh "rm -rf #{package_dir}"
   end
 end
 
-def download_runtime(target)
+def download_runtime(version, target)
   sh "cd build && curl -L -O --fail " +
-    "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz"
+    "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-#{version}-#{target}.tar.gz"
 end
