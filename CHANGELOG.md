@@ -1,6 +1,10 @@
 Do this to generate your change history
 
-  git log --pretty=format:'  * %h - %s (%an, %ad)'
+  git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
+
+### 0.5.0 (20 Mar 2015)
+
+* ddc8c1a - Upgrade pact-support to ~>0.4.0 (Beth Skurrie, Fri Mar 20 14:53:00 2015 +1100)
 
 ### 0.4.2 (3 Mar 2015)
 
