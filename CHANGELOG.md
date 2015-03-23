@@ -2,6 +2,11 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.5.1 (23 Mar 2015)
+
+* 9b3127c - Fixing a path issue as %~dp0 resolves the path the bat is running from (Neil Campbell, Mon Mar 23 09:44:48 2015 +1100)
+* 2199b0b - Added task to create win32 standalone package (Beth Skurrie, Fri Mar 20 16:32:04 2015 +1100)
+
 ### 0.5.0 (20 Mar 2015)
 
 * ddc8c1a - Upgrade pact-support to ~>0.4.0 (Beth Skurrie, Fri Mar 20 14:53:00 2015 +1100)
