@@ -37,7 +37,7 @@ module Pact
       matching_rules = Pact::MatchingRules.extract hash
       example = Pact::Reification.from_term hash
       return example if matching_rules.empty?
-      example.merge(responseMatchingRules: matching_rules)
+      example.merge(matchingRules: matching_rules)
     end
 
     def pact_specification_version

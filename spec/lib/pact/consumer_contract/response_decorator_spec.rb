@@ -21,7 +21,7 @@ module Pact
         end
 
         it "does not include any matching rules" do
-          expect(parsed_json).to_not include(:responseMatchingRules)
+          expect(parsed_json).to_not include(:matchingRules)
         end
       end
 
@@ -33,7 +33,7 @@ module Pact
         end
 
         it "does not include any matching rules" do
-          expect(parsed_json).to_not include(:responseMatchingRules)
+          expect(parsed_json).to_not include(:matchingRules)
         end
       end
 
@@ -46,7 +46,7 @@ module Pact
         end
 
         it "extracts the matching rules and inclues them in the json" do
-          expect(parsed_json[:responseMatchingRules]).to eq matching_rules
+          expect(parsed_json[:matchingRules]).to eq matching_rules
         end
 
         it "does not include Ruby specific JSON in the output" do
@@ -57,7 +57,7 @@ module Pact
           let(:matching_rules) { {} }
 
           it "does not include the matching rules key in the json" do
-            expect(parsed_json).to_not include(:responseMatchingRules)
+            expect(parsed_json).to_not include(:matchingRules)
           end
         end
       end
