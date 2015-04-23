@@ -2,6 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.5.2 (23 Apr 2015)
+
+* 718d1a6 - Fixing path (André Allavena, Thu Apr 23 12:55:26 2015 +1000)
+
 ### 0.5.1 (23 Mar 2015)
 
 * 9b3127c - Fixing a path issue as %~dp0 resolves the path the bat is running from (Neil Campbell, Mon Mar 23 09:44:48 2015 +1100)
