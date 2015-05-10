@@ -8,7 +8,7 @@ set "BUNDLE_GEMFILE=%ROOT_PATH%\lib\vendor\Gemfile"
 set BUNDLE_IGNORE_CONFIG=
 
 :: Run the actual app using the bundled Ruby interpreter, with Bundler activated.
-@"%ROOT_PATH%\lib\ruby\bin\ruby.bat" -rbundler/setup -I%ROOT_PATH%\lib\app\lib "%ROOT_PATH%\lib\app\pact-mock-service.rb" %*
++@"%ROOT_PATH%\lib\ruby\bin\ruby.bat" -rbundler/setup -I%ROOT_PATH%\lib\app\lib "%ROOT_PATH%\lib\app\pact-mock-service.rb" --pact-dir tmp\pacts %*
 
 GOTO :EOF
 
