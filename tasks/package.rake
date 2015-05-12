@@ -4,8 +4,7 @@ require 'pact/mock_service/version'
 
 PACKAGE_NAME = "pact-mock-service"
 VERSION = "#{Pact::MockService::VERSION}-1"
-TRAVELING_RUBY_VERSION = "20150210-2.2.0"
-TRAVELING_RUBY_WIN32_VERSION = "20150210-2.1.5"
+TRAVELING_RUBY_VERSION = "20150210-2.1.5"
 
 desc "Package pact-mock-service for OSX, Linux x86 and Linux x86_64"
 task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx', 'package:win32']
@@ -29,8 +28,8 @@ namespace :package do
   end
 
   desc "Package pact-mock-service for Windows x86"
-  task :win32 => [:bundle_install, "packaging/traveling-ruby-#{TRAVELING_RUBY_WIN32_VERSION}-win32.tar.gz"] do
-    create_package(TRAVELING_RUBY_WIN32_VERSION, "win32", :windows)
+  task :win32 => [:bundle_install, "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-win32.tar.gz"] do
+    create_package(TRAVELING_RUBY_VERSION, "win32", :windows)
   end
 
   desc "Install gems to local directory"
@@ -63,8 +62,8 @@ file "build/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz" do
   download_runtime(TRAVELING_RUBY_VERSION, "osx")
 end
 
-file "packaging/traveling-ruby-#{TRAVELING_RUBY_WIN32_VERSION}-win32.tar.gz" do
-  download_runtime(TRAVELING_RUBY_WIN32_VERSION, "win32")
+file "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-win32.tar.gz" do
+  download_runtime(TRAVELING_RUBY_VERSION, "win32")
 end
 
 def create_package(version, target, os_type = :unix)
