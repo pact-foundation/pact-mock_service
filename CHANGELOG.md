@@ -2,7 +2,11 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
-### 0.5.3 (23 Apr 2015)
+### 0.5.4 (13 May 2015)
+
+* 7d016be - Fix failed merge which broke windows wrapper (Anthony Damtsis, Wed May 13 11:13:25 2015 +1000)
+
+### 0.5.3 (12 May 2015)
 
 * afef174 - Move non-windows ruby back to 2.1 to avoid version conflicts with windows (Anthony Damtsis, Tue May 12 16:12:31 2015 +1000)
 * 22d10f8 - Default pact-dir for windows mock service included in wrapper. (Anthony Damtsis, Fri May 8 16:58:49 2015 +1000)
