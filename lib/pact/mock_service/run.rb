@@ -70,6 +70,7 @@ module Pact
           :AccessLog => []
         }
         opts.merge!(ssl_opts) if options[:ssl]
+        opts.merge!(options[:webbrick_options]) if options[:webbrick_options]
         opts
       end
 
