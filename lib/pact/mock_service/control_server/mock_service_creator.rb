@@ -25,8 +25,7 @@ module Pact
           mock_service = Pact::MockService::Spawn.(consumer_name, provider_name, port, options)
           delegator = Delegator.new(mock_service, consumer_name, provider_name)
           @mock_services.add(delegator)
-          response = delegator.call(env)
-          response
+          delegator.call(env)
         end
       end
     end
