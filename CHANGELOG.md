@@ -2,6 +2,11 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.5.5 (25 May 2015)
+
+* 3b2ec14 - Produce a valid rack response on interaction post error (David Heath, Fri May 22 16:42:03 2015 +0100)
+* 9e3cb8b - Allow webrick_options to be passed in to Pact::MockService::Run to silence the start up and shut down logs if necessary (Beth Skurrie, Fri May 15 17:28:55 2015 +1000)
+
 ### 0.5.4 (13 May 2015)
 
 * 7d016be - Fix failed merge which broke windows wrapper (Anthony Damtsis, Wed May 13 11:13:25 2015 +1000)
