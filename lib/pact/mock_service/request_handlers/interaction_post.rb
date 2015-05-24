@@ -27,7 +27,7 @@ module Pact
             session.add_expected_interaction interaction
             [200, {}, ['Set interactions']]
           rescue AlmostDuplicateInteractionError => e
-            [500, {}, e.message]
+            [500, {}, [e.message]]
           end
 
         end
