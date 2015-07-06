@@ -12,7 +12,7 @@ module Pact
 
       desc 'service', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
-      method_option :bindAddress, aliases: "-b", desc: "Address to bind service to"
+      method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :log, aliases: "-l", desc: "File to which to log output"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
@@ -41,6 +41,7 @@ module Pact
 
       desc 'start', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
       method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
+      method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :log, aliases: "-l", desc: "File to which to log output"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
@@ -66,6 +67,7 @@ module Pact
 
       desc 'restart', "Start or restart a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
       method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
+      method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :log, aliases: "-l", desc: "File to which to log output"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
