@@ -24,7 +24,7 @@ describe "The pact-mock-service command line interface", mri_only: true do
 
   it "sets the X-Pact-Mock-Service-Location header" do
     response = setup_interaction 1234
-    expect(response.headers['X-Pact-Mock-Service-Location']).to eq 'http://localhost:1234'
+    expect(response.headers['X-Pact-Mock-Service-Location']).to eq 'http://0.0.0.0:1234'
   end
 
   it "writes logs to the specified log file" do

@@ -11,7 +11,7 @@ module Pact
     def start_server port, options = '', wait = true
       FileUtils.rm_rf 'tmp'
       pid = fork do
-        exec "bundle exec bin/pact-mock-service --port #{port} --log tmp/integration.log --pact-dir tmp/pacts #{options}"
+        exec "bundle exec bin/pact-mock-service --port #{port} --host 0.0.0.0 --log tmp/integration.log --pact-dir tmp/pacts #{options}"
       end
 
       wait_until_server_started(port) if wait

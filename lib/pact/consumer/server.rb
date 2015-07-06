@@ -3,6 +3,8 @@ require 'net/http'
 require 'rack'
 
 # Copied shamelessly from Capybara
+# Used to run a mock service in a new thread when started by the AppManager or the ControlServer
+
 module Pact
   class Server
     class Middleware
