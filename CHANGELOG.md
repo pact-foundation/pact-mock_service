@@ -2,6 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.6.0 (6 July 2015)
+
+* fadbbd5 - Added a CLI option to alter binding address (Andrew Browne, Mon Jul 6 10:36:21 2015 +1000)
+
 ### 0.5.5 (25 May 2015)
 
 * 3b2ec14 - Produce a valid rack response on interaction post error (David Heath, Fri May 22 16:42:03 2015 +0100)
