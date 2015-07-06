@@ -67,6 +67,7 @@ module Pact
       def webbrick_opts
         opts = {
           :Port => port,
+          :Host => bindAddress,
           :AccessLog => []
         }
         opts.merge!(ssl_opts) if options[:ssl]
@@ -85,8 +86,12 @@ module Pact
         @port ||= options[:port] || FindAPort.available_port
       end
 
+      def bindAddress
+        @bindAddress ||= options[:bindAddress] || "localhost"
+      end
+
       def base_url
-        options[:ssl] ? "https://localhost:#{port}" : "http://localhost:#{port}"
+        options[:ssl] ? "https://#{bindAddress}:#{port}" : "http://#{bindAddress}:#{port}"
       end
     end
   end
