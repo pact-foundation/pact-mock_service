@@ -2,6 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.7.0 (10 July 2015)
+
+* 418b3a9 - Upgrading pact-support gem (Beth Skurrie, Fri Jul 10 13:11:13 2015 +1000)
+
 ### 0.6.0 (6 July 2015)
 
 * fadbbd5 - Added a CLI option to alter binding address (Andrew Browne, Mon Jul 6 10:36:21 2015 +1000)
