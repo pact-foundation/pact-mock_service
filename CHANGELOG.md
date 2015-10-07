@@ -2,6 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.7.2 (7 October 2015)
+
+* 24a092d - Updated pact-support gem (Beth Skurrie, Wed Oct 7 20:39:08 2015 +1100)
+
 ### 0.7.1 (27 August 2015)
 
 * 5d1a150 - fixing wrapper to work with both symlinked and non-symlinked files, like when being used in node (Michel Boudreau, Thu Aug 27 12:06:38 2015 +1000)
