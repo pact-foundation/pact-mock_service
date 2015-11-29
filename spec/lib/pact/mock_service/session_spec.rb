@@ -39,6 +39,37 @@ module Pact::MockService
 
     end
 
+    describe "clear_all" do
+
+      let(:expected_interactions) { instance_double('Interactions::ExpectedInteractions', clear: nil, :<< => nil) }
+      let(:actual_interactions) { instance_double('Interactions::ActualInteractions', clear: nil) }
+      let(:verified_interactions) { instance_double('Interactions::VerifiedInteractions', clear: nil) }
+
+      before do
+        allow(Interactions::ExpectedInteractions).to receive(:new).and_return(expected_interactions)
+        allow(Interactions::ActualInteractions).to receive(:new).and_return(actual_interactions)
+        allow(Interactions::VerifiedInteractions).to receive(:new).and_return(verified_interactions)
+      end
+
+      subject { Session.new(logger: logger).clear_all }
+
+      it "clears the expected interactions" do
+        expect(expected_interactions).to receive(:clear)
+        subject
+      end
+
+      it "clears the actual interactions" do
+        expect(actual_interactions).to receive(:clear)
+        subject
+      end
+
+      it "clears the verified interactions" do
+        expect(verified_interactions).to receive(:clear)
+        subject
+      end
+
+    end
+
     describe "add_expected_interaction" do
       let(:interaction_1) { InteractionFactory.create }
       let(:interaction_2) { InteractionFactory.create }

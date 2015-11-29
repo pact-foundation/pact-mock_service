@@ -7,6 +7,7 @@ require 'pact/mock_service/request_handlers/log_get'
 require 'pact/mock_service/request_handlers/options'
 require 'pact/mock_service/request_handlers/missing_interactions_get'
 require 'pact/mock_service/request_handlers/pact_post'
+require 'pact/mock_service/request_handlers/session_delete'
 require 'pact/mock_service/request_handlers/verification_get'
 require 'pact/consumer/request'
 require 'pact/support'
@@ -23,6 +24,7 @@ module Pact
         def initialize name, logger, session, options
           super [
             Options.new(name, logger, options[:cors_enabled]),
+            SessionDelete.new(name, logger, session),
             MissingInteractionsGet.new(name, logger, session),
             VerificationGet.new(name, logger, session),
             InteractionPost.new(name, logger, session),

@@ -39,6 +39,12 @@ module Pact
         actual_interactions.clear
       end
 
+      def clear_all
+        expected_interactions.clear
+        actual_interactions.clear
+        verified_interactions.clear
+      end
+
       def add_expected_interaction interaction
         if (previous_interaction = interaction_already_verified_with_same_description_and_provider_state_but_not_equal(interaction))
           handle_almost_duplicate_interaction previous_interaction, interaction
