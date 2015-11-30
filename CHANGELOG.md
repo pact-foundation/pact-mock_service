@@ -2,6 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.8.0 (30 November 2015)
+
+* 96dc58b - Adds DELETE session endpoint (George Papas & Matt Fielding, Fri Nov 27 16:45:13 2015 +1100)
+
 ### 0.7.2 (7 October 2015)
 
 * 24a092d - Updated pact-support gem (Beth Skurrie, Wed Oct 7 20:39:08 2015 +1100)
