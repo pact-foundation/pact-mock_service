@@ -38,6 +38,31 @@ See the [releases][releases] page for the latest standalone executables.
 
 I had a package somewhere lying around, but I lost it, and I don't have a Windows machine. If you are interested in using the mock server on Windows, please check out the instructions for building one [here][windows], and then let me know so I can upload it to the releases page. Thanks!
 
+### Stubbing a service based on a previously generated pact file
+
+It is sometimes useful to be able to run a known service as a stub (a non-verified mock) in order to isolate your system under test.
+
+This example assumes your have already created a Pact contract describing the services expected behaviour, and that you have pact mock server installed correctly.
+
+First we need to run the pact mock service
+
+    pact-mock-service control --port=1234 --pact-specification-version=2.0.0
+
+Now we need to upload our pact file that describes what requests to expect and what responses should be given.
+
+    curl -X PUT \
+    -H "Content-Type: application/json" \
+    -H "X-Pact-Consumer: ExampleConsumer" \
+    -H "X-Pact-Provider: ExampleProvider" \
+    -d @ExampleConsumer-ExampleProvider.json \
+    http://localhost:1234/interactions
+
+We can now test our mock by curling to it as if it was a normal service with a couple of extra headers. In this example the pact file describes an endpoint called 'helloworld'.
+
+    curl http://localhost:1234/helloworld \
+    -H "X-Pact-Consumer: ExampleProvider" \
+    -H "X-Pact-Provider: UpstreamService"
+
 ## Contributing
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md)
