@@ -36,9 +36,11 @@ See the [releases][releases] page for the latest standalone executables.
 
 ### Windows, without Ruby
 
-I had a package somewhere lying around, but I lost it, and I don't have a Windows machine. If you are interested in using the mock server on Windows, please check out the instructions for building one [here][windows], and then let me know so I can upload it to the releases page. Thanks!
+See the [releases][releases] page for the latest standalone executables.
 
-### Stubbing a service based on a previously generated pact file
+## Stubbing a service based on a previously generated pact file
+
+**NOTE:** This is not the intended use of the mock server, and its use as a stub is not officialy supported. Please read the following FAQ: [Why are the pacts generated and not static?][why-generated]
 
 It is sometimes useful to be able to run a known service as a stub (a non-verified mock) in order to isolate your system under test.
 
@@ -46,7 +48,7 @@ This example assumes your have already created a Pact contract describing the se
 
 First we need to run the pact mock service
 
-    pact-mock-service control --port=1234 --pact-specification-version=2.0.0
+    pact-mock-service --port=1234 --pact-specification-version=2.0.0
 
 Now we need to upload our pact file that describes what requests to expect and what responses should be given.
 
@@ -57,11 +59,9 @@ Now we need to upload our pact file that describes what requests to expect and w
     -d @ExampleConsumer-ExampleProvider.json \
     http://localhost:1234/interactions
 
-We can now test our mock by curling to it as if it was a normal service with a couple of extra headers. In this example the pact file describes an endpoint called 'helloworld'.
+We can now test our mock by curling to it as if it was a normal service. In this example the pact file describes an endpoint called 'helloworld'.
 
-    curl http://localhost:1234/helloworld \
-    -H "X-Pact-Consumer: ExampleProvider" \
-    -H "X-Pact-Provider: UpstreamService"
+    curl http://localhost:1234/helloworld
 
 ## Contributing
 
@@ -73,3 +73,4 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md)
 [pact-dev]: https://groups.google.com/forum/#!forum/pact-dev
 [windows]: https://github.com/bethesque/pact-mock_service/wiki/Building-a-Windows-standalone-executable
 [install-windows]: https://github.com/bethesque/pact-mock_service/wiki/Installing-the-pact-mock_service-gem-on-Windows
+[why-generated]: https://github.com/realestate-com-au/pact/wiki/FAQ#why-are-the-pacts-generated-and-not-static
