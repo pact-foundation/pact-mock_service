@@ -22,7 +22,7 @@ module Pact
           cors_headers = {
            'Access-Control-Allow-Origin' => env.fetch('HTTP_ORIGIN','*'),
            'Access-Control-Allow-Headers' => headers_from(env)["Access-Control-Request-Headers"],
-           'Access-Control-Allow-Methods' => 'DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT'
+           'Access-Control-Allow-Methods' => 'DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT, PATCH'
           }
           logger.info "Received OPTIONS request for mock service administration endpoint #{env['HTTP_ACCESS_CONTROL_REQUEST_METHOD']} #{env['PATH_INFO']}. Returning CORS headers: #{cors_headers.to_json}."
           [200, cors_headers, []]
