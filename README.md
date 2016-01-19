@@ -13,6 +13,8 @@ As the Pact mock service can be used as a standalone executable and administered
 
 ## Usage
 
+For some examples of the HTTP requests that occur under the hood when using either the Ruby client or the Javascript client, see this [gist](https://gist.github.com/bethesque/9d81f21d6f77650811f4).
+
 ### With Ruby on Mac OSX and Linux
 
     $ gem install pact-mock_service
