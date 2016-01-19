@@ -40,31 +40,6 @@ See the [releases][releases] page for the latest standalone executables.
 
 See the [releases][releases] page for the latest standalone executables.
 
-## Stubbing a service based on a previously generated pact file
-
-**NOTE:** This is not the intended use of the mock server, and its use as a stub is not officialy supported. Please read the following FAQ: [Why are the pacts generated and not static?][why-generated]
-
-It is sometimes useful to be able to run a known service as a stub (a non-verified mock) in order to isolate your system under test.
-
-This example assumes your have already created a Pact contract describing the services expected behaviour, and that you have pact mock server installed correctly.
-
-First we need to run the pact mock service
-
-    pact-mock-service --port=1234 --pact-specification-version=2.0.0
-
-Now we need to upload our pact file that describes what requests to expect and what responses should be given.
-
-    curl -X PUT \
-    -H "Content-Type: application/json" \
-    -H "X-Pact-Consumer: ExampleConsumer" \
-    -H "X-Pact-Provider: ExampleProvider" \
-    -d @ExampleConsumer-ExampleProvider.json \
-    http://localhost:1234/interactions
-
-We can now test our mock by curling to it as if it was a normal service. In this example the pact file describes an endpoint called 'helloworld'.
-
-    curl http://localhost:1234/helloworld
-
 ## Contributing
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md)
