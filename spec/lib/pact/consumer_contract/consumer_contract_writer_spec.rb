@@ -122,7 +122,16 @@ module Pact
           pact_hash =JSON.parse(File.read(target_pact_file_location))
           expect(pact_hash['interactions'].size).to eq 3
         end
+      end
 
+      context "when pactfile_write_mode is none" do
+        let(:pactfile_write_mode) { :none }
+        before { FileUtils.rm_rf target_pact_file_location }
+
+        it "does not write the pact file" do
+          consumer_contract_writer.write
+          expect(File.exist?(target_pact_file_location)).to be false
+        end
       end
 
       context "when the pact_dir is not specified" do

@@ -34,7 +34,7 @@ module Pact
     end
 
     def write
-      update_pactfile
+      update_pactfile unless pactfile_write_mode == :none
       pact_json
     end
 
