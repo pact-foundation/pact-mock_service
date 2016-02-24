@@ -83,7 +83,7 @@ module Pact
       end
 
       def port
-        @port ||= options[:port] || FindAPort.available_port
+        @port ||= (options[:port] || FindAPort.available_port).to_i
       end
 
       def host
