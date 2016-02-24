@@ -1,3 +1,101 @@
+INFO -- : Cleared interactions before example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches one expected request returns the expected response"
+INFO -- : Registered expected interaction GET /alligators
+DEBUG -- : {
+  "description": "a request for alligators",
+  "provider_state": "alligators exist",
+  "request": {
+    "method": "get",
+    "path": "/alligators",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+      {
+        "name": "Mary"
+      }
+    ]
+  }
+}
+INFO -- : Registered expected interaction GET /zebras
+DEBUG -- : {
+  "description": "a request for zebras",
+  "provider_state": "there are zebras",
+  "request": {
+    "method": "get",
+    "path": "/zebras",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+      {
+        "name": "Xena Zebra"
+      }
+    ]
+  }
+}
+INFO -- : Received request GET /alligators
+DEBUG -- : {
+  "method": "get",
+  "query": "",
+  "path": "/alligators",
+  "headers": {
+    "Https": "off",
+    "Content-Length": "0",
+    "Accept": "application/json",
+    "Host": "example.org",
+    "Cookie": ""
+  }
+}
+INFO -- : Found matching response for GET /alligators
+DEBUG -- : {
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": [
+    {
+      "name": "Mary"
+    }
+  ]
+}
+INFO -- : Received request GET /zebras
+DEBUG -- : {
+  "method": "get",
+  "query": "",
+  "path": "/zebras",
+  "headers": {
+    "Https": "off",
+    "Content-Length": "0",
+    "Accept": "application/json",
+    "Host": "example.org",
+    "Cookie": ""
+  }
+}
+INFO -- : Found matching response for GET /zebras
+DEBUG -- : {
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": [
+    {
+      "name": "Xena Zebra"
+    }
+  ]
+}
+INFO -- : Verifying - interactions matched for example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches one expected request returns the expected response"
 INFO -- : Cleared interactions before example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches more than one expected request returns an error response"
 INFO -- : Registered expected interaction GET /alligators
 DEBUG -- : {
@@ -110,101 +208,3 @@ WARN -- : Missing requests:
 	GET /alligators
 
 
-INFO -- : Cleared interactions before example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches one expected request returns the expected response"
-INFO -- : Registered expected interaction GET /alligators
-DEBUG -- : {
-  "description": "a request for alligators",
-  "provider_state": "alligators exist",
-  "request": {
-    "method": "get",
-    "path": "/alligators",
-    "headers": {
-      "Accept": "application/json"
-    }
-  },
-  "response": {
-    "status": 200,
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "body": [
-      {
-        "name": "Mary"
-      }
-    ]
-  }
-}
-INFO -- : Registered expected interaction GET /zebras
-DEBUG -- : {
-  "description": "a request for zebras",
-  "provider_state": "there are zebras",
-  "request": {
-    "method": "get",
-    "path": "/zebras",
-    "headers": {
-      "Accept": "application/json"
-    }
-  },
-  "response": {
-    "status": 200,
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "body": [
-      {
-        "name": "Xena Zebra"
-      }
-    ]
-  }
-}
-INFO -- : Received request GET /alligators
-DEBUG -- : {
-  "method": "get",
-  "query": "",
-  "path": "/alligators",
-  "headers": {
-    "Https": "off",
-    "Content-Length": "0",
-    "Accept": "application/json",
-    "Host": "example.org",
-    "Cookie": ""
-  }
-}
-INFO -- : Found matching response for GET /alligators
-DEBUG -- : {
-  "status": 200,
-  "headers": {
-    "Content-Type": "application/json"
-  },
-  "body": [
-    {
-      "name": "Mary"
-    }
-  ]
-}
-INFO -- : Received request GET /zebras
-DEBUG -- : {
-  "method": "get",
-  "query": "",
-  "path": "/zebras",
-  "headers": {
-    "Https": "off",
-    "Content-Length": "0",
-    "Accept": "application/json",
-    "Host": "example.org",
-    "Cookie": ""
-  }
-}
-INFO -- : Found matching response for GET /zebras
-DEBUG -- : {
-  "status": 200,
-  "headers": {
-    "Content-Type": "application/json"
-  },
-  "body": [
-    {
-      "name": "Xena Zebra"
-    }
-  ]
-}
-INFO -- : Verifying - interactions matched for example "Pact::Consumer::MockService when more than one response has been mocked when the actual request matches one expected request returns the expected response"

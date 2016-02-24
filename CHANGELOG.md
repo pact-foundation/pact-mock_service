@@ -2,6 +2,19 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+
+### 0.8.1 (25 February 2016)
+* ffa37f8 - Merge pull request #40 from taiki45/add-option-not-to-write-pact-file (Beth Skurrie, Thu Feb 25 09:33:30 2016 +1100)
+* 1cb2fa8 - Add option not to write pact file (Taiki Ono, Tue Feb 23 18:18:28 2016 +0900)
+* 34b2b84 - Update README.md (Beth Skurrie, Tue Jan 19 14:17:21 2016 +1100)
+* f8c92e4 - Update README.md (Beth Skurrie, Tue Jan 19 13:44:22 2016 +1100)
+* 2012733 - Merge pull request #36 from Trunkplatform/cors_patch (Sergei Matheson, Wed Jan 13 14:16:29 2016 +1100)
+* 8847938 - Added spec for PATCH method in the CORS allow methods (Sergei Matheson, Wed Jan 13 14:14:33 2016 +1100)
+* 567714d - allowing PATCH method in the CORS handler (Evgeny Dudin, Tue Jan 12 12:20:52 2016 +1100)
+* 56c7a51 - Update README.md (Beth Skurrie, Tue Jan 12 10:28:56 2016 +1100)
+* 29380ed - Merge pull request #36 from davesmith00000/improved-usage-readme (Beth Skurrie, Tue Jan 12 10:22:04 2016 +1100)
+* ef2da6c - Added a README example of using the pack-mock-server as a stub. (Dave Smith, Tue Jan 5 11:56:45 2016 +0000)
+
 ### 0.8.0 (30 November 2015)
 
 * 96dc58b - Adds DELETE session endpoint (George Papas & Matt Fielding, Fri Nov 27 16:45:13 2015 +1100)
