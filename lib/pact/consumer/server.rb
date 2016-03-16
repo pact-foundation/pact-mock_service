@@ -85,24 +85,18 @@ module Pact
     end
 
     def webrick_opts
-      opts = {:Port => port.nil? ? 0 : port, :AccessLog => [], :Logger => WEBrick::Log::new(nil, 0)}
+      opts = {Port: port.nil? ? 0 : port, AccessLog: [], Logger: WEBrick::Log::new(nil, 0)}
       opts.merge!(ssl_opts) if options[:ssl]
       opts
     end
 
     def ssl_opts
-      {
-        :SSLEnable => true,
-        :SSLCertName => [ %w[CN localhost] ]
-      }
+      { SSLEnable: true, SSLCertName: [ %w[CN localhost] ] }
     end
 
     def boot
       unless responsive?
-        @server_thread = Thread.new do
-          run_default_server(@middleware, @port)
-        end
-
+        @server_thread = Thread.new { run_default_server(@middleware, @port) }
         Timeout.timeout(60) { @server_thread.join(0.1) until responsive? }
       end
     rescue Timeout::Error

@@ -20,21 +20,27 @@ module Pact
         @app_registrations = []
       end
 
-      def register_mock_service_for name, url, options = {}
+      def register_mock_service_for(name, url, options = {})
         uri = URI(url)
         raise "Currently only http is supported" unless uri.scheme == 'http'
         raise "Currently only services on localhost are supported" unless uri.host == 'localhost'
         uri.port = nil if options[:find_available_port]
 
-        register(Pact::MockService.new(log_file: create_log_file(name), name: name, pact_dir: pact_dir, pact_specification_version: options[:pact_specification_version]), uri.port)
+        app = Pact::MockService.new(
+          name: name,
+          log_file: create_log_file(name),
+          pact_dir: pact_dir,
+          pact_specification_version: options[:pact_specification_version]
+        )
+        register(app, uri.port)
       end
 
       def register(app, port = nil)
         if port
-          existing = existing_app_on_port port
+          existing = existing_app_on_port(port)
           raise "Port #{port} is already being used by #{existing}" if existing and not existing == app
         end
-        app_registration = register_app app, port
+        app_registration = register_app(app, port)
         app_registration.spawn
         app_registration.port
       end
@@ -64,12 +70,12 @@ module Pact
 
       private
 
-      def existing_app_on_port port
-        app_registration = registration_on_port port
+      def existing_app_on_port(port)
+        app_registration = registration_on_port(port)
         app_registration ? app_registration.app : nil
       end
 
-      def registration_on_port port
+      def registration_on_port(port)
         @app_registrations.find { |app_registration| app_registration.port == port }
       end
 
@@ -77,18 +83,18 @@ module Pact
         Pact.configuration.pact_dir
       end
 
-      def create_log_file service_name
-        FileUtils::mkdir_p Pact.configuration.log_dir
+      def create_log_file(service_name)
+        FileUtils::mkdir_p(Pact.configuration.log_dir)
         log = File.open(log_file_path(service_name), 'w')
         log.sync = true
         log
       end
 
-      def log_file_path service_name
+      def log_file_path(service_name)
         File.join(Pact.configuration.log_dir, "#{log_file_name(service_name)}.log")
       end
 
-      def log_file_name service_name
+      def log_file_name(service_name)
         lower_case_name = service_name.downcase.gsub(/\s+/, '_')
         if lower_case_name.include?('_service')
           lower_case_name.gsub('_service', '_mock_service')
@@ -101,8 +107,8 @@ module Pact
         @app_registrations
       end
 
-      def register_app app, port
-        app_registration = AppRegistration.new :app => app, :port => port
+      def register_app(app, port)
+        app_registration = AppRegistration.new(app: app, port: port)
         app_registrations << app_registration
         app_registration
       end
@@ -110,10 +116,9 @@ module Pact
 
     class AppRegistration
       include Pact::Logging
-      attr_accessor :port
-      attr_accessor :app
+      attr_accessor :port, :app
 
-      def initialize opts
+      def initialize(opts)
         @max_wait = 10
         @port = opts[:port]
         @app = opts[:app]
@@ -134,7 +139,7 @@ module Pact
       end
 
       def is_a_mock_service?
-        app.is_a? Pact::MockService::App
+        app.is_a?(Pact::MockService::App)
       end
 
       def to_s
