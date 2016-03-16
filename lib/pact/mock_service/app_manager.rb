@@ -2,12 +2,10 @@ require 'thwait'
 
 require 'net/http'
 require 'uri'
-require 'find_a_port'
 require 'pact/logging'
 require 'pact/consumer/server'
 require 'singleton'
 require 'pact/mock_service/app'
-require 'find_a_port'
 
 module Pact
   module MockService
@@ -26,16 +24,19 @@ module Pact
         uri = URI(url)
         raise "Currently only http is supported" unless uri.scheme == 'http'
         raise "Currently only services on localhost are supported" unless uri.host == 'localhost'
+        uri.port = nil if options[:find_available_port]
 
         register(Pact::MockService.new(log_file: create_log_file(name), name: name, pact_dir: pact_dir, pact_specification_version: options[:pact_specification_version]), uri.port)
       end
 
-      def register(app, port = FindAPort.available_port)
-        existing = existing_app_on_port port
-        raise "Port #{port} is already being used by #{existing}" if existing and not existing == app
+      def register(app, port = nil)
+        if port
+          existing = existing_app_on_port port
+          raise "Port #{port} is already being used by #{existing}" if existing and not existing == app
+        end
         app_registration = register_app app, port
-        app_registration.spawn if @apps_spawned
-        port
+        app_registration.spawn
+        app_registration.port
       end
 
       def ports_of_mock_services
@@ -143,6 +144,7 @@ module Pact
       def spawn
         logger.info "Starting app #{self}..."
         @server = Pact::Server.new(app, port).boot
+        @port = @server.port
         @spawned = true
         logger.info "Started on port #{port}"
       end

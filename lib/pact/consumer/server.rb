@@ -70,7 +70,9 @@ module Pact
 
     def run_default_server(app, port)
       require 'rack/handler/webrick'
-      Rack::Handler::WEBrick.run(app, webrick_opts)
+      Rack::Handler::WEBrick.run(app, webrick_opts) do |server|
+        @port = server[:Port]
+      end
     end
 
     def get_identity
@@ -83,7 +85,7 @@ module Pact
     end
 
     def webrick_opts
-      opts = {:Port => port, :AccessLog => [], :Logger => WEBrick::Log::new(nil, 0)}
+      opts = {:Port => port.nil? ? 0 : port, :AccessLog => [], :Logger => WEBrick::Log::new(nil, 0)}
       opts.merge!(ssl_opts) if options[:ssl]
       opts
     end
@@ -97,8 +99,6 @@ module Pact
 
     def boot
       unless responsive?
-        Pact::Server.ports[@app.object_id] = @port
-
         @server_thread = Thread.new do
           run_default_server(@middleware, @port)
         end
@@ -108,8 +108,8 @@ module Pact
     rescue Timeout::Error
       raise "Rack application timed out during boot"
     else
+      Pact::Server.ports[@app.object_id] = @port
       self
     end
-
   end
 end
