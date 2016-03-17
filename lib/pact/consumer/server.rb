@@ -76,6 +76,7 @@ module Pact
     end
 
     def get_identity
+      return false unless @port
       http = Net::HTTP.new host, @port
       if options[:ssl]
         http.use_ssl = true
