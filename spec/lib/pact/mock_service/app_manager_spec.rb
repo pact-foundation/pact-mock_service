@@ -56,6 +56,15 @@ module Pact::MockService
           expect { AppManager.instance.register_mock_service_for name, url }.to raise_error "Currently only services on localhost are supported"
         end
       end
+
+      describe "find_a_port option" do
+        let(:url) { 'http://localhost' }
+
+        it "builds AppRegistration with `nil` port" do
+          expect(AppRegistration).to receive(:new).with(hash_including(port: nil)).and_call_original
+          AppManager.instance.register_mock_service_for name, url, find_available_port: true
+        end
+      end
     end
   end
 end
