@@ -28,6 +28,7 @@ module Pact
 
       desc 'control', "Run a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
+      method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'

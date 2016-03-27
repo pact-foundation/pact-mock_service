@@ -59,6 +59,7 @@ module Pact
         def webbrick_opts
           {
             :Port => options[:port],
+            :Host => options[:host],
             :AccessLog => []
           }
         end
