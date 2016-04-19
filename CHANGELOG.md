@@ -2,6 +2,20 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.8.2 (19 April 2016)
+* e392333 - Merge pull request #45 from aaronrenner/ar-fix-almost-duplicate-error-web-response (Beth Skurrie, Tue Apr 19 09:53:01 2016 +1000)
+* 6fbcce2 - Fixed invalid Rack response on AlmostDuplicateInteractionError (Aaron Renner, Mon Apr 18 14:08:19 2016 -0600)
+* 2cdce52 - Merge pull request #44 from sebdiem/sebdiem/add_host_option (Sergei Matheson, Tue Mar 29 09:23:35 2016 +1100)
+* a76a321 - add host option for control server (Sébastien Diemer, Sun Mar 27 23:25:19 2016 +0200)
+* aadbb8d - Merge pull request #43 from taiki45/find-available-port-option (Sergei Matheson, Mon Mar 21 09:35:40 2016 +1100)
+* 98c9233 - remove --pact-dir from the windows bat file #41 (Ron Holshausen, Fri Mar 18 11:42:22 2016 +1100)
+* f4c2fa5 - Fix timing issue on server test (Taiki Ono, Thu Mar 17 17:24:22 2016 +0900)
+* 0655161 - Format code (Taiki Ono, Thu Mar 17 00:19:45 2016 +0900)
+* fbea6d4 - Support find_available_port option (Taiki Ono, Wed Mar 16 19:12:36 2016 +0900)
+* e72b0cd - WEBrick expects port as Integer (Taiki Ono, Wed Feb 24 19:16:57 2016 +0900)
+* 9580c41 - Merge pull request #42 from taiki45/update-travis-ci-setting (Sergei Matheson, Wed Mar 16 19:59:08 2016 +1100)
+* 01b90e0 - Update Travis CI setting with new Rubies (Taiki Ono, Sun Mar 13 21:19:43 2016 +0900)
+
 
 ### 0.8.1 (25 February 2016)
 * ffa37f8 - Merge pull request #40 from taiki45/add-option-not-to-write-pact-file (Beth Skurrie, Thu Feb 25 09:33:30 2016 +1100)
