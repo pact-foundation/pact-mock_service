@@ -29,9 +29,11 @@ module Pact
     private
 
     def sorted_interactions
-      consumer_contract.interactions.sort_by do |interaction| 
-        interaction.provider_state || ''
-      end
+      consumer_contract.interactions.sort{|a, b| sortable_id(a) <=> sortable_id(b)}
+    end
+
+    def sortable_id interaction
+      "#{interaction.description.downcase} #{interaction.response.status} #{(interaction.provider_state || '').downcase}"
     end
 
     attr_reader :consumer_contract
