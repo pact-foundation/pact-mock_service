@@ -15,7 +15,7 @@ module Pact
       fix_all_the_things(
         consumer: consumer_contract.consumer.as_json,
         provider: consumer_contract.provider.as_json,
-        interactions: consumer_contract.interactions.collect{ |i| InteractionDecorator.new(i, @decorator_options).as_json},
+        interactions: sorted_interactions.collect{ |i| InteractionDecorator.new(i, @decorator_options).as_json},
         metadata: {
           pactSpecificationVersion: pact_specification_version
         }
@@ -27,6 +27,12 @@ module Pact
     end
 
     private
+
+    def sorted_interactions
+      consumer_contract.interactions.sort_by do |interaction| 
+        interaction.provider_state || ''
+      end
+    end
 
     attr_reader :consumer_contract
 
