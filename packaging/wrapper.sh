@@ -22,4 +22,4 @@ export BUNDLE_GEMFILE="$LIBDIR/vendor/Gemfile"
 unset BUNDLE_IGNORE_CONFIG
 
 # Run the actual app using the bundled Ruby interpreter, with Bundler activated.
-exec "$LIBDIR/ruby/bin/ruby" -rbundler/setup -I$LIBDIR/app/lib "$LIBDIR/app/pact-mock-service.rb" $@
+exec "$LIBDIR/ruby/bin/ruby" -rreadline -rbundler/setup -I$LIBDIR/app/lib "$LIBDIR/app/pact-mock-service.rb" $@
