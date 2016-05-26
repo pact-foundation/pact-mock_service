@@ -2,6 +2,15 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.9.0 (26 May 2016)
+* 28ab905 - Merge pull request #46 from reevoo/order_interactions_by_provider_state (Sergei Matheson, Thu May 26 14:52:08 2016 +1000)
+* d58507c - Add ability to record interactions in alphabetical order. Order key: description + response.status + provider_state Default order: chronological (as it was before) (Alex Malkov, Mon May 23 11:52:39 2016 +0100)
+* 739d111 - Merge pull request #48 from mefellows/readline-fix (Sergei Matheson, Mon May 16 10:53:01 2016 +1000)
+* fe5ea69 - Added -rreadline flag to ruby CLI execution wrapper (Matt Fellows, Sun May 15 13:31:45 2016 +1000)
+* 0dfb431 - Sort by description, status and provider state (Alex Malkov, Wed May 4 00:00:21 2016 +0100)
+* 9ff8337 - Order interactions within the contract by provider state. (Alex Malkov, Tue May 3 22:13:53 2016 +0100)
+* 2f22f7e - Update to ruby 2.3.1 in travis (Sergei Matheson, Tue May 3 10:46:46 2016 +1000)
+
 ### 0.8.2 (19 April 2016)
 * e392333 - Merge pull request #45 from aaronrenner/ar-fix-almost-duplicate-error-web-response (Beth Skurrie, Tue Apr 19 09:53:01 2016 +1000)
 * 6fbcce2 - Fixed invalid Rack response on AlmostDuplicateInteractionError (Aaron Renner, Mon Apr 18 14:08:19 2016 -0600)
