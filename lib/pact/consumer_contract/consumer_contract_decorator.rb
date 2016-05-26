@@ -15,7 +15,7 @@ module Pact
       fix_all_the_things(
         consumer: consumer_contract.consumer.as_json,
         provider: consumer_contract.provider.as_json,
-        interactions: consumer_contract.interactions.collect{ |i| InteractionDecorator.new(i, @decorator_options).as_json},
+        interactions: sorted_interactions.collect{ |i| InteractionDecorator.new(i, @decorator_options).as_json},
         metadata: {
           pactSpecificationVersion: pact_specification_version
         }
@@ -27,6 +27,19 @@ module Pact
     end
 
     private
+
+    def sorted_interactions
+      # Default order: chronological
+      return consumer_contract.interactions if Pact.configuration.pactfile_write_order == :chronological
+      # We are supporting only chronological or alphabetical order
+      raise NotImplementedError if Pact.configuration.pactfile_write_order != :alphabetical
+
+      consumer_contract.interactions.sort{|a, b| sortable_id(a) <=> sortable_id(b)}
+    end
+
+    def sortable_id interaction
+      "#{interaction.description.downcase} #{interaction.response.status} #{(interaction.provider_state || '').downcase}"
+    end
 
     attr_reader :consumer_contract
 
