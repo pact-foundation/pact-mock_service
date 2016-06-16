@@ -34,7 +34,7 @@ module Pact
     end
 
     def write
-      update_pactfile unless pactfile_write_mode == :none
+      update_pactfile_if_needed
       pact_json
     end
 
@@ -45,6 +45,12 @@ module Pact
     private
 
     attr_reader :consumer_contract_details, :pactfile_write_mode, :interactions, :logger, :pact_specification_version
+
+    def update_pactfile_if_needed
+      return if pactfile_write_mode == :none
+      return if interactions.count == 0
+      update_pactfile
+    end
 
     def update_pactfile
       logger.info log_message
