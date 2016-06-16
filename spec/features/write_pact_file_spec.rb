@@ -11,7 +11,7 @@ describe Pact::Consumer::MockService do
 
   let(:admin_headers) { {'HTTP_X_PACT_MOCK_SERVICE' => 'true', 'CONTENT_TYPE' => 'application/json'} }
 
-  let(:expected_interaction) do
+  let(:alligator_interaction) do
     {
       description: "a request for alligators",
       provider_state: "alligators exist",
@@ -19,6 +19,21 @@ describe Pact::Consumer::MockService do
         method: :get,
         path: '/alligators',
         headers: {'Accept' => 'application/alligator'}
+      },
+      response: {
+        status: 200
+      }
+    }.to_json
+  end
+
+  let(:giraffe_interaction) do
+    {
+      description: "a request for giraffes",
+      provider_state: "giraffes exist",
+      request: {
+        method: :get,
+        path: '/giraffes',
+        headers: {'Accept' => 'application/giraffe'}
       },
       response: {
         status: 200
@@ -41,21 +56,36 @@ describe Pact::Consumer::MockService do
     FileUtils.mkdir_p pact_dir
   end
 
+  before do
+    post "/interactions", alligator_interaction, admin_headers
+    post "/interactions", giraffe_interaction, admin_headers
+  end
+
   context "when the expected interaction is not executed" do
     it "does not include the interaction in the pact file" do
-      post "/interactions", expected_interaction, admin_headers
+      get "/giraffes", nil, {'HTTP_ACCEPT' => 'application/giraffe'}
       get "/alligators", nil, {'HTTP_ACCEPT' => 'application/GIRAFFE'}
       post "/pact", pact_details, admin_headers
-      expect(pact_json['interactions']).to be_empty
+      expect(pact_json['interactions']).to_not include(
+        include("description" => "a request for alligators")
+      )
     end
   end
 
   context "when the expected interaction is executed" do
     it "includes the interaction in the pact file" do
-      post "/interactions", expected_interaction, admin_headers
       get "/alligators", nil, {'HTTP_ACCEPT' => 'application/alligator'}
       post "/pact", pact_details, admin_headers
-      expect(pact_json['interactions']).to_not be_empty
+      expect(pact_json['interactions']).to include(
+        include("description" => "a request for alligators")
+      )
+    end
+  end
+
+  context "when no interactions are executed" do
+    it "does not create the pact file" do
+      post "/pact", pact_details, admin_headers
+      expect { pact_json }.to raise_error(Errno::ENOENT)
     end
   end
 
