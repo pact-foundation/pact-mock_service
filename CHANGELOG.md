@@ -2,6 +2,9 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.10.0 (10 June 2016)
+* 9ebcd9e - Only write pact file when there are interactions (Robin Daugherty, Thu Jun 16 16:13:57 2016 -0400)
+
 ### 0.9.0 (26 May 2016)
 * 28ab905 - Merge pull request #46 from reevoo/order_interactions_by_provider_state (Sergei Matheson, Thu May 26 14:52:08 2016 +1000)
 * d58507c - Add ability to record interactions in alphabetical order. Order key: description + response.status + provider_state Default order: chronological (as it was before) (Alex Malkov, Mon May 23 11:52:39 2016 +0100)
