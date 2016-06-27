@@ -11,6 +11,8 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{Provides a mock service for use with Pact}
   gem.homepage      = "https://github.com/bethesque/pact-mock_service"
 
+  gem.required_ruby_version = '>= 2.0'
+
   gem.files         = Dir.glob("{bin,lib}/**/*") + Dir.glob(%w(Gemfile LICENSE.txt README.md CHANGELOG.md))
 
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
