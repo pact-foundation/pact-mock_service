@@ -2,6 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.10.1 (27 Jun 2016)
+* a9fff79 - Add release instructions (Sergei Matheson, Mon Jun 27 10:47:12 2016 +1000)
+* 28c11e7 - Clarify that pact-mock_service will only work with ruby >= 2.0 (Sergei Matheson, Mon Jun 27 10:27:12 2016 +1000)
+
 ### 0.10.0 (10 June 2016)
 * 9ebcd9e - Only write pact file when there are interactions (Robin Daugherty, Thu Jun 16 16:13:57 2016 -0400)
 
