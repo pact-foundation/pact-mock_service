@@ -14,7 +14,7 @@ module Pact
         exec "bundle exec bin/pact-mock-service --port #{port} --host 0.0.0.0 --log tmp/integration.log --pact-dir tmp/pacts #{options}"
       end
 
-      wait_until_server_started(port) if wait
+      wait_until_server_started(port, /--ssl/ === options) if wait
       pid
     end
 
@@ -27,20 +27,8 @@ module Pact
       pid
     end
 
-    def wait_until_server_started port
-      Pact::MockService::Server::WaitForServerUp.(port)
-    end
-
-    def wait_until_server_started_on_ssl port
-      tries = 0
-      begin
-        connect_via_ssl port
-      rescue Faraday::ConnectionFailed => e
-        sleep 0.1
-        tries += 1
-        retry if tries < 100
-        raise "Could not connect to server"
-      end
+    def wait_until_server_started port, ssl = false
+      Pact::MockService::Server::WaitForServerUp.(port, {ssl: ssl})
     end
 
     def kill_server pid

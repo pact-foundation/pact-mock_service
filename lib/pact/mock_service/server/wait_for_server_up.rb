@@ -1,5 +1,6 @@
 require 'timeout'
 require 'net/http'
+require 'openssl'
 
 module Pact
   module MockService
@@ -17,12 +18,20 @@ module Pact
         end
 
         def self.responsive? port, options
-          res = Net::HTTP.start("localhost", port) do |http|
-            request = Net::HTTP::Get.new "http://localhost:#{port}/"
-            request['X-Pact-Mock-Service'] = 'true'
-            response = http.request request
+          http = Net::HTTP.new('localhost', port)
+          if options[:ssl]
+            http.use_ssl = true
+            http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+            scheme = 'https'
+          else
+            scheme = 'http'
           end
-          res.code == '200'
+          http.start {
+            request = Net::HTTP::Get.new "#{scheme}://localhost:#{port}/"
+            request['X-Pact-Mock-Service'] = true
+            response = http.request request
+            response.code == '200'
+          }
         rescue SystemCallError => e
           return false
         rescue EOFError

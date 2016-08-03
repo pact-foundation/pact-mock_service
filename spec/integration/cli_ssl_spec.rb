@@ -10,13 +10,12 @@ describe "The pact-mock-service command line interface, with SSL", mri_only: tru
   end
 
   it "should respond with SSL" do
-    response = wait_until_server_started_on_ssl 4343
-    expect(response.status).to eq 200
+    wait_until_server_started 4343, true
   end
 
   it "sets the X-Pact-Mock-Service-Location header with https" do
-    wait_until_server_started_on_ssl 4343
-    response = wait_until_server_started_on_ssl 4343
+    wait_until_server_started 4343, true
+    response = connect_via_ssl 4343
     expect(response.headers['X-Pact-Mock-Service-Location']).to eq 'https://0.0.0.0:4343'
   end
 
