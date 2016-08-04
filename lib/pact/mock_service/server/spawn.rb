@@ -7,7 +7,7 @@ module Pact
 
         class PortUnavailableError < StandardError; end
 
-        def self.call pidfile, port
+        def self.call pidfile, port, ssl = false
           if pidfile.can_start?
             if port_available? port
               pid = fork do
@@ -15,7 +15,7 @@ module Pact
               end
               pidfile.pid = pid
               Process.detach(pid)
-              Server::WaitForServerUp.(port)
+              Server::WaitForServerUp.(port, {ssl: ssl})
               pidfile.write
             else
               raise PortUnavailableError.new("ERROR: Port #{port} already in use.")
