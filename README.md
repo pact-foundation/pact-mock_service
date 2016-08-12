@@ -1,5 +1,7 @@
 # Pact Mock Service
 
+[![Build Status](https://travis-ci.org/bethesque/pact-mock_service.svg?branch=master)](https://travis-ci.org/bethesque/pact-mock_service)
+
 This codebase provides the mock service used by implementations of [Pact][pact]. It is packaged as a gem, and as a standalone executable for Mac OSX and Linux (Windows coming soon.)
 
 The mock service provides the following endpoints:
