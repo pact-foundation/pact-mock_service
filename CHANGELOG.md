@@ -2,6 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.10.2 (13 Aug 2016)
+* 9352017 - Update .travis.yml (Beth Skurrie, Mon Aug 8 18:06:41 2016 +1000)
+* f719415 - use ssl when checking if https server is up (Valeriy Kassenbaev, Thu Aug 4 01:37:50 2016 +0300)
+
 ### 0.10.1 (27 Jun 2016)
 * a9fff79 - Add release instructions (Sergei Matheson, Mon Jun 27 10:47:12 2016 +1000)
 * 28c11e7 - Clarify that pact-mock_service will only work with ruby >= 2.0 (Sergei Matheson, Mon Jun 27 10:27:12 2016 +1000)
