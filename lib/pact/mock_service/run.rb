@@ -70,6 +70,10 @@ module Pact
           :Host => host,
           :AccessLog => []
         }
+        opts.merge!({
+          :SSLCertificate => OpenSSL::X509::Certificate.new(File.open(options[:sslcert]).read) }) if options[:sslcert]
+        opts.merge!({
+          :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.open(options[:sslkey]).read) }) if options[:sslkey]
         opts.merge!(ssl_opts) if options[:ssl]
         opts.merge!(options[:webbrick_options]) if options[:webbrick_options]
         opts
