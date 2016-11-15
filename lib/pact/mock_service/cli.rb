@@ -122,6 +122,13 @@ module Pact
         end
       end
 
+      desc 'version', "Show the pact-mock-service gem version"
+
+      def version
+        require 'pact/mock_service/version.rb'
+        puts Pact::MockService::VERSION
+      end
+
       default_task :service
 
       no_commands do
