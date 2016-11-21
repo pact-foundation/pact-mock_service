@@ -30,9 +30,13 @@ Check out the wiki page [here][install-windows].
 
 #### With SSL
 
-If you need to use the mock service with HTTPS, you can use the built-in SSL mode which relies on a self-signed certificate.
+If you need to use the mock service with HTTPS, you can use the built-in SSL mode which relies on and generates a self-signed certificate.
 
     $ pact-mock-service --port 1234 --ssl
+
+If you need to provide your own certificate and key, use the following syntax.
+
+    $ pact-mock-service --port 1234 --ssl --sslcert PATH_TO_CERT --sslkey PATH_TO_KEY
 
 ### Mac OSX and Linux, without Ruby
 
