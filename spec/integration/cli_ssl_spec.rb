@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'support/integration_spec_support'
 
-describe "The pact-mock-service command line interface, with SSL", mri_only: true do
+describe "The pact-mock-service command line interface, with SSL", mri_only: true, skip_travis: true do
 
   include Pact::IntegrationTestSupport
 
@@ -12,6 +12,7 @@ describe "The pact-mock-service command line interface, with SSL", mri_only: tru
   it "should respond with SSL" do
     wait_until_server_started 4343, true
   end
+
 
   it "sets the X-Pact-Mock-Service-Location header with https" do
     wait_until_server_started 4343, true
