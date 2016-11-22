@@ -2,6 +2,13 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.12.0 (22 Nov 2016)
+* 2fa1a58 - Skip SSL test on Travis for now (Bethany Skurrie, Tue Nov 22 10:26:41 2016 +1100)
+* 22a7d1d - Attempting to cleanup failing test (Bobby Earl, Mon Oct 24 16:00:05 2016 -0400)
+ * 43e779f - Added support for sslcert + sslkey to server.rb (Bobby Earl, Mon Oct 24 15:20:33 2016 -0400)
+ * d1ab8ff - Added intergration test and updated README.md (Bobby Earl, Fri Oct 21 11:29:00 2016 -0400)
+ * ae0a06c - Allow passing in an ssl certificate / key to use instead of having one generated. (Blackbaud-JonathanBell, Fri Oct 21 10:52:53 2016 -0400)
+
 ### 0.11.0 (14 Nov 2016)
 * 8b32ea9 - Upgrading pact-support version (Beth Skurrie, Mon Nov 14 10:04:22 2016 +1100)
 
