@@ -20,7 +20,7 @@ module Pact
       hash[:query]   = query   if request.specified?(:query)
       hash[:headers] = headers if request.specified?(:headers)
       hash[:body]    = body    if request.specified?(:body)
-      hash
+      include_matching_rules? ? with_matching_rules(hash) : hash
     end
 
     private
@@ -64,6 +64,21 @@ module Pact
         end
       end
       Pact::Reification.from_term arrays
+    end
+
+    def include_matching_rules?
+      pact_specification_version && !pact_specification_version.start_with?('1')
+    end
+
+    def with_matching_rules hash
+      matching_rules = Pact::MatchingRules.extract hash
+      example = Pact::Reification.from_term hash
+      return example if matching_rules.empty?
+      example.merge(matchingRules: matching_rules)
+    end
+
+    def pact_specification_version
+      @decorator_options[:pact_specification_version]
     end
 
   end
