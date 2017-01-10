@@ -4,7 +4,7 @@ require 'pact/mock_service/version'
 
 PACKAGE_NAME = "pact-mock-service"
 VERSION = "#{Pact::MockService::VERSION}-1"
-TRAVELING_RUBY_VERSION = "20150210-2.1.5"
+TRAVELING_RUBY_VERSION = "20150715-2.2.2"
 
 desc "Package pact-mock-service for OSX, Linux x86 and Linux x86_64"
 task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx', 'package:win32']
@@ -34,8 +34,8 @@ namespace :package do
 
   desc "Install gems to local directory"
   task :bundle_install do
-    if RUBY_VERSION !~ /^2\.1\./
-      abort "You can only 'bundle install' using Ruby 2.1, because that's what Traveling Ruby uses."
+    if RUBY_VERSION !~ /^2\.2\./
+      abort "You can only 'bundle install' using Ruby 2.2, because that's what Traveling Ruby uses."
     end
     sh "rm -rf build/tmp"
     sh "mkdir -p build/tmp"
