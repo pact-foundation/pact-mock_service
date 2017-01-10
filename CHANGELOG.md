@@ -2,6 +2,9 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 0.12.1 (11 Jan 2017)
+* a0fbb02 - Upgrade Traveling Ruby to work on ruby 2.2.x (Matt Fellows, Tue Jan 10 22:57:32 2017 +1100)
+
 ### 0.12.0 (22 Nov 2016)
 * 2fa1a58 - Skip SSL test on Travis for now (Bethany Skurrie, Tue Nov 22 10:26:41 2016 +1100)
 * 22a7d1d - Attempting to cleanup failing test (Bobby Earl, Mon Oct 24 16:00:05 2016 -0400)
