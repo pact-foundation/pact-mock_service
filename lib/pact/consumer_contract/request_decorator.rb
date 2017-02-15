@@ -15,41 +15,17 @@ module Pact
     def as_json options = {}
       hash = {
         method: request.method,
-        path: path
+        path: request.path
       }
-      hash[:query]   = query   if request.specified?(:query)
-      hash[:headers] = headers if request.specified?(:headers)
-      hash[:body]    = body    if request.specified?(:body)
+      hash[:query]   = request.query   if request.specified?(:query)
+      hash[:headers] = request.headers if request.specified?(:headers)
+      hash[:body]    = request.body    if request.specified?(:body)
       include_matching_rules? ? with_matching_rules(hash) : hash
     end
 
     private
 
     attr_reader :request
-
-    def path
-      Pact::Reification.from_term(request.path)
-    end
-
-    def headers
-      Pact::Reification.from_term(request.headers)
-    end
-
-    # This feels wrong to be checking the class type of the Query
-    # Do this better somehow.
-    def query
-      Pact::Reification.from_term(request.query)
-    end
-
-    # This feels wrong to be checking the class type of the body
-    # Do this better somehow.
-    def body
-      if content_type_is_form && request.body.is_a?(Hash)
-        URI.encode_www_form convert_hash_body_to_array_of_arrays
-      else
-        Pact::Reification.from_term(request.body)
-      end
-    end
 
     def content_type_is_form
       request.content_type? 'application/x-www-form-urlencoded'
