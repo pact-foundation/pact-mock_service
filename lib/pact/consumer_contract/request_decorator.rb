@@ -15,10 +15,10 @@ module Pact
     def as_json options = {}
       hash = {
         method: request.method,
-        path: request.path
+        path: path
       }
-      hash[:query]   = request.query   if request.specified?(:query)
-      hash[:headers] = request.headers if request.specified?(:headers)
+      hash[:query]   = query   if request.specified?(:query)
+      hash[:headers] = headers if request.specified?(:headers)
       hash[:body]    = body    if request.specified?(:body)
       include_matching_rules? ? with_matching_rules(hash) : hash
     end
@@ -27,13 +27,41 @@ module Pact
 
     attr_reader :request
 
+    def path
+      if include_matching_rules?
+        request.path
+      else
+        Pact::Reification.from_term(request.path)
+      end
+    end
+
+    def query
+      if include_matching_rules?
+        request.query
+      else
+        Pact::Reification.from_term(request.query)
+      end
+    end
+
+    def headers
+      if include_matching_rules?
+        request.headers
+      else
+        Pact::Reification.from_term(request.headers)
+      end
+    end
+
     # This feels wrong to be checking the class type of the body
     # Do this better somehow.
     def body
       if content_type_is_form && request.body.is_a?(Hash)
         URI.encode_www_form convert_hash_body_to_array_of_arrays
       else
-        request.body
+        if include_matching_rules?
+          request.body
+        else
+          Pact::Reification.from_term(request.body)
+        end
       end
     end
 
@@ -49,7 +77,12 @@ module Pact
           arrays << [key, value]
         end
       end
-      arrays
+
+      if include_matching_rules?
+        arrays
+      else
+        Pact::Reification.from_term(arrays)
+      end
     end
 
     def include_matching_rules?
