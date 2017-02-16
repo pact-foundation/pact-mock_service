@@ -19,13 +19,23 @@ module Pact
       }
       hash[:query]   = request.query   if request.specified?(:query)
       hash[:headers] = request.headers if request.specified?(:headers)
-      hash[:body]    = request.body    if request.specified?(:body)
+      hash[:body]    = body    if request.specified?(:body)
       include_matching_rules? ? with_matching_rules(hash) : hash
     end
 
     private
 
     attr_reader :request
+
+    # This feels wrong to be checking the class type of the body
+    # Do this better somehow.
+    def body
+      if content_type_is_form && request.body.is_a?(Hash)
+        URI.encode_www_form convert_hash_body_to_array_of_arrays
+      else
+        request.body
+      end
+    end
 
     def content_type_is_form
       request.content_type? 'application/x-www-form-urlencoded'
@@ -39,7 +49,7 @@ module Pact
           arrays << [key, value]
         end
       end
-      Pact::Reification.from_term arrays
+      arrays
     end
 
     def include_matching_rules?
