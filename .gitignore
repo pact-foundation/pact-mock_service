@@ -29,3 +29,5 @@ log
 reports
 Gemfile.lock
 build
+
+vendor/bundle/
