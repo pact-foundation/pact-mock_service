@@ -38,13 +38,13 @@ describe Pact::Consumer::MockService do
 
     it "only writes one interaction to the pact file" do | example |
       # First time
-      delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
+      delete "/interactions?keep_verified=true&example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
       post "/interactions", expected_interaction, admin_headers
       get "/greeting"
       expect(last_response.status).to eq 200
 
       # Second time in a different "test" with identical interaction
-      delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
+      delete "/interactions?keep_verified=true&example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
       post "/interactions", expected_interaction, admin_headers
       expect(last_response.status).to eq 200
       get "/greeting"
@@ -73,13 +73,13 @@ describe Pact::Consumer::MockService do
 
     it "returns an error response" do | example |
       # First time
-      delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
+      delete "/interactions?keep_verified=true&example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
       post "/interactions", expected_interaction, admin_headers
       get "/greeting"
       expect(last_response.status).to eq 200
 
       # Second time with same description and provider state, but different response
-      delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
+      delete "/interactions?keep_verified=true&example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
       post "/interactions", slightly_different_expected_interaction, admin_headers
       expect(last_response.status).to eq 500
       expect(last_response.body).to include "An interaction with same description"

@@ -11,7 +11,7 @@ module Pact
         let(:logger) { double('Logger').as_null_object }
         let(:rack_env) do
           {
-            'QUERY_STRING' => 'example_description=a+description'
+            'QUERY_STRING' => 'keep_verified=true&example_description=a+description'
           }
         end
 
