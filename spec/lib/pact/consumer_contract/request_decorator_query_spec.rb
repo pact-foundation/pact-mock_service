@@ -6,7 +6,7 @@ module Pact
   describe RequestDecorator do
 
     let(:headers) { {some: "header"} }
-    let(:query) { "param=foo" }
+    let(:query) { {param: Pact::Term.new(generate: 'foo', matcher: /foo/ )} }
     let(:request_params) do
       {
         method: :get,
@@ -15,14 +15,11 @@ module Pact
         path: "/"
       }
     end
-
     let(:request) { Pact::Request::Expected.from_hash(request_params) }
-
-    subject { RequestDecorator.new(request) }
+    let(:parsed_json) { JSON.parse subject.to_json, symbolize_names: true }
 
     describe "#to_json" do
-
-      let(:parsed_json) { JSON.parse subject.to_json, symbolize_names: true }
+      subject { RequestDecorator.new(request) }
 
       context "query" do
         context "with a query hash containing a Pact::Term" do
@@ -70,5 +67,32 @@ module Pact
       end
 
     end
+
+    describe '#to_json pact spec v2' do
+      subject { RequestDecorator.new(request, { pact_specification_version: '2.0.0' }) }
+
+      context 'query' do
+
+        context 'as a Hash containing param Term' do
+          it 'returns a Hash and generated matchingRules' do
+            expect(parsed_json[:query][:param]).to eq 'foo'
+            expect(parsed_json[:matchingRules][:"$.query.param"][:match]).to eq 'regex'
+            expect(parsed_json[:matchingRules][:"$.query.param"][:regex]).to eq 'foo'
+          end
+        end
+
+        context 'as a Hash with no Terms' do
+          let(:query) { {param: 'foo'} }
+
+          it 'returns a Hash with no generated matchingRules' do
+            expect(parsed_json[:query][:param]).to eq 'foo'
+            expect(parsed_json[:matchingRules]).to eq nil
+          end
+        end
+
+      end
+
+    end
+
   end
 end

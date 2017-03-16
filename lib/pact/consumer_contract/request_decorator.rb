@@ -37,7 +37,12 @@ module Pact
 
     def query
       if include_matching_rules?
-        request.query
+        request.query.query.each do | key, val |
+          if val.length == 1
+            request.query.query[key] = val[0]
+          end
+        end
+        request.query.query
       else
         Pact::Reification.from_term(request.query)
       end
