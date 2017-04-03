@@ -2,6 +2,8 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+* 18b98c0 - Included request matching rules in pact file (Matt Baumgartner, Wed Feb 15 16:20:50 2017 -0500)
+
 ### 0.12.1 (11 Jan 2017)
 * a0fbb02 - Upgrade Traveling Ruby to work on ruby 2.2.x (Matt Fellows, Tue Jan 10 22:57:32 2017 +1100)
 
