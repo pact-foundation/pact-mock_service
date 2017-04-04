@@ -2,6 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 1.1.0 (4 Apr 2017)
+* dc5331b - Silence zip command in rake package task (Beth Skurrie, Tue Apr 4 10:29:10 2017 +1000)
+
+### 1.0.0 (3 Apr 2017)
 * 18b98c0 - Included request matching rules in pact file (Matt Baumgartner, Wed Feb 15 16:20:50 2017 -0500)
 
 ### 0.12.1 (11 Jan 2017)
