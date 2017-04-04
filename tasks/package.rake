@@ -93,7 +93,7 @@ def create_package(version, target, os_type = :unix)
     if os_type == :unix
       sh "tar -czf pkg/#{package_dir}.tar.gz #{package_dir}"
     else
-      sh "zip -9r pkg/#{package_dir}.zip #{package_dir}"
+      sh "zip -9rq pkg/#{package_dir}.zip #{package_dir}"
     end
 
     sh "rm -rf #{package_dir}"
