@@ -2,6 +2,9 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 1.2.0 (4 Apr 2017)
+* b2e9f46 - Updated pact-support gem dependency as an excuse to put out a new version so can rebuild pact-mock-service-npm. (Beth Skurrie, Tue Apr 4 15:56:12 2017 +1000)
+
 ### 1.1.0 (4 Apr 2017)
 * dc5331b - Silence zip command in rake package task (Beth Skurrie, Tue Apr 4 10:29:10 2017 +1000)
 
