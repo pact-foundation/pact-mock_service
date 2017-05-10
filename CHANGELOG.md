@@ -2,6 +2,9 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 2.0.1 (11 May 2017)
+* 2c106b9 - Fix serialisation of request in pact for pact spec 2. (Beth Skurrie, Thu May 11 09:32:43 2017 +1000)
+
 ### 2.0.0 (12 Apr 2017)
 * 74bd80e - Bumping pact-support version to ~> 1.0 (Beth Skurrie, Wed Apr 12 15:10:49 2017 +1000)
 
