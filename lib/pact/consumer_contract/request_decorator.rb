@@ -13,13 +13,7 @@ module Pact
     end
 
     def as_json options = {}
-      hash = {
-        method: request.method,
-        path: path
-      }
-      hash[:query]   = query   if request.specified?(:query)
-      hash[:headers] = headers if request.specified?(:headers)
-      hash[:body]    = body    if request.specified?(:body)
+      hash = to_hash_without_rules
       include_matching_rules? ? with_matching_rules(hash) : hash
     end
 
@@ -27,33 +21,27 @@ module Pact
 
     attr_reader :request
 
+    def to_hash_without_rules
+      hash = {
+        method: request.method,
+        path: path
+      }
+      hash[:query]   = query   if request.specified?(:query)
+      hash[:headers] = headers if request.specified?(:headers)
+      hash[:body]    = body    if request.specified?(:body)
+      hash
+    end
+
     def path
-      if include_matching_rules?
-        request.path
-      else
-        Pact::Reification.from_term(request.path)
-      end
+      Pact::Reification.from_term(request.path)
     end
 
     def query
-      if include_matching_rules?
-        request.query.query.each do | key, val |
-          if val.length == 1
-            request.query.query[key] = val[0]
-          end
-        end
-        request.query.query
-      else
-        Pact::Reification.from_term(request.query)
-      end
+      Pact::Reification.from_term(request.query)
     end
 
     def headers
-      if include_matching_rules?
-        request.headers
-      else
-        Pact::Reification.from_term(request.headers)
-      end
+      Pact::Reification.from_term(request.headers)
     end
 
     # This feels wrong to be checking the class type of the body
@@ -62,11 +50,7 @@ module Pact
       if content_type_is_form && request.body.is_a?(Hash)
         URI.encode_www_form convert_hash_body_to_array_of_arrays
       else
-        if include_matching_rules?
-          request.body
-        else
-          Pact::Reification.from_term(request.body)
-        end
+        Pact::Reification.from_term(request.body)
       end
     end
 
@@ -83,11 +67,7 @@ module Pact
         end
       end
 
-      if include_matching_rules?
-        arrays
-      else
-        Pact::Reification.from_term(arrays)
-      end
+      Pact::Reification.from_term(arrays)
     end
 
     def include_matching_rules?
@@ -95,10 +75,9 @@ module Pact
     end
 
     def with_matching_rules hash
-      matching_rules = Pact::MatchingRules.extract hash
-      example = Pact::Reification.from_term hash
-      return example if matching_rules.empty?
-      example.merge(matchingRules: matching_rules)
+      matching_rules = Pact::MatchingRules.extract request.to_hash
+      return hash if matching_rules.empty?
+      hash.merge(matchingRules: matching_rules)
     end
 
     def pact_specification_version
