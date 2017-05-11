@@ -14,7 +14,7 @@ module Pact
 
     def as_json options = {}
       hash = { :description => interaction.description }
-      hash[:provider_state] = interaction.provider_state if interaction.provider_state
+      hash[:providerState] = interaction.provider_state if interaction.provider_state
       hash[:request] = decorate_request.as_json(options)
       hash[:response] = decorate_response.as_json(options)
       fix_all_the_things hash
