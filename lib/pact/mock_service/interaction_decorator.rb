@@ -25,7 +25,7 @@ module Pact
 
       def to_hash
         hash = { :description => interaction.description }
-        hash[:provider_state] = interaction.provider_state if interaction.provider_state
+        hash[:providerState] = interaction.provider_state if interaction.provider_state
         hash[:request] = decorate_request.as_json
         hash[:response] = decorate_response.as_json
         hash

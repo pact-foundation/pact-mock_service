@@ -24,7 +24,7 @@ module Pact
         let(:interaction) do
           Interaction.from_hash(
             'description' => 'description',
-            'provider_state' => 'provider_state',
+            'providerState' => 'provider_state',
             'response' => response,
             'request' => request)
         end
@@ -49,7 +49,7 @@ module Pact
 
         context "with a provider state" do
           it "contains the provider_state" do
-            expect(parsed_result['provider_state']).to eq 'provider_state'
+            expect(parsed_result['providerState']).to eq 'provider_state'
           end
         end
 
