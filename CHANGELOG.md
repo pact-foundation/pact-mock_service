@@ -2,6 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 2.1.0 (12 May 2017)
+* 5b89d95 - Updated location of pact specification version in pact to metadata.pactSpecification.version. As per issue #137 (Beth Skurrie, Fri May 12 11:03:54 2017 +1000)
+* b85ad94 - Update mock service interaction decorator to use providerState between the consumer DSL and the mock service, just to avoid any further confusion! (Beth Skurrie, Fri May 12 08:41:56 2017 +1000)
+
 ### 2.0.1 (11 May 2017)
 * 2c106b9 - Fix serialisation of request in pact for pact spec 2. (Beth Skurrie, Thu May 11 09:32:43 2017 +1000)
 
