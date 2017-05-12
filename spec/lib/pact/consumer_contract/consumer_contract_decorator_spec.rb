@@ -14,22 +14,22 @@ module Pact
 
       context "when pact_specification_version is 1" do
         let(:pact_specification_version) { '1' }
-        it "sets the pactSpecificationVersion to 1.0.0" do
-          expect(parsed_json[:metadata][:pactSpecificationVersion]).to eq '1.0.0'
+        it "sets the pactSpecification.version to 1.0.0" do
+          expect(parsed_json[:metadata][:pactSpecification][:version]).to eq '1.0.0'
         end
       end
 
       context "when pact_specification_version is 2" do
         let(:pact_specification_version) { '2' }
-        it "sets the pactSpecificationVersion to 2.0.0" do
-          expect(parsed_json[:metadata][:pactSpecificationVersion]).to eq '2.0.0'
+        it "sets the pactSpecification.version to 2.0.0" do
+          expect(parsed_json[:metadata][:pactSpecification][:version]).to eq '2.0.0'
         end
       end
 
       context "when pact_specification_version is 2.1 because there is no 2.1 yet." do
         let(:pact_specification_version) { '2.1' }
-        it "sets the pactSpecificationVersion to 2.0.0" do
-          expect(parsed_json[:metadata][:pactSpecificationVersion]).to eq '2.0.0'
+        it "sets the pactSpecification.version to 2.0.0" do
+          expect(parsed_json[:metadata][:pactSpecification][:version]).to eq '2.0.0'
         end
       end
 

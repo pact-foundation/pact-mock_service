@@ -17,7 +17,9 @@ module Pact
         provider: consumer_contract.provider.as_json,
         interactions: sorted_interactions.collect{ |i| InteractionDecorator.new(i, @decorator_options).as_json},
         metadata: {
-          pactSpecificationVersion: pact_specification_version
+          pactSpecification: {
+            version: pact_specification_version
+          }
         }
       )
     end

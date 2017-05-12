@@ -19,6 +19,8 @@
     }
   ],
   "metadata": {
-    "pactSpecificationVersion": "1.0"
+    "pactSpecification": {
+      "version": "1.0"
+    }
   }
 }
