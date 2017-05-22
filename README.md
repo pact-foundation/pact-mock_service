@@ -17,11 +17,7 @@ As the Pact mock service can be used as a standalone executable and administered
 
 For some examples of the HTTP requests that occur under the hood when using either the Ruby client or the Javascript client, see this [gist](https://gist.github.com/bethesque/9d81f21d6f77650811f4).
 
-### Mac OSX and Linux, without Ruby
-
-See the [releases][releases] page for the latest standalone executables.
-
-### Windows, without Ruby
+### Mac OSX, Linux and Windows, without Ruby
 
 See the [releases][releases] page for the latest standalone executables.
 
