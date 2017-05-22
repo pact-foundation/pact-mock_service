@@ -1,4 +1,4 @@
-# Creating standalone mock service packages
+# Releasing standalone mock service packages
 
 * From the base directory of the project run:
 
