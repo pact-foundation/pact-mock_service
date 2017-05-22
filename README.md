@@ -11,7 +11,7 @@ The mock service provides the following endpoints:
 * GET /interactions/verification - determine whether the expected interactions have taken place
 * POST /pact - write the pact file
 
-As the Pact mock service can be used as a standalone executable and administered via HTTP, it can be used for testing with any language. All that is required is a library in the native language to create the HTTP calls listed above. Check out (https://docs.pact.io)[docs.pact.io] for a list of implemented languages. If you are interested in creating bindings in a new langauge, and have a chat to one of us on the [pact-dev Google group][pact-dev].
+As the Pact mock service can be used as a standalone executable and administered via HTTP, it can be used for testing with any language. All that is required is a library in the native language to create the HTTP calls listed above. Check out [docs.pact.io](https://docs.pact.io) for a list of implemented languages. If you are interested in creating bindings in a new langauge, and have a chat to one of us on the [pact-dev Google group][pact-dev].
 
 ## Usage
 
