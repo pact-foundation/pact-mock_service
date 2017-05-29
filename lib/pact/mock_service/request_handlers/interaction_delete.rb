@@ -22,7 +22,12 @@ module Pact
         end
 
         def respond env
-          session.clear_expected_and_actual_interactions
+          if keep_verified(env)
+            session.clear_expected_and_actual_interactions
+          else
+            session.clear_all
+          end
+          
           logger.info "Cleared interactions before example \"#{example_description(env)}\""
           [200, {}, ['Deleted interactions']]
         end
@@ -30,6 +35,11 @@ module Pact
         def example_description env
           params_hash(env).fetch('example_description', [])[0]
         end
+
+        def keep_verified env
+          params_hash(env).fetch('keep_verified', [])[0] == "true"
+        end
+
       end
     end
   end
