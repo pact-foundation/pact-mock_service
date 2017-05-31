@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-SOURCE="${BASH_SOURCE[0]}"
+SOURCE="$0"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   TARGET="$(readlink "$SOURCE")"
   if [[ $TARGET == /* ]]; then
