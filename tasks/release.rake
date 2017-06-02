@@ -23,10 +23,13 @@ task :upload_release_notes, [:repository_slug, :tag] do |t, args |
     builder.adapter Faraday.default_adapter
   end
   Octokit.middleware = stack
-  client = Octokit::Client.new(access_token: ENV.fetch('GITHUB_ACCESS_TOKEN'))
+
+  access_token = ENV.fetch('GITHUB_ACCESS_TOKEN')
   repository_slug = args[:repository_slug]
   tag = args[:tag]
   release_name = "#{PACKAGE_NAME}-#{VERSION}"
+
+  client = Octokit::Client.new(access_token: access_token)
   release_notes_content = File.read(RELEASE_NOTES_PATH)
   release =  client.release_for_tag repository_slug, tag
   client.update_release release.url, name: release_name, body: release_notes_content
