@@ -10,6 +10,6 @@
       $ git add CHANGELOG.md lib/pact/mock_service/version.rb
       $ git commit -m "Releasing version X.Y.Z"
 
-3. Release:
+4. Tag and push
 
-      $ bundle exec rake release
+    $ git tag -a vX.Y.Z -m "Releasing version X.Y.Z" && git push origin --tags
