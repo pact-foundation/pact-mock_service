@@ -20,13 +20,13 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.license       = 'MIT'
 
-  gem.add_runtime_dependency 'rack'
+  gem.add_runtime_dependency 'rack', '~> 2.0'
   gem.add_runtime_dependency 'rspec', '>=2.14'
   gem.add_runtime_dependency 'find_a_port', '~> 1.0.1'
   gem.add_runtime_dependency 'rack-test', '~> 0.6.2'
-  gem.add_runtime_dependency 'thor'
+  gem.add_runtime_dependency 'thor', '~> 0.19'
   gem.add_runtime_dependency 'json'
-  gem.add_runtime_dependency 'webrick'
+  gem.add_runtime_dependency 'webrick', '~> 1.3'
   gem.add_runtime_dependency 'term-ansicolor', '~> 1.0'
   gem.add_runtime_dependency 'pact-support', '~> 1.0'
 
@@ -35,6 +35,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'fakefs', '~> 0.4'
   gem.add_development_dependency 'hashie', '~> 2.0'
-  gem.add_development_dependency 'activesupport'
-  gem.add_development_dependency 'faraday'
+  gem.add_development_dependency 'activesupport', '~> 5.1'
+  gem.add_development_dependency 'faraday', '~> 0.12'
+  gem.add_development_dependency 'octokit', '~> 4.7'
 end
