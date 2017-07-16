@@ -13,6 +13,10 @@ The mock service provides the following endpoints:
 
 As the Pact mock service can be used as a standalone executable and administered via HTTP, it can be used for testing with any language. All that is required is a library in the native language to create the HTTP calls listed above. Check out [docs.pact.io](https://docs.pact.io) for a list of implemented languages. If you are interested in creating bindings in a new langauge, and have a chat to one of us on the [pact-dev Google group][pact-dev].
 
+## Documentation
+
+You can find documentation for the mock service in the repository [wiki][wiki].
+
 ## Usage
 
 For some examples of the HTTP requests that occur under the hood when using either the Ruby client or the Javascript client, see this [gist](https://gist.github.com/bethesque/9d81f21d6f77650811f4).
@@ -52,3 +56,4 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md)
 [pact-dev]: https://groups.google.com/forum/#!forum/pact-dev
 [install-windows]: https://github.com/bethesque/pact-mock_service/wiki/Installing-the-pact-mock_service-gem-on-Windows
 [why-generated]: https://github.com/realestate-com-au/pact/wiki/FAQ#why-are-the-pacts-generated-and-not-static
+[wiki]: https://github.com/pact-foundation/pact-mock_service/wiki
