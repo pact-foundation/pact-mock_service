@@ -5,6 +5,7 @@ require 'fileutils'
 require 'pact/mock_service/server/wait_for_server_up'
 require 'pact/mock_service/cli/pidfile'
 require 'socket'
+require 'rake/file_utils'
 
 module Pact
   module MockService
@@ -59,9 +60,7 @@ module Pact
       method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
 
       def start
-        start_server(mock_service_pidfile) do
-          service
-        end
+        spawn_mock_service
       end
 
       desc 'stop', "Stop a Pact mock service"
@@ -173,6 +172,47 @@ module Pact
           Pact::MockService::Server::Respawn.(pidfile, options[:port], options[:ssl]) do
             yield
           end
+        end
+
+        def spawn_mock_service
+          pidfile = mock_service_pidfile
+          if pidfile.can_start?
+            if port_available? options.port
+              pid = spawn(service_spawn_command)
+              pidfile.pid = pid
+              Process.detach(pid)
+              Pact::MockService::Server::WaitForServerUp.(options.port, {ssl: options.ssl})
+              pidfile.write
+            else
+              raise PortUnavailableError.new("ERROR: Port #{options.port} already in use.")
+            end
+          end
+        end
+
+        def service_spawn_command
+          command = []
+          command << FileUtils::RUBY
+          command << "-S #{$0} service"
+          command += build_service_options
+          command.join(" ")
+        end
+
+        def service_switch_names
+          Pact::MockService::CLI.commands['service'].options.values.each_with_object({}){| option, hash| hash[option.human_name] = option.switch_name }
+        end
+
+        def build_service_options
+          switch_names = service_switch_names
+          options.collect{ |key, value| "#{switch_names[key]} #{value}" if switch_names[key] }.compact
+        end
+
+        def port_available? port
+          server = TCPServer.new('127.0.0.1', port)
+          true
+        rescue
+          false
+        ensure
+          server.close if server
         end
       end
     end
