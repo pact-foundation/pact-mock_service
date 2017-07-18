@@ -79,17 +79,28 @@ module Pact
         def kill_process
           if file_exists?
             begin
-              `ps -ef | grep pact`
-              Process.kill 2, pid_from_file
+              windows? ? windows_kill_2 : kill_2
               waitpid
-              delete
             rescue Errno::ESRCH
               $stderr.puts "Process in PID file #{pidfile_path} not running. Deleting PID file."
+            ensure
               delete
             end
           else
             $stderr.puts "No PID file found at #{pidfile_path}, server probably not running. Use `ps -ef | grep pact` if you suspect the process is still running."
           end
+        end
+
+        def windows?
+          /mswin|mingw|bccwin|emx|wince/ =~ RUBY_PLATFORM
+        end
+
+        def kill_2
+          Process.kill 2, pid_from_file
+        end
+
+        def windows_kill_2 pid
+          `taskkill /PID #{pid_from_file}`
         end
       end
     end
