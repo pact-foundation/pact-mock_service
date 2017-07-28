@@ -178,7 +178,7 @@ module Pact
           pidfile = mock_service_pidfile
           if pidfile.can_start?
             if port_available? options.port
-              pid = spawn(service_spawn_command)
+              pid = spawn(service_spawn_command, {new_pgroup: true})
               pidfile.pid = pid
               Process.detach(pid)
               Pact::MockService::Server::WaitForServerUp.(options.port, {ssl: options.ssl})

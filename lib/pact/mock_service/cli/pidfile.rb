@@ -73,17 +73,18 @@ module Pact
             sleep sleep_time
             tries += 1
           end
-          raise "Process #{pid_from_file} not stopped after {100 * sleep_time} seconds." if process_running?
+          raise "Process #{pid_from_file} not stopped after #{100 * sleep_time} seconds." if process_running?
         end
 
         def kill_process
+		
           if file_exists?
             begin
-              windows? ? windows_kill_2 : kill_2
+              windows? ? windows_kill : kill_2
               waitpid
+              delete
             rescue Errno::ESRCH
               $stderr.puts "Process in PID file #{pidfile_path} not running. Deleting PID file."
-            ensure
               delete
             end
           else
@@ -99,8 +100,9 @@ module Pact
           Process.kill 2, pid_from_file
         end
 
-        def windows_kill_2 pid
-          `taskkill /PID #{pid_from_file}`
+        def windows_kill
+         cmd = "taskkill /f /pid #{pid_from_file}"
+         `#{cmd}`
         end
       end
     end
