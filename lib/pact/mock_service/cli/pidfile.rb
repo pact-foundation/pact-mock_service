@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'pact/mock_service/os'
 
 module Pact
   module MockService
@@ -77,7 +78,6 @@ module Pact
         end
 
         def kill_process
-		
           if file_exists?
             begin
               windows? ? windows_kill : kill_2
@@ -93,7 +93,7 @@ module Pact
         end
 
         def windows?
-          /mswin|mingw|bccwin|emx|wince/ =~ RUBY_PLATFORM
+          Pact::MockService::OS.windows?
         end
 
         def kill_2

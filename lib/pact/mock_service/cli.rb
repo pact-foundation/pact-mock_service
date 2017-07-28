@@ -175,18 +175,9 @@ module Pact
         end
 
         def spawn_mock_service
+          require 'pact/mock_service/server/windows_safe_spawn'
           pidfile = mock_service_pidfile
-          if pidfile.can_start?
-            if port_available? options.port
-              pid = spawn(service_spawn_command, {new_pgroup: true})
-              pidfile.pid = pid
-              Process.detach(pid)
-              Pact::MockService::Server::WaitForServerUp.(options.port, {ssl: options.ssl})
-              pidfile.write
-            else
-              raise PortUnavailableError.new("ERROR: Port #{options.port} already in use.")
-            end
-          end
+          Pact::MockService::Server::WindowsSafeSpawn.(service_spawn_command, pidfile, options[:port], options[:ssl])
         end
 
         def service_spawn_command
@@ -204,15 +195,6 @@ module Pact
         def build_service_options
           switch_names = service_switch_names
           options.collect{ |key, value| "#{switch_names[key]} #{value}" if switch_names[key] }.compact
-        end
-
-        def port_available? port
-          server = TCPServer.new('127.0.0.1', port)
-          true
-        rescue
-          false
-        ensure
-          server.close if server
         end
       end
     end
