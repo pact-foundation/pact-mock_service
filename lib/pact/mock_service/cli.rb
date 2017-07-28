@@ -182,8 +182,13 @@ module Pact
 
         def service_spawn_command
           command = []
-          command << FileUtils::RUBY
-          command << "-S #{$0} service"
+          if ENV['PACT_STANDALONE_WRAPPER_PATH']
+            command << ENV['PACT_STANDALONE_WRAPPER_PATH']
+          else
+            command << FileUtils::RUBY
+            command << "-S #{$0}"
+          end
+          command << "service"
           command += build_service_options
           command.join(" ")
         end

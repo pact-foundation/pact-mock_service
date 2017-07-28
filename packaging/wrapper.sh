@@ -20,6 +20,8 @@ LIBDIR="`cd \"$DIR\" && cd ../lib && pwd`"
 # Tell Bundler where the Gemfile and gems are.
 export BUNDLE_GEMFILE="$LIBDIR/vendor/Gemfile"
 unset BUNDLE_IGNORE_CONFIG
+# Used by the `start` command to call the `service` command
+export PACT_STANDALONE_WRAPPER_PATH="$SOURCE"
 
 # Run the actual app using the bundled Ruby interpreter, with Bundler activated.
 exec "$LIBDIR/ruby/bin/ruby" -rreadline -rbundler/setup -I$LIBDIR/app/lib "$LIBDIR/app/pact-mock-service.rb" $@
