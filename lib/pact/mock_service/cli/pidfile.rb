@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'pact/mock_service/project_root'
 
 module Pact
   module MockService
@@ -81,7 +82,7 @@ module Pact
           if file_exists?
             begin
               windows? ? windows_kill : kill_2
-              waitpid
+              waitpid unless windows?
               delete
             rescue Errno::ESRCH
               $stderr.puts "Process in PID file #{pidfile_path} not running. Deleting PID file."
@@ -101,8 +102,9 @@ module Pact
         end
 
         def windows_kill
-         cmd = "taskkill /f /pid #{pid_from_file}"
-         `#{cmd}`
+         exe_path = Pact::MockService.project_root.join("..", "bin", "send_ctrl_c.exe")
+         cmd = "#{exe_path} #{pid_from_file}"
+         system(cmd)
         end
       end
     end

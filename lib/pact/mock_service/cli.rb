@@ -7,6 +7,11 @@ require 'pact/mock_service/cli/pidfile'
 require 'socket'
 require 'rake/file_utils'
 
+#trap "SIGINT" do
+#  puts "Exiting"
+#  exit 130
+#end
+
 module Pact
   module MockService
     class CLI < Thor
