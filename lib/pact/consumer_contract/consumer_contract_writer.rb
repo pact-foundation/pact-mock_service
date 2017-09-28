@@ -129,7 +129,7 @@ module Pact
 
     def pactfile_path
       raise 'You must specify a consumer and provider name' unless (consumer_name && provider_name)
-      file_path consumer_name, provider_name, pact_dir
+      file_path consumer_name, provider_name, pact_dir, unique: consumer_contract_details[:unique_pact_file_names]
     end
 
     def pact_dir

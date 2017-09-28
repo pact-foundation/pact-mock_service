@@ -19,6 +19,7 @@ module Pact
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :unique_pact_file_names, aliases: "-u", desc: "Set to true when running multiple mock service instances in parallel for the same consumer/provider pair", type: :boolean, default: false
       method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
@@ -33,6 +34,7 @@ module Pact
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :unique_pact_file_names, aliases: "-u", desc: "Set to true when running multiple mock service instances in parallel for the same consumer/provider pair", type: :boolean, default: false
       method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
       method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
@@ -53,6 +55,7 @@ module Pact
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :unique_pact_file_names, aliases: "-u", desc: "Set to true when running multiple mock service instances in parallel for the same consumer/provider pair", type: :boolean, default: false
       method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
@@ -81,6 +84,7 @@ module Pact
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :unique_pact_file_names, aliases: "-u", desc: "Set to true when running multiple mock service instances in parallel for the same consumer/provider pair", type: :boolean, default: false
       method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
@@ -100,6 +104,7 @@ module Pact
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
+      method_option :unique_pact_file_names, aliases: "-u", desc: "Set to true when running multiple mock service instances in parallel for the same consumer/provider pair", type: :boolean, default: false
       method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
 
@@ -125,6 +130,7 @@ module Pact
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
+      method_option :unique_pact_file_names, aliases: "-u", desc: "Set to true when running multiple mock service instances in parallel for the same consumer/provider pair", type: :boolean, default: false
       method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
 

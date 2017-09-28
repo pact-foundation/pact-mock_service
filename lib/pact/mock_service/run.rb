@@ -48,6 +48,7 @@ module Pact
       def service_options
         service_options = {
           pact_dir: options[:pact_dir],
+          unique_pact_file_names: options[:unique_pact_file_names],
           consumer: options[:consumer],
           provider: options[:provider],
           cors_enabled: options[:cors],
