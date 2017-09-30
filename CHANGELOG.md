@@ -2,6 +2,9 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 2.2.0 (2017-09-30)
+* 3949e3d - feat(cli): add --unique-pact-file-names option (Beth Skurrie, Thu Sep 28 11:16:22 2017 +1000)
+
 ### 2.1.0 (12 May 2017)
 * 5b89d95 - Updated location of pact specification version in pact to metadata.pactSpecification.version. As per issue #137 (Beth Skurrie, Fri May 12 11:03:54 2017 +1000)
 * b85ad94 - Update mock service interaction decorator to use providerState between the consumer DSL and the mock service, just to avoid any further confusion! (Beth Skurrie, Fri May 12 08:41:56 2017 +1000)
