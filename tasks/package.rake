@@ -39,7 +39,7 @@ namespace :package do
     end
     sh "rm -rf build/tmp"
     sh "mkdir -p build/tmp"
-    sh "cp pact-mock-service.gemspec  Gemfile Gemfile.lock build/tmp/"
+    sh "cp pact-mock_service.gemspec  Gemfile Gemfile.lock build/tmp/"
     sh "mkdir -p build/tmp/lib/pact/mock_service"
     sh "cp lib/pact/mock_service/version.rb build/tmp/lib/pact/mock_service/version.rb"
     Bundler.with_clean_env do
