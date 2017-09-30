@@ -12,7 +12,7 @@ module Pact
         end
 
         def to_s
-          "An interaction with same description (#{new_interaction.description.inspect}) and provider state (#{new_interaction.provider_state.inspect}) but a different #{differences} has already been used. Please use a different description or provider state."
+          "An interaction with same description (#{new_interaction.description.inspect}) and provider state (#{new_interaction.provider_state.inspect}) but a different #{differences} has already been used. Please use a different description or provider state, or hard-code any random data."
         end
 
         private
