@@ -8,8 +8,8 @@
 3. Add files to git
 
       $ git add CHANGELOG.md lib/pact/mock_service/version.rb
-      $ git commit -m "Releasing version X.Y.Z"
+      $ git commit -m "chore(release): version $(ruby -r ./lib/pact/mock_service/version.rb -e "puts Pact::MockService::VERSION")"
 
 4. Tag and push
 
-    $ git tag -a vX.Y.Z -m "Releasing version X.Y.Z" && git push origin --tags
+    $ VERSION=$(ruby -r ./lib/pact/mock_service/version.rb -e "puts Pact::MockService::VERSION") git tag -a v${VERSION} -m "chore(release): version ${VERSION}" && git push origin v${VERSION}
