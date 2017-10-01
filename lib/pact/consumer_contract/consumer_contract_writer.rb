@@ -5,6 +5,7 @@ require 'pact/consumer_contract/pact_file'
 require 'pact/consumer_contract/consumer_contract_decorator'
 require 'pact/shared/active_support_support'
 require 'fileutils'
+require 'filelock'
 
 module Pact
 
@@ -56,9 +57,8 @@ module Pact
       logger.info log_message
 
       FileUtils.mkdir_p File.dirname(pactfile_path)
-      new_pact_json = pact_json
-      File.open(pactfile_path, 'w') do |f|
-        f.write new_pact_json
+      Filelock pactfile_path do | file |
+        file.write pact_json
       end
     end
 
@@ -106,6 +106,7 @@ module Pact
     end
 
     def existing_consumer_contract
+      # This must only be read after the file has been locked
       Pact::ConsumerContract.from_uri(pactfile_path)
     end
 
