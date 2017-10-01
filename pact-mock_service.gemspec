@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.name          = "pact-mock_service"
   gem.version       = Pact::MockService::VERSION
   gem.authors       = ["James Fraser", "Sergei Matheson", "Brent Snook", "Ronald Holshausen", "Beth Skurrie"]
-  gem.email         = ["james.fraser@alumni.swinburne.edu", "sergei.matheson@gmail.com", "brent@fuglylogic.com", "uglyog@gmail.com", "bskurrie@dius.com.au"]
+  gem.email         = ["james.fraser@alumni.swinburne.edu", "sergei.matheson@gmail.com", "brent@fuglylogic.com", "uglyog@gmail.com", "beth@bethesque.com"]
   gem.summary       = %q{Provides a mock service for use with Pact}
   gem.homepage      = "https://github.com/bethesque/pact-mock_service"
 
