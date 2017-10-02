@@ -24,9 +24,8 @@ module Pact
         def respond env
           session.clear_all
           logger.info "Cleared session"
-          [200, {}, ['Cleared session']]
+          text_response 'Cleared session'
         end
-
       end
     end
   end

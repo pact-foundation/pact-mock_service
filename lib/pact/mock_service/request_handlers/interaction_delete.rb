@@ -24,7 +24,7 @@ module Pact
         def respond env
           session.clear_expected_and_actual_interactions
           logger.info "Cleared interactions before example \"#{example_description(env)}\""
-          [200, {}, ['Deleted interactions']]
+          text_response('Deleted interactions')
         end
 
         def example_description env

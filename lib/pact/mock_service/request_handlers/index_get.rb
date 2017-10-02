@@ -15,7 +15,7 @@ module Pact
         end
 
         def respond env
-          [200, {'Content-Type' => 'text/plain'}, ['Mock service running']]
+          text_response('Mock service running')
         end
       end
     end

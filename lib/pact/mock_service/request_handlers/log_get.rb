@@ -15,7 +15,7 @@ module Pact
 
         def respond env
           logger.info "Debug message from client - #{message(env)}"
-          [200, {}, []]
+          text_response
         end
 
         def message env

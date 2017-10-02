@@ -38,7 +38,7 @@ module Pact
           it "returns a valid rack response with an error message" do
             _, _, body_iterable = subject.respond(rack_env)
             expect(body_iterable).to respond_to(:each)
-            expect(body_iterable.join).to eq(message)
+            expect(body_iterable.join).to eq(message + "\n")
           end
         end
       end

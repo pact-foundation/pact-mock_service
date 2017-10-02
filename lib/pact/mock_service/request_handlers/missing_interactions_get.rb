@@ -25,7 +25,7 @@ module Pact
           verification = Pact::MockService::Interactions::Verification.new(@expected_interactions, @actual_interactions)
           number_of_missing_interactions = verification.missing_interactions.size
           logger.info "Number of missing interactions for mock \"#{name}\" = #{number_of_missing_interactions}"
-          [200, {}, [{size: number_of_missing_interactions}.to_json]]
+          [200, {'Content-Type' => 'application/json'}, [{size: number_of_missing_interactions}.to_json]]
         end
       end
     end

@@ -56,7 +56,7 @@ module Pact
             end
 
             it "returns a nice message" do
-              expect(response.last).to eq ['Interactions matched']
+              expect(response.last).to eq ["Interactions matched\n"]
             end
 
             it "logs the success" do

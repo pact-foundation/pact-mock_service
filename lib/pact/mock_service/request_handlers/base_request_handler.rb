@@ -16,6 +16,10 @@ module Pact
         def call env
           match?(env) ? respond(env) : NOT_FOUND_RESPONSE
         end
+
+        def text_response text = nil, status = 200
+          [status, {'Content-Type' => 'text/plain'}, text ? [text + "\n"]: []]
+        end
       end
     end
   end

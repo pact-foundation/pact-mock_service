@@ -23,12 +23,13 @@ module Pact
           verification = Pact::MockService::Interactions::Verification.new(expected_interactions, actual_interactions)
           if verification.all_matched?
             logger.info "Verifying - interactions matched for example \"#{example_description(env)}\""
-            [200, {'Content-Type' => 'text/plain'}, ['Interactions matched']]
+            text_response('Interactions matched')
           else
             error_message = FailureMessage.new(verification).to_s
             logger.warn "Verifying - actual interactions do not match expected interactions for example \"#{example_description(env)}\". \n#{error_message}"
             logger.warn error_message
-            [500, {'Content-Type' => 'text/plain'}, ["Actual interactions do not match expected interactions for mock #{name}.\n\n#{error_message}See #{logger.description} for details."]]
+            response_message = "Actual interactions do not match expected interactions for mock #{name}.\n\n#{error_message}See #{logger.description} for details."
+            text_response(response_message, 500)
           end
         end
 
@@ -64,7 +65,6 @@ module Pact
               "Unexpected requests" => verification.unexpected_requests_summaries,
             }
           end
-
         end
       end
     end

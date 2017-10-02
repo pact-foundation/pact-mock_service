@@ -25,9 +25,9 @@ module Pact
 
           begin
             session.add_expected_interaction interaction
-            [200, {}, ['Set interactions']]
+            text_response 'Set interactions'
           rescue ::Pact::Error => e
-            [500, {}, [e.message]]
+            text_response e.message, 500
           end
 
         end
