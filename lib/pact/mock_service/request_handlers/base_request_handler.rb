@@ -17,6 +17,10 @@ module Pact
           match?(env) ? respond(env) : NOT_FOUND_RESPONSE
         end
 
+        def json_response json = nil, status = 200
+          [status, {'Content-Type' => 'application/json'}, json ? [json + "\n"]: []]
+        end
+
         def text_response text = nil, status = 200
           [status, {'Content-Type' => 'text/plain'}, text ? [text + "\n"]: []]
         end

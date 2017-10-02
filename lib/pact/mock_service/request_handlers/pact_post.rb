@@ -28,9 +28,7 @@ module Pact
           logger.info "Writing pact with details #{consumer_contract_details}"
           consumer_contract_params = default_options.merge(consumer_contract_details.merge(interactions: verified_interactions))
           consumer_contract_writer = ConsumerContractWriter.new(consumer_contract_params, logger)
-          json = consumer_contract_writer.write
-
-          [200, {'Content-Type' =>'application/json'}, [json]]
+          json_response(consumer_contract_writer.write)
         end
       end
     end

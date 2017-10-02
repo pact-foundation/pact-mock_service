@@ -3,7 +3,6 @@ require 'pact/mock_service/request_handlers/base_request_handler'
 module Pact
   module MockService
     module RequestHandlers
-
       class Options < BaseRequestHandler
 
         attr_reader :name, :logger, :cors_enabled
@@ -35,7 +34,6 @@ module Pact
         def is_administration_request? env
           env["HTTP_ACCESS_CONTROL_REQUEST_HEADERS"].match(/x-pact-mock-service/i)
         end
-
       end
     end
   end

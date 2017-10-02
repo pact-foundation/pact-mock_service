@@ -92,7 +92,7 @@ module Pact
             message: "Multiple interaction found for #{actual_request.method_and_path}",
             matching_interactions:  matching_interactions.collect{ | interaction | request_summary_for(interaction) }
           }
-          [500, {'Content-Type' => 'application/json'}, [response.to_json]]
+          [500, {'Content-Type' => 'application/json'}, [response.to_json + "\n"]]
         end
 
         def self.request_summary_for interaction
@@ -121,7 +121,7 @@ module Pact
             message: "No interaction found for #{interaction_mismatch.actual_request.method_and_path}",
             interaction_diffs:  interaction_mismatch.to_hash
           }
-          [500, {'Content-Type' => 'application/json'}, [response.to_json]]
+          [500, {'Content-Type' => 'application/json'}, [response.to_json + "\n"]]
         end
 
         def self.interaction_mismatch actual_request, candidate_interactions
