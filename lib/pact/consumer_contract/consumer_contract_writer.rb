@@ -71,9 +71,9 @@ module Pact
     end
 
     def interactions_for_new_consumer_contract
-      if updating?
+      if updating? || merging?
         merged_interactions = existing_interactions.dup
-        filter = Pact::MockService::Interactions::UpdatableInteractionsFilter.new(merged_interactions)
+        filter = Pact::MockService::Interactions.filter(merged_interactions, pactfile_write_mode)
         interactions.each {|i| filter << i }
         merged_interactions
       else
@@ -144,9 +144,15 @@ module Pact
       pactfile_write_mode == :update
     end
 
+    def merging?
+      pactfile_write_mode == :merge
+    end
+
     def log_message
       if updating?
         "Updating pact for #{provider_name} at #{pactfile_path}"
+      elsif merging?
+        "Merging interactions into pact for #{provider_name} at #{pactfile_path}"
       else
         "Writing pact for #{provider_name} to #{pactfile_path}"
       end

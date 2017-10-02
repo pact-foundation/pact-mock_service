@@ -13,6 +13,15 @@ module Pact
   module MockService
     module Interactions
 
+      def self.filter existing_interactions, pactfile_write_mode
+        if pactfile_write_mode == :update
+          UpdatableInteractionsFilter.new(existing_interactions)
+        elsif pactfile_write_mode == :merge
+          MergingInteractionsFilter.new(existing_interactions)
+        else
+          existing_interactions
+        end
+      end
 
       #TODO: think of a better word than filter
       class InteractionsFilter
