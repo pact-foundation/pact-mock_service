@@ -3,11 +3,12 @@ require 'pact/mock_service/interactions/actual_interactions'
 require 'pact/mock_service/interactions/verified_interactions'
 require 'pact/mock_service/interaction_decorator'
 require 'pact/mock_service/interactions/interaction_diff_message'
+require 'pact/mock_service/errors'
 
 module Pact
   module MockService
 
-    class AlmostDuplicateInteractionError < StandardError; end
+
 
     class Session
 
@@ -65,7 +66,7 @@ module Pact
       def handle_almost_duplicate_interaction previous_interaction, interaction
         message = Interactions::InteractionDiffMessage.new(previous_interaction, interaction).to_s
         logger.error message
-        raise AlmostDuplicateInteractionError, message
+        raise SameSameButDifferentError, message
       end
 
       def interaction_already_verified_with_same_description_and_provider_state_but_not_equal interaction

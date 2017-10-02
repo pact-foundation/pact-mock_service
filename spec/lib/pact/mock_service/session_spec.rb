@@ -122,12 +122,12 @@ module Pact::MockService
           expect(expected_interactions).to_not receive(:<<).with(interaction_1)
           begin
             subject.add_expected_interaction interaction_1
-          rescue AlmostDuplicateInteractionError
+          rescue SameSameButDifferentError
           end
         end
 
-        it "raises an AlmostDuplicateInteractionError" do
-          expect { subject.add_expected_interaction interaction_1 }.to raise_error AlmostDuplicateInteractionError, diff_message
+        it "raises an SameSameButDifferentError" do
+          expect { subject.add_expected_interaction interaction_1 }.to raise_error SameSameButDifferentError, diff_message
         end
       end
     end

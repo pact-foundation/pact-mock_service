@@ -23,11 +23,11 @@ module Pact
 
         subject { described_class.new '', logger, session }
 
-        context "adding the interaction will raise AlmostDuplicateInteractionError" do
+        context "adding the interaction will raise SameSameButDifferentError" do
           let(:message) { "my message" }
 
           before(:each) do
-            allow(session).to receive(:add_expected_interaction).and_raise(AlmostDuplicateInteractionError.new(message))
+            allow(session).to receive(:add_expected_interaction).and_raise(SameSameButDifferentError.new(message))
           end
 
           it "has 500 status" do

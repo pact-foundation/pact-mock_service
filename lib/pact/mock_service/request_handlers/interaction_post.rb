@@ -26,7 +26,7 @@ module Pact
           begin
             session.add_expected_interaction interaction
             [200, {}, ['Set interactions']]
-          rescue AlmostDuplicateInteractionError => e
+          rescue ::Pact::Error => e
             [500, {}, [e.message]]
           end
 
