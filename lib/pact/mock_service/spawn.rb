@@ -42,7 +42,8 @@ module Pact
           provider: provider,
           pact_dir: options[:pact_dir] || ".",
           cors_enabled: options[:cors_enabled],
-          pact_specification_version: options[:pact_specification_version]
+          pact_specification_version: options[:pact_specification_version],
+          pactfile_write_mode: options[:pact_file_write_mode]
         )
       end
 

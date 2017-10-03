@@ -21,11 +21,11 @@ module Pact
         @verified_interactions = Interactions::VerifiedInteractions.new
         @consumer_contract_details = {
           pact_dir: options[:pact_dir],
-          unique_pact_file_names: options[:unique_pact_file_names],
           consumer: {name: options[:consumer]},
           provider: {name: options[:provider]},
           interactions: verified_interactions,
-          pact_specification_version: options[:pact_specification_version]
+          pact_specification_version: options[:pact_specification_version],
+          pactfile_write_mode: options[:pactfile_write_mode]
         }
       end
 

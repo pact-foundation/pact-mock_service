@@ -6,6 +6,7 @@ describe "The pact-mock-service command line interface", mri_only: true do
   include Pact::IntegrationTestSupport
 
   before :all do
+    clear_dirs
     @pid = start_server 1235, '--consumer Consumer --provider Provider'
   end
 

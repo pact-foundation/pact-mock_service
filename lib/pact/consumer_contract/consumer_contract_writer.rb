@@ -22,7 +22,7 @@ module Pact
     def initialize consumer_contract_details, logger
       @logger = logger
       @consumer_contract_details = consumer_contract_details
-      @pactfile_write_mode = consumer_contract_details.fetch(:pactfile_write_mode, :overwrite).to_sym
+      @pactfile_write_mode = (consumer_contract_details[:pactfile_write_mode] || :overwrite).to_sym
       @interactions = consumer_contract_details.fetch(:interactions)
       @pact_specification_version = (consumer_contract_details[:pact_specification_version] || DEFAULT_PACT_SPECIFICATION_VERSION).to_s
     end
@@ -71,7 +71,7 @@ module Pact
     end
 
     def interactions_for_new_consumer_contract
-      if updating? || merging?
+      if pactfile_exists? && (updating? || merging?)
         merged_interactions = existing_interactions.dup
         filter = Pact::MockService::Interactions.filter(merged_interactions, pactfile_write_mode)
         interactions.each {|i| filter << i }
@@ -83,21 +83,14 @@ module Pact
 
     def existing_interactions
       interactions = []
-      if pactfile_exists?
+      if pactfile_exists? && pactfile_has_contents?
         begin
           interactions = existing_consumer_contract.interactions
-          if updating?
-            info_and_puts "*****************************************************************************"
-            info_and_puts "Updating existing file .#{pactfile_path.gsub(Dir.pwd, '')} as pactfile_write_mode is :update"
-            info_and_puts "Only interactions defined in this test run will be updated."
-            info_and_puts "As interactions are identified by description and provider state, pleased note that if either of these have changed, the old interactions won't be removed from the pact file until the specs are next run with :pactfile_write_mode => :overwrite."
-            info_and_puts "*****************************************************************************"
-          end
+          print_updating_warning if updating?
         rescue StandardError => e
-          warn_and_stderr "Could not load existing consumer contract from #{pactfile_path} due to #{e}"
+          warn_and_stderr "Could not load existing consumer contract from #{pactfile_path} due to #{e}. Creating a new file."
           logger.error e
           logger.error e.backtrace
-          warn_and_stderr "Creating a new file."
         end
       end
       interactions
@@ -105,6 +98,10 @@ module Pact
 
     def pactfile_exists?
       File.exist?(pactfile_path)
+    end
+
+    def pactfile_has_contents?
+      File.size(pactfile_path) != 0
     end
 
     def existing_consumer_contract
@@ -158,6 +155,14 @@ module Pact
       else
         "Writing pact for #{provider_name} to #{pactfile_path}"
       end
+    end
+
+    def print_updating_warning
+      info_and_puts "*****************************************************************************"
+      info_and_puts "Updating existing file .#{pactfile_path.gsub(Dir.pwd, '')} as pactfile_write_mode is :update"
+      info_and_puts "Only interactions defined in this test run will be updated."
+      info_and_puts "As interactions are identified by description and provider state, pleased note that if either of these have changed, the old interactions won't be removed from the pact file until the specs are next run with :pactfile_write_mode => :overwrite."
+      info_and_puts "*****************************************************************************"
     end
   end
 end

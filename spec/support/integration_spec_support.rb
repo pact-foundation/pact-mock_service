@@ -9,7 +9,6 @@ module Pact
     PACT_DIR = 'tmp/pacts'
 
     def start_server port, options = '', wait = true
-      FileUtils.rm_rf 'tmp'
       pid = fork do
         exec "bundle exec bin/pact-mock-service --port #{port} --host 0.0.0.0 --log tmp/integration.log --pact-dir tmp/pacts #{options}"
       end
@@ -19,7 +18,6 @@ module Pact
     end
 
     def start_control port, options = ''
-      FileUtils.rm_rf 'tmp'
       pid = fork do
         exec "bundle exec bin/pact-mock-service control --port #{port} --log-dir tmp/log --pact-dir tmp/pacts #{options}"
       end
@@ -40,6 +38,7 @@ module Pact
 
     def clear_dirs
       FileUtils.rm_rf TMP
+      FileUtils.mkdir TMP
     end
 
     def expected_interaction
@@ -49,6 +48,22 @@ module Pact
           method: :get,
           headers: {'Foo' => 'Bar'},
           path: '/greeting'
+        },
+        response: {
+          status: 200,
+          headers: { 'Content-Type' => 'text/plain' },
+          body: "Hello world"
+        }
+      }.to_json
+    end
+
+    def another_expected_interaction
+      {
+        description: "another request for a greeting",
+        request: {
+          method: :get,
+          headers: {'Foo' => 'Bar'},
+          path: '/another-greeting'
         },
         response: {
           status: 200,
@@ -78,8 +93,20 @@ module Pact
         mock_service_headers
     end
 
+    def setup_another_interaction port
+      Faraday.post "http://localhost:#{port}/interactions",
+        another_expected_interaction,
+        mock_service_headers
+    end
+
     def invoke_expected_request port
       Faraday.get "http://localhost:#{port}/greeting",
+        nil,
+        {'Foo' => 'Bar'}
+    end
+
+    def invoke_another_expected_request port
+      Faraday.get "http://localhost:#{port}/another-greeting",
         nil,
         {'Foo' => 'Bar'}
     end

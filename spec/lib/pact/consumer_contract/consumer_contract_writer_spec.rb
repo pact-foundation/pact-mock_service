@@ -80,7 +80,6 @@ module Pact
         let(:pactfile_write_mode) {:update}
         let(:error) { RuntimeError.new('some error')}
         let(:line1) { /Could not load existing consumer contract from .* due to some error/ }
-        let(:line2) {'Creating a new file.'}
 
         before do
           allow(ConsumerContract).to receive(:from_json).and_raise(error)
@@ -90,9 +89,7 @@ module Pact
 
         it "logs the error" do
           expect($stderr).to receive(:puts).with(line1)
-          expect($stderr).to receive(:puts).with(line2)
           expect(logger).to receive(:warn).with(line1)
-          expect(logger).to receive(:warn).with(line2)
           consumer_contract_writer.consumer_contract
         end
 

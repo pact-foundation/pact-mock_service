@@ -6,6 +6,7 @@ describe "The pact-mock-service control server command line interface", mri_only
   include Pact::ControlServerTestSupport
 
   before :all do
+    clear_dirs
     @pid = start_control 1234, '--ssl'
   end
 

@@ -5,6 +5,10 @@ describe "The pact-mock-service command line interface, with SSL", mri_only: tru
 
   include Pact::IntegrationTestSupport
 
+  before(:all) do
+    clear_dirs
+  end
+
   it "should respond with SSL" do
     @pid = start_server 4343, '--ssl', false
     wait_until_server_started 4343, true
