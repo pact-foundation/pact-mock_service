@@ -11,6 +11,9 @@ module Pact
         def call env
           begin
             @app.call(env)
+          rescue Pact::Error => e
+            @logger.error e.message
+            [500, {'Content-Type' => 'application/json'}, [{message: e.message}.to_json]]
           rescue StandardError => e
             message = "Error ocurred in mock service: #{e.class} - #{e.message}"
             @logger.error message

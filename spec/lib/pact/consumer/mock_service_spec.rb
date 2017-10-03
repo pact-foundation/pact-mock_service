@@ -5,9 +5,7 @@ require 'pact/mock_service/app'
 
 module Pact
   module Consumer
-
     describe MockService do
-
       include Rack::Test::Methods
 
       def app
@@ -48,7 +46,7 @@ module Pact
 
         it "includes the error message" do
           subject
-          expect(response['message']).to include "RuntimeError - an error"
+          expect(response['message']).to include "an error"
         end
 
         it "includes the backtrace" do
@@ -57,6 +55,31 @@ module Pact
         end
       end
 
+      context "when a Pact::Error is encountered" do
+        let(:response) { JSON.parse(last_response.body)}
+        let(:interaction_replay) { double(Pact::MockService::RequestHandlers::InteractionReplay, :match? => true)}
+
+        before do
+          expect(interaction_replay).to receive(:call).and_raise(Pact::Error.new('some error'))
+        end
+
+        subject { get "/" }
+
+        it "returns a json error" do
+          subject
+          expect(last_response.content_type).to eq 'application/json'
+        end
+
+        it "includes the error message" do
+          subject
+          expect(response['message']).to include "some error"
+        end
+
+        it "does not include the backtrace" do
+          subject
+          expect(response).to_not have_key('backtrace')
+        end
+      end
     end
   end
 end

@@ -86,11 +86,13 @@ module Pact
       if pactfile_exists?
         begin
           interactions = existing_consumer_contract.interactions
-          info_and_puts "*****************************************************************************"
-          info_and_puts "Updating existing file .#{pactfile_path.gsub(Dir.pwd, '')} as config.pactfile_write_mode is :update"
-          info_and_puts "Only interactions defined in this test run will be updated."
-          info_and_puts "As interactions are identified by description and provider state, pleased note that if either of these have changed, the old interactions won't be removed from the pact file until the specs are next run with :pactfile_write_mode => :overwrite."
-          info_and_puts "*****************************************************************************"
+          if updating?
+            info_and_puts "*****************************************************************************"
+            info_and_puts "Updating existing file .#{pactfile_path.gsub(Dir.pwd, '')} as pactfile_write_mode is :update"
+            info_and_puts "Only interactions defined in this test run will be updated."
+            info_and_puts "As interactions are identified by description and provider state, pleased note that if either of these have changed, the old interactions won't be removed from the pact file until the specs are next run with :pactfile_write_mode => :overwrite."
+            info_and_puts "*****************************************************************************"
+          end
         rescue StandardError => e
           warn_and_stderr "Could not load existing consumer contract from #{pactfile_path} due to #{e}"
           logger.error e
