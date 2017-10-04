@@ -1,42 +1,86 @@
+
 # Pact Mock Service
 
 [![Build Status](https://travis-ci.org/pact-foundation/pact-mock_service.svg?branch=master)](https://travis-ci.org/pact-foundation/pact-mock_service)
 
-This codebase provides the mock service used by implementations of [Pact][pact]. It is packaged as a gem, and as a standalone executable for Mac OSX and Linux and Windows.
+This codebase provides the HTTP mock service used by implementations of [Pact][pact]. It is packaged as a gem, and as a standalone executable for Mac OSX and Linux and Windows.
 
 The mock service provides the following endpoints:
 
 * DELETE /interactions - clear previously mocked interactions
 * POST /interactions - set up an expected interaction
+* PUT /interactions - clear and set up multiple expected interactions in one call
 * GET /interactions/verification - determine whether the expected interactions have taken place
 * POST /pact - write the pact file
+* GET / - the healthcheck endpoint
+
+All requests to the "administration" endpoints listed above must contain the header `X-Pact-Mock-Service: true` to allow the mock service to know whether the request is an administration request or a request from the actual consumer code.
 
 As the Pact mock service can be used as a standalone executable and administered via HTTP, it can be used for testing with any language. All that is required is a library in the native language to create the HTTP calls listed above. Check out [docs.pact.io](https://docs.pact.io) for a list of implemented languages. If you are interested in creating bindings in a new langauge, and have a chat to one of us on the [pact-dev Google group][pact-dev].
 
-## Documentation
+## Installation
 
-You can find documentation for the mock service in the repository [wiki][wiki].
+### Without Ruby
 
-## Usage
+Use the Pact standalone [executables][executables].
 
-For some examples of the HTTP requests that occur under the hood when using either the Ruby client or the Javascript client, see this [gist](https://gist.github.com/bethesque/9d81f21d6f77650811f4).
+### With Ruby
 
-### Mac OSX, Linux and Windows, without Ruby
+Use the [pact][pact] gem if you would like the full Pact DSL, mock service and verification functionality in your ruby project.
 
-See the [releases][releases] page for the latest standalone executables.
-
-### With Ruby on Mac OSX and Linux
+Otherwise:
 
     $ gem install pact-mock_service
-    $ pact-mock-service --port 1234
+    $ pact-mock-service --consumer Foo --provider Bar --port 1234
+
+Or add `gem "pact-mock_service"` to your Gemfile then run:
+
+    $ bundle install
+    $ bundle exec pact-mock-service --consumer Foo --provider Bar --port 1234
 
 Run `pact-mock-service help` for command line options.
 
-### With Ruby on Windows
+## Usage
 
-Check out the wiki page [here][install-windows].
+The lifecycle of the a mock service instance during at test suite is as follows:
 
-#### With SSL
+_Before suite:_ start mock service
+_Before each test:_ clear interactions from previous test
+_During test:_ set up interactions, execute interactions
+_After each test:_ verify interactions
+_After suite:_ write pact file, stop mock service
+
+Each mock service instance can only handle one test process/thread at a time. If you wish to run multiple test threads in parallel, you will need to start each mock service instance on a different port, and set the `--pact-file-write-mode` to `merge` (see usage notes below).
+
+```
+Usage:
+  pact-mock-service service
+
+Options:
+      [--consumer=CONSUMER]                                      # Consumer name
+      [--provider=PROVIDER]                                      # Provider name
+  -p, [--port=PORT]                                              # Port on which to run the service
+  -h, [--host=HOST]                                              # Host on which to bind the service
+                                                                 # Default: localhost
+  -d, [--pact-dir=PACT_DIR]                                      # Directory to which the pacts will be written
+  -m, [--pact-file-write-mode=PACT_FILE_WRITE_MODE]              # `overwrite` or `merge`. Use `merge` when running multiple mock service instances in parallel for the same consumer/provider pair. Ensure the pact file is deleted before running tests when using this option so that interactions deleted from the code are not maintained in the file.
+                                                                 # Default: overwrite
+  -i, [--pact-specification-version=PACT_SPECIFICATION_VERSION]  # The pact specification version to use when writing the pact
+                                                                 # Default: 1
+  -l, [--log=LOG]                                                # File to which to log output
+  -o, [--cors=CORS]                                              # Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses
+      [--ssl], [--no-ssl]                                        # Use a self-signed SSL cert to run the service over HTTPS
+      [--sslcert=SSLCERT]                                        # Specify the path to the SSL cert to use when running the service over HTTPS
+      [--sslkey=SSLKEY]                                          # Specify the path to the SSL key to use when running the service over HTTPS
+
+Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown.
+```
+
+See [script/example.sh](script/example.sh) for an executable example.
+
+You can find more documentation for the mock service in the repository [wiki][wiki].
+
+### With SSL
 
 If you need to use the mock service with HTTPS, you can use the built-in SSL mode which relies on and generates a self-signed certificate.
 
@@ -46,14 +90,16 @@ If you need to provide your own certificate and key, use the following syntax.
 
     $ pact-mock-service --port 1234 --ssl --sslcert PATH_TO_CERT --sslkey PATH_TO_KEY
 
+### With CORS
+
+Read the wiki page on [CORS][cors].
+
 ## Contributing
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md)
 
 [pact]: https://github.com/realestate-com-au/pact
-[releases]: https://github.com/pact-foundation/pact-mock_service/releases
-[javascript]: https://github.com/DiUS/pact-consumer-js-dsl
+[executables]: https://github.com/pact-foundation/pact-ruby-standalone/releases
 [pact-dev]: https://groups.google.com/forum/#!forum/pact-dev
-[install-windows]: https://github.com/bethesque/pact-mock_service/wiki/Installing-the-pact-mock_service-gem-on-Windows
-[why-generated]: https://github.com/realestate-com-au/pact/wiki/FAQ#why-are-the-pacts-generated-and-not-static
 [wiki]: https://github.com/pact-foundation/pact-mock_service/wiki
+[cors]: https://github.com/pact-foundation/pact-mock_service/wiki/Using-the-mock-service-with-CORS
