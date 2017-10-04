@@ -14,18 +14,18 @@ module Pact
       " Ensure the pact file is deleted before running tests when using this option so that interactions deleted from the code are not maintained in the file."
 
       desc 'service', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
+      method_option :consumer, desc: "Consumer name"
+      method_option :provider, desc: "Provider name"
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
-      method_option :log, aliases: "-l", desc: "File to which to log output"
-      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
-      method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
-      method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
-      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
       method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
-      method_option :consumer, desc: "Consumer name"
-      method_option :provider, desc: "Provider name"
+      method_option :log, aliases: "-l", desc: "File to which to log output"
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
+      method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
+      method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
 
       def service
         require 'pact/mock_service/run'
@@ -35,14 +35,14 @@ module Pact
       desc 'control', "Run a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
-      method_option :log_dir, aliases: "-l", desc: "File to which to log output"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :log_dir, aliases: "-l", desc: "File to which to log output"
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
       method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
       method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
-      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
 
       def control
         require 'pact/mock_service/control_server/run'
@@ -50,19 +50,19 @@ module Pact
       end
 
       desc 'start', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
+      method_option :consumer, desc: "Consumer name"
+      method_option :provider, desc: "Provider name"
       method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
+      method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
+      method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
       method_option :log, aliases: "-l", desc: "File to which to log output"
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
       method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
-      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
-      method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
-      method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
-      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
-      method_option :consumer, desc: "Consumer name"
-      method_option :provider, desc: "Provider name"
-      method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
 
       def start
         start_server(mock_service_pidfile) do
@@ -79,19 +79,19 @@ module Pact
       end
 
       desc 'restart', "Start or restart a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
+      method_option :consumer, desc: "Consumer name"
+      method_option :provider, desc: "Provider name"
       method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
+      method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
+      method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
+      method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
       method_option :log, aliases: "-l", desc: "File to which to log output"
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
       method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
-      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
-      method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
-      method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
-      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
-      method_option :consumer, desc: "Consumer name"
-      method_option :provider, desc: "Provider name"
-      method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
 
       def restart
         restart_server(mock_service_pidfile) do
@@ -102,14 +102,14 @@ module Pact
       desc 'control-start', "Start a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
-      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
-      method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
-      method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
-      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
-      method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
       method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
+      method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
+      method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
+      method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
 
       def control_start
         start_server(control_server_pidfile) do
@@ -128,14 +128,14 @@ module Pact
       desc 'control-restart', "Start a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
-      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
-      method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
-      method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
-      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
       method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '1'
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
+      method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
+      method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
+      method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
+      method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
 
       def control_restart
         restart_server(control_server_pidfile) do
