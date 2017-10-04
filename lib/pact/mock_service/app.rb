@@ -38,7 +38,10 @@ module Pact
 
       def write_pact_if_configured
         consumer_contract_writer = ConsumerContractWriter.new(@session.consumer_contract_details, StdoutLogger.new)
-        consumer_contract_writer.write if consumer_contract_writer.can_write?
+        if consumer_contract_writer.can_write? && !@session.pact_written?
+          $stdout.puts "Writing pact before shutting down"
+          consumer_contract_writer.write
+        end
       end
 
       def to_s
@@ -47,6 +50,7 @@ module Pact
     end
 
     # Can't write to a file in a TRAP, might deadlock
+    # Not sure why we can still write to the pact file though
     class StdoutLogger
       def info message
         $stdout.puts "\n#{message}"

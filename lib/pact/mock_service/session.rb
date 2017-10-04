@@ -7,14 +7,12 @@ require 'pact/mock_service/errors'
 
 module Pact
   module MockService
-
-
-
     class Session
 
       attr_reader :expected_interactions, :actual_interactions, :verified_interactions, :consumer_contract_details, :logger
 
       def initialize options
+        @pact_written = false
         @logger = options[:logger]
         @expected_interactions = Interactions::ExpectedInteractions.new
         @actual_interactions = Interactions::ActualInteractions.new
@@ -27,6 +25,14 @@ module Pact
           pact_specification_version: options[:pact_specification_version],
           pactfile_write_mode: options[:pactfile_write_mode]
         }
+      end
+
+      def pact_written?
+        @pact_written
+      end
+
+      def record_pact_written
+        @pact_written = true
       end
 
       def set_expected_interactions interactions
@@ -45,6 +51,7 @@ module Pact
         expected_interactions.clear
         actual_interactions.clear
         verified_interactions.clear
+        @pact_written = false
       end
 
       def add_expected_interaction interaction

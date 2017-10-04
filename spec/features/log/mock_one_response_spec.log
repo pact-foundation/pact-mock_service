@@ -1,3 +1,69 @@
+INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response"
+INFO -- : Registered expected interaction GET /alligators
+DEBUG -- : {
+  "description": "a request for alligators",
+  "providerState": "alligators exist",
+  "request": {
+    "method": "get",
+    "path": "/alligators",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+      {
+        "name": "Mary"
+      }
+    ]
+  }
+}
+INFO -- : Received request GET /alligators
+DEBUG -- : {
+  "method": "get",
+  "query": "",
+  "path": "/alligators",
+  "headers": {
+    "Https": "off",
+    "Content-Length": "0",
+    "Accept": "application/xml",
+    "Host": "example.org",
+    "Cookie": ""
+  }
+}
+ERROR -- : No matching interaction found for GET /alligators
+ERROR -- : Interaction diffs for that route:
+ERROR -- : Diff with interaction: "a request for alligators" given "alligators exist"
+Diff
+--------------------------------------
+Key: - is expected 
+     + is actual 
+Matching keys and values are not shown
+
+ {
+   "headers": {
+-    "Accept": "application/json"
++    "Accept": "application/xml"
+   }
+ }
+
+Description of differences
+--------------------------------------
+* Expected "application/json" but got "application/xml" at $.headers.Accept
+
+WARN -- : Verifying - actual interactions do not match expected interactions for example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response". 
+Incorrect requests:
+	GET /alligators (request headers did not match)
+
+
+WARN -- : Incorrect requests:
+	GET /alligators (request headers did not match)
+
+
 INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
 INFO -- : Registered expected interaction GET /alligators
 DEBUG -- : {
@@ -48,64 +114,3 @@ DEBUG -- : {
   ]
 }
 INFO -- : Verifying - interactions matched for example "Pact::Consumer::MockService when a response has been mocked when the actual request matches the expected request returns the expected response"
-INFO -- : Cleared interactions before example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response"
-INFO -- : Registered expected interaction GET /alligators
-DEBUG -- : {
-  "description": "a request for alligators",
-  "providerState": "alligators exist",
-  "request": {
-    "method": "get",
-    "path": "/alligators",
-    "headers": {
-      "Accept": "application/json"
-    }
-  },
-  "response": {
-    "status": 200,
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "body": [
-      {
-        "name": "Mary"
-      }
-    ]
-  }
-}
-INFO -- : Received request GET /alligators
-DEBUG -- : {
-  "method": "get",
-  "query": "",
-  "path": "/alligators",
-  "headers": {
-    "Https": "off",
-    "Content-Length": "0",
-    "Accept": "application/xml",
-    "Host": "example.org",
-    "Cookie": ""
-  }
-}
-ERROR -- : No matching interaction found for GET /alligators
-ERROR -- : Interaction diffs for that route:
-ERROR -- : Diff with interaction: "a request for alligators" given "alligators exist"
-@@ -1,6 +1,6 @@
- {
-   "headers": {
--    "Accept": "application/json"
-+    "Accept": "application/xml"
-   }
- }
-
-Key: - means "expected, but was not found". 
-     + means "actual, should not be found". 
-     Values where the expected matches the actual are not shown.
-
-WARN -- : Verifying - actual interactions do not match expected interactions for example "Pact::Consumer::MockService when a response has been mocked when the actual request does not match the expected request returns an error response". 
-Incorrect requests:
-	GET /alligators (request headers did not match)
-
-
-WARN -- : Incorrect requests:
-	GET /alligators (request headers did not match)
-
-

@@ -10,7 +10,7 @@ module Pact
 
     def start_server port, options = '', wait = true
       pid = fork do
-        exec "bundle exec bin/pact-mock-service --port #{port} --host 0.0.0.0 --log tmp/integration.log --pact-dir tmp/pacts #{options}"
+        exec "bundle exec bin/pact-mock-service --consumer Consumer --provider Provider --port #{port} --host 0.0.0.0 --log tmp/integration.log --pact-dir tmp/pacts #{options}"
       end
 
       wait_until_server_started(port, /--ssl/ === options) if wait
@@ -113,7 +113,7 @@ module Pact
 
     def write_pact port
       Faraday.post "http://localhost:#{port}/pact",
-        pact_details,
+        nil,
         mock_service_headers
     end
 

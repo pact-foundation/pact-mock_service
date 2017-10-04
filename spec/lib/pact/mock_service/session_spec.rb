@@ -49,9 +49,12 @@ module Pact::MockService
         allow(Interactions::ExpectedInteractions).to receive(:new).and_return(expected_interactions)
         allow(Interactions::ActualInteractions).to receive(:new).and_return(actual_interactions)
         allow(Interactions::VerifiedInteractions).to receive(:new).and_return(verified_interactions)
+        session.record_pact_written
       end
 
-      subject { Session.new(logger: logger).clear_all }
+      let(:session) { Session.new(logger: logger) }
+
+      subject { session.clear_all }
 
       it "clears the expected interactions" do
         expect(expected_interactions).to receive(:clear)
@@ -66,6 +69,11 @@ module Pact::MockService
       it "clears the verified interactions" do
         expect(verified_interactions).to receive(:clear)
         subject
+      end
+
+      it "resets the pact_written flag" do
+        subject
+        expect(session.pact_written?).to be false
       end
 
     end

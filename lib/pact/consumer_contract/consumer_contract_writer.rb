@@ -55,7 +55,6 @@ module Pact
 
     def update_pactfile
       logger.info log_message
-
       FileUtils.mkdir_p File.dirname(pactfile_path)
       Filelock pactfile_path do | file |
         file.write pact_json
