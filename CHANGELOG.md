@@ -2,6 +2,14 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 2.3.0 (2017-20-04)
+* 79cbdc9 - feat: add example script showing usage (Beth Skurrie, Wed Oct 4 13:42:06 2017 +1100)
+* 873d9ee - feat: only write pact on shutdown of mock service if pact has not already been written (Beth Skurrie, Wed Oct 4 13:41:01 2017 +1100)
+* d3c6067 - feat(cli): add --pact-file-write-mode to cli and remove --unique-pact-file-names (Beth Skurrie, Wed Oct 4 08:01:25 2017 +1100)
+* 476ae5c - feat: only include backtrace in error response for standard errors, not for pact::error (Beth Skurrie, Tue Oct 3 16:40:06 2017 +1100)
+* a76dc7e - feat: add 'merge' pactfile_write_mode (Beth Skurrie, Tue Oct 3 10:13:36 2017 +1100)
+* d0d82f2 - feat: use file locking to ensure pact file isn't corrupted when running multiple mock services in parallel (Beth Skurrie, Mon Oct 2 08:32:34 2017 +1100)
+
 ### 2.2.0 (2017-09-30)
 * 3949e3d - feat(cli): add --unique-pact-file-names option (Beth Skurrie, Thu Sep 28 11:16:22 2017 +1000)
 
