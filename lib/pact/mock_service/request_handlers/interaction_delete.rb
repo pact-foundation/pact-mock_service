@@ -26,7 +26,7 @@ module Pact
           example_desc = example_description(env)
           example_desc = example_desc ? " for example #{example_desc.inspect}" : ''
           logger.info "Cleared interactions#{example_desc}"
-          text_response('Deleted interactions')
+          text_response('Cleared interactions')
         end
 
         def example_description env

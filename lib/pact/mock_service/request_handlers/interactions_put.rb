@@ -26,7 +26,7 @@ module Pact
           interactions = request_body['interactions'].collect { | hash | Interaction.from_hash(hash) }
           begin
             session.set_expected_interactions interactions
-            text_response('Set interactions')
+            text_response('Registered interactions')
           rescue Pact::Error => e
             text_response(e.message, 500)
           end
