@@ -21,12 +21,14 @@ module Pact
 
         def respond env
           verification = Pact::MockService::Interactions::Verification.new(expected_interactions, actual_interactions)
+          example_desc = example_description(env)
+          example_desc = example_desc ? " for example #{example_desc.inspect}" : ''
           if verification.all_matched?
-            logger.info "Verifying - interactions matched for example \"#{example_description(env)}\""
+            logger.info "Verifying - interactions matched#{example_desc}"
             text_response('Interactions matched')
           else
             error_message = FailureMessage.new(verification).to_s
-            logger.warn "Verifying - actual interactions do not match expected interactions for example \"#{example_description(env)}\". \n#{error_message}"
+            logger.warn "Verifying - actual interactions do not match expected interactions#{example_desc}. \n#{error_message}"
             logger.warn error_message
             response_message = "Actual interactions do not match expected interactions for mock #{name}.\n\n#{error_message}See #{logger.description} for details."
             text_response(response_message, 500)
