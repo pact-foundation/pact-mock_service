@@ -1,6 +1,7 @@
 require 'find_a_port'
 require 'pact/mock_service/app'
 require 'pact/consumer/mock_service/set_location'
+require 'pact/mock_service/run'
 
 module Pact
   module MockService
@@ -53,7 +54,8 @@ module Pact
           provider: options[:provider],
           cors_enabled: options[:cors],
           pact_specification_version: options[:pact_specification_version],
-          pactfile_write_mode: options[:pact_file_write_mode]
+          pactfile_write_mode: options[:pact_file_write_mode],
+          stub_pactfile_paths: options[:stub_pactfile_paths]
         }
         service_options[:log_file] = open_log_file if options[:log]
         service_options

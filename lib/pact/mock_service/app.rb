@@ -20,6 +20,7 @@ module Pact
         logger = Logger.from_options(options)
         @name = options.fetch(:name, "MockService")
         @session = Session.new(options.merge(logger: logger))
+        setup_stub(options[:stub_pactfile_paths]) if options[:stub_pactfile_paths] && options[:stub_pactfile_paths].any?
         request_handlers = RequestHandlers.new(@name, logger, @session, options)
         @app = Rack::Builder.app do
           use Pact::Consumer::MockService::ErrorHandler, logger
@@ -34,6 +35,15 @@ module Pact
 
       def shutdown
         write_pact_if_configured
+      end
+
+      def setup_stub stub_pactfile_paths
+        stub_pactfile_paths.each do | pactfile_path |
+          $stdout.puts "Loading interactions from #{pactfile_path}"
+          hash_interactions = JSON.parse(File.read(pactfile_path))['interactions']
+          interactions = hash_interactions.collect { | hash | Interaction.from_hash(hash) }
+          @session.set_expected_interactions interactions
+        end
       end
 
       def write_pact_if_configured

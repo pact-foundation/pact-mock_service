@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require 'pact/stub_service/cli'
+Pact::StubService::CLI.start
