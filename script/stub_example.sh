@@ -2,7 +2,7 @@
 
 # BEFORE SUITE start mock service
 # invoked by the pact framework
-bundle exec bin/pact-stub-service tmp/pacts/foo-bar.json \
+bundle exec pact-stub-service script/foo-bar.json \
   --port 1234 \
   --log ./tmp/bar_stub_service.log &
 pid=$!

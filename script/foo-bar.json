@@ -1,0 +1,31 @@
+{
+  "consumer": {
+    "name": "Foo"
+  },
+  "provider": {
+    "name": "Bar"
+  },
+  "interactions": [
+    {
+      "description": "foo",
+      "request": {
+        "method": "GET",
+        "path": "/foo"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "message": "Hello world"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}
