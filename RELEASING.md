@@ -14,4 +14,5 @@
 
     # automated release is broken
     # https://travis-ci.org/pact-foundation/pact-mock_service/jobs/281630156#L1103
-    $ VERSION=$(ruby -r ./lib/pact/mock_service/version.rb -e "puts Pact::MockService::VERSION") git tag -a v${VERSION} -m "chore(release): version ${VERSION}" && git push origin v${VERSION}
+    $ VERSION=$(ruby -r ./lib/pact/mock_service/version.rb -e "puts Pact::MockService::VERSION")
+    $ git tag -a v${VERSION} -m "chore(release): version ${VERSION}" && git push origin v${VERSION}
