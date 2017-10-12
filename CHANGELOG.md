@@ -2,7 +2,10 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
-### 2.3.0 (2017-20-04)
+### 2.4.0 (2017-10-13)
+* 56bd683 - feat(stub): add pact-stub-service CLI (Beth Skurrie, Fri Oct 13 08:20:49 2017 +1100)
+
+### 2.3.0 (2017-10-04)
 * 79cbdc9 - feat: add example script showing usage (Beth Skurrie, Wed Oct 4 13:42:06 2017 +1100)
 * 873d9ee - feat: only write pact on shutdown of mock service if pact has not already been written (Beth Skurrie, Wed Oct 4 13:41:01 2017 +1100)
 * d3c6067 - feat(cli): add --pact-file-write-mode to cli and remove --unique-pact-file-names (Beth Skurrie, Wed Oct 4 08:01:25 2017 +1100)
