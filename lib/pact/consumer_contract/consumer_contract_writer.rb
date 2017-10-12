@@ -13,7 +13,7 @@ module Pact
 
   class ConsumerContractWriter
 
-    DEFAULT_PACT_SPECIFICATION_VERSION = '1.0.0'
+    DEFAULT_PACT_SPECIFICATION_VERSION = '2.0.0'
 
     include Pact::FileName
     include Pact::PactFile

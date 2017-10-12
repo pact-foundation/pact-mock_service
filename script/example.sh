@@ -6,6 +6,7 @@ bundle exec pact-mock-service service \
   --port 1234 \
   --consumer Foo \
   --provider Bar \
+  --pact-specification-version 2 \
   --pact-dir ./tmp/pacts \
   --log ./tmp/bar_mock_service.log &
 pid=$!

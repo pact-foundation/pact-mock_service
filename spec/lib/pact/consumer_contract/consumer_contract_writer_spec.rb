@@ -148,8 +148,8 @@ module Pact
 
       context "when no pact_specification_version is specified" do
         let(:pact_specification_version) { nil }
-        it "defaults to 1" do
-          expect(Pact::ConsumerContractDecorator).to receive(:new).with(anything, hash_including(pact_specification_version: '1.0.0')).and_call_original
+        it "defaults to 2" do
+          expect(Pact::ConsumerContractDecorator).to receive(:new).with(anything, hash_including(pact_specification_version: '2.0.0')).and_call_original
           consumer_contract_writer.write
         end
       end
