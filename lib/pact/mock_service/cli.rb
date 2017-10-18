@@ -13,7 +13,7 @@ module Pact
       PACT_FILE_WRITE_MODE_DESC = "`overwrite` or `merge`. Use `merge` when running multiple mock service instances in parallel for the same consumer/provider pair." +
       " Ensure the pact file is deleted before running tests when using this option so that interactions deleted from the code are not maintained in the file."
 
-      desc 'service', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
+      desc 'service', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown (INT)."
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
@@ -49,7 +49,7 @@ module Pact
         ControlServer::Run.(options)
       end
 
-      desc 'start', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
+      desc 'start', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown (INT)."
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
       method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
@@ -78,7 +78,7 @@ module Pact
         mock_service_pidfile.kill_process
       end
 
-      desc 'restart', "Start or restart a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown."
+      desc 'restart', "Start or restart a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown (INT)."
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
       method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"

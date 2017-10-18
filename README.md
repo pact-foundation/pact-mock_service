@@ -42,13 +42,13 @@ Run `pact-mock-service help` for command line options.
 
 ## Usage
 
-The lifecycle of the a mock service instance during at test suite is as follows:
+Each mock service process is designed to mock only ONE provider. To mock multiple providers, you will need to start a process for each provider. The lifecycle of the a mock service instance during at test suite is as follows:
 
-_Before suite:_ start mock service
-_Before each test:_ clear interactions from previous test
-_During test:_ set up interactions, execute interactions
-_After each test:_ verify interactions
-_After suite:_ write pact file, stop mock service
+* _Before suite:_ start mock service
+* _Before each test:_ clear interactions from previous test
+* _During test:_ set up interactions, execute interactions
+* _After each test:_ verify interactions
+* _After suite:_ write pact file, stop mock service
 
 Each mock service instance can only handle one test process/thread at a time. If you wish to run multiple test threads in parallel, you will need to start each mock service instance on a different port, and set the `--pact-file-write-mode` to `merge` (see usage notes below).
 
@@ -73,7 +73,7 @@ Options:
       [--sslcert=SSLCERT]                                        # Specify the path to the SSL cert to use when running the service over HTTPS
       [--sslkey=SSLKEY]                                          # Specify the path to the SSL key to use when running the service over HTTPS
 
-Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown.
+Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown (INT).
 ```
 
 See [script/example.sh](script/example.sh) for an executable example.
