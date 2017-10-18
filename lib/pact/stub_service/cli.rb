@@ -10,7 +10,9 @@ module Pact
   module StubService
     class CLI < Pact::MockService::CLI::CustomThor
 
-      desc 'PACT ...', "Start a stub service with the given pact file(s). Note that this is in beta release, and no logic has been added to handle the situation where more than one matching interaction is found for a request. At the moment, an error response will be returned."
+      desc 'PACT ...', "Start a stub service with the given pact file(s). Note that this is in beta release, and no logic has been added to handle the situation where more than one matching interaction is found for a request. At the moment, an error response will be returned." +
+                        "\nOnly versions 1 and 2 of the pact specification are currently supported."
+
 
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'

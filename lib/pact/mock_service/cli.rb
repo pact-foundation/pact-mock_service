@@ -20,7 +20,7 @@ module Pact
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
-      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '2'
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact. Note that only versions 1 and 2 are currently supported.", default: '2'
       method_option :log, aliases: "-l", desc: "File to which to log output"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
@@ -38,7 +38,7 @@ module Pact
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :log_dir, aliases: "-l", desc: "File to which to log output"
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
-      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '2'
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact. Note that only versions 1 and 2 are currently supported.", default: '2'
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
       method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
@@ -58,7 +58,7 @@ module Pact
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
       method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
       method_option :log, aliases: "-l", desc: "File to which to log output"
-      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '2'
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact. Note that only versions 1 and 2 are currently supported.", default: '2'
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
       method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
@@ -87,7 +87,7 @@ module Pact
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
       method_option :pid_dir, desc: "PID dir", default: 'tmp/pids'
       method_option :log, aliases: "-l", desc: "File to which to log output"
-      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '2'
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact. Note that only versions 1 and 2 are currently supported.", default: '2'
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
       method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
@@ -130,7 +130,7 @@ module Pact
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
-      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact", default: '2'
+      method_option :pact_specification_version, aliases: "-i", desc: "The pact specification version to use when writing the pact. Note that only versions 1 and 2 are currently supported.", default: '2'
       method_option :pid_dir, desc: "PID dir", default: "tmp/pids"
       method_option :cors, aliases: "-o", desc: "Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses"
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
