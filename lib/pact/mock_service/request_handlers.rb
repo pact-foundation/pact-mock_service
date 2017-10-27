@@ -33,7 +33,7 @@ module Pact
             LogGet.new(name, logger),
             PactPost.new(name, logger, session),
             IndexGet.new(name, logger),
-            InteractionReplay.new(name, logger, session, options[:cors_enabled])
+            InteractionReplay.new(name, logger, session, options[:cors_enabled], options[:stub_pactfile_paths])
           ]
         end
       end

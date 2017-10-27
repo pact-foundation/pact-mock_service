@@ -33,11 +33,12 @@ module Pact
           expected_interactions << expected_interaction
         end
 
-        subject { InteractionReplay.new('provider', logger, session) }
+        subject { InteractionReplay.new('provider', logger, session, false, stub) }
         let(:response) { subject.respond env }
         let(:response_body) { JSON.parse(response[2][0]) }
         let(:response_status) { response[0] }
         let(:response_headers) { response[1] }
+        let(:stub) { false }
 
         context "when at least one request with a matching method and path is found" do
           let(:env) do
@@ -95,29 +96,51 @@ module Pact
           end
 
           context "when more than one matching request is found" do
-            before do
-              expected_interactions << expected_interaction
+            context "when not in stub mode" do
+              before do
+                expected_interactions << expected_interaction
+              end
+
+              let(:expected_response_body) do
+                {"message"=>"Multiple interaction found for GET /path", "matching_interactions"=>[{"description"=>"a request", "request"=>{"method"=>"get", "path"=>"/path", "body"=>{"a"=>"body"}}}, {"description"=>"a request", "request"=>{"method"=>"get", "path"=>"/path", "body"=>{"a"=>"body"}}}]}
+              end
+
+              it "returns an 500 error status" do
+                expect(response_status).to eq 500
+              end
+
+              it "returns a json body" do
+                expect(response_headers).to eq "Content-Type"=>"application/json"
+              end
+
+              it "returns a diff for each candidate interaction" do
+                expect(response_body).to eq expected_response_body
+              end
+
+              it "does not add the interaction to the verified interactions list" do
+                response
+                expect(verified_interactions.size).to eq 0
+              end
             end
 
-            let(:expected_response_body) do
-              {"message"=>"Multiple interaction found for GET /path", "matching_interactions"=>[{"description"=>"a request", "request"=>{"method"=>"get", "path"=>"/path", "body"=>{"a"=>"body"}}}, {"description"=>"a request", "request"=>{"method"=>"get", "path"=>"/path", "body"=>{"a"=>"body"}}}]}
-            end
+            context "when in stub mode" do
+              before do
+                expected_interactions << another_interaction
+              end
 
-            it "returns an 500 error status" do
-              expect(response_status).to eq 500
-            end
+              let(:another_interaction) do
+                Interaction.from_hash(
+                  'description' => 'a request',
+                  'request' => { 'method' => 'get', 'path' => '/path', 'body' => {'a' => 'body'} },
+                  'response' => { 'status' => 400, 'headers' => {'some' => 'headers'}, 'body' => {'response' => 'body'} }
+                )
+              end
 
-            it "returns a json body" do
-              expect(response_headers).to eq "Content-Type"=>"application/json"
-            end
+              let(:stub) { true }
 
-            it "returns a diff for each candidate interaction" do
-              expect(response_body).to eq expected_response_body
-            end
-
-            it "does not add the interaction to the verified interactions list" do
-              response
-              expect(verified_interactions.size).to eq 0
+              it "orders by status and returns the first one" do
+                expect(response_status).to eq 200
+              end
             end
           end
         end

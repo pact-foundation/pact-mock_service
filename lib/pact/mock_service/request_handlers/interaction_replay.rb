@@ -21,15 +21,16 @@ module Pact
         include Pact::Matchers
         include PrettyGenerate
 
-        attr_accessor :name, :logger, :expected_interactions, :actual_interactions, :verified_interactions
+        attr_accessor :name, :logger, :expected_interactions, :actual_interactions, :verified_interactions, :multiple_interactions_handler
 
-        def initialize name, logger, session, cors_enabled=false
+        def initialize name, logger, session, cors_enabled = false, stub = false
           @name = name
           @logger = logger
           @expected_interactions = session.expected_interactions
           @actual_interactions = session.actual_interactions
           @verified_interactions = session.verified_interactions
           @cors_enabled = cors_enabled
+          @multiple_interactions_handler = stub ? HandleMultipleInteractionsFoundForStub : HandleMultipleInteractionsFound
         end
 
         def match? env
@@ -62,7 +63,7 @@ module Pact
         end
 
         def handle_more_than_one_matching_interaction actual_request, matching_interactions
-          HandleMultipleInteractionsFound.call(actual_request, matching_interactions, logger)
+          multiple_interactions_handler.call(actual_request, matching_interactions, verified_interactions, actual_interactions, logger)
         end
 
         def handle_unrecognised_request actual_request, candidate_interactions
@@ -79,7 +80,7 @@ module Pact
 
         extend PrettyGenerate
 
-        def self.call actual_request, matching_interactions, logger
+        def self.call actual_request, matching_interactions, verified_interactions, actual_interactions, logger
           logger.error "Multiple interactions found for #{actual_request.method_and_path}:"
           matching_interactions.each do | interaction |
             logger.debug pretty_generate(Pact::MockService::InteractionDecorator.new(interaction))
@@ -100,6 +101,29 @@ module Pact
           summary[:provider_state] if interaction.provider_state
           summary[:request] = Pact::MockService::RequestDecorator.new(interaction.request)
           summary
+        end
+      end
+
+      class HandleMultipleInteractionsFoundForStub
+
+        extend PrettyGenerate
+
+        def self.call actual_request, matching_interactions, verified_interactions, actual_interactions, logger
+          logger.warn "Multiple interactions found for #{actual_request.method_and_path}:"
+          matching_interactions.each do | interaction |
+            logger.debug pretty_generate(Pact::MockService::InteractionDecorator.new(interaction))
+          end
+          response actual_request, matching_interactions, verified_interactions, actual_interactions, logger
+        end
+
+        def self.response actual_request, matching_interactions, verified_interactions, actual_interactions, logger
+          logger.warn "Sorting responses by response status and returning first."
+          interaction = first_most_successful_interaction(matching_interactions)
+          HandleMatchedInteraction.call(interaction, verified_interactions, actual_interactions, logger)
+        end
+
+        def self.first_most_successful_interaction matching_interactions
+          matching_interactions.sort{ |i1, i2| Pact::Reification.from_term(i1.response.status) <=> Pact::Reification.from_term(i2.response.status) }.first
         end
       end
 
