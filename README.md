@@ -1,9 +1,9 @@
 
-# Pact Mock Service
+# Pact Mock and Stub Service
 
 [![Build Status](https://travis-ci.org/pact-foundation/pact-mock_service.svg?branch=master)](https://travis-ci.org/pact-foundation/pact-mock_service)
 
-This codebase provides the HTTP mock service used by implementations of [Pact][pact]. It is packaged as a gem, and as a standalone executable for Mac OSX and Linux and Windows.
+This codebase provides the HTTP mock and stub service used by implementations of [Pact][pact]. It is packaged as a gem, and as a standalone executable for Mac OSX and Linux and Windows.
 
 The mock service provides the following endpoints:
 
@@ -40,7 +40,7 @@ Or add `gem "pact-mock_service"` to your Gemfile then run:
 
 Run `pact-mock-service help` for command line options.
 
-## Usage
+## Mock Service Usage
 
 Each mock service process is designed to mock only ONE provider. To mock multiple providers, you will need to start a process for each provider. The lifecycle of the a mock service instance during at test suite is as follows:
 
@@ -93,6 +93,34 @@ If you need to provide your own certificate and key, use the following syntax.
 ### With CORS
 
 Read the wiki page on [CORS][cors].
+
+## Stub Service Usage
+
+The pact-stub-service allows you to reuse interactions that have been generated in previous tests. The typical situation would be to generate your pact file using unit tests, and then use the pact stub service for your higher level integration/ui tests. To help reduce the number of interactions that need verifying, you will want to use flexible matching on both requests and responses.
+
+Unlike the mock service, which has a Ruby DSL for managing its lifecycle, the mock service can currently only be started from the command line, so you will need to start/background/kill the process yourself. If this is causing problems, please raise it in the pact-dev google group and we can discuss potential enhancements.
+
+```
+Usage:
+  pact-stub-service PACT ...
+
+Options:
+  -p, [--port=PORT]        # Port on which to run the service
+  -h, [--host=HOST]        # Host on which to bind the service
+                           # Default: localhost
+  -l, [--log=LOG]          # File to which to log output
+  -o, [--cors=CORS]        # Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses
+      [--ssl], [--no-ssl]  # Use a self-signed SSL cert to run the service over HTTPS
+      [--sslcert=SSLCERT]  # Specify the path to the SSL cert to use when running the service over HTTPS
+      [--sslkey=SSLKEY]    # Specify the path to the SSL key to use when running the service over HTTPS
+
+Description:
+  Start a stub service with the given pact file(s). Where multiple matching interactions are found, the
+  interactions will be sorted by response status, and the first one will be returned. This may lead to some
+  non-deterministic behaviour. If you are having problems with this, please raise it on the pact-dev google
+  group, and we can discuss some potential enhancements. Note that only versions 1 and 2 of the pact
+  specification are currently supported.
+```
 
 ## Contributing
 

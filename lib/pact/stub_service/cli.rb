@@ -10,8 +10,15 @@ module Pact
   module StubService
     class CLI < Pact::MockService::CLI::CustomThor
 
-      desc 'PACT ...', "Start a stub service with the given pact file(s). Note that this is in beta release, and no logic has been added to handle the situation where more than one matching interaction is found for a request. At the moment, an error response will be returned." +
-                        "\nOnly versions 1 and 2 of the pact specification are currently supported."
+      desc 'PACT ...', "Start a stub service with the given pact file(s)."
+      long_desc <<-DOC
+        Start a stub service with the given pact file(s).
+        Where multiple matching interactions are found, the interactions will be sorted by
+        response status, and the first one will be returned. This may lead to some non-deterministic
+        behaviour. If you are having problems with this, please raise it on the pact-dev google group,
+        and we can discuss some potential enhancements.
+        Note that only versions 1 and 2 of the pact specification are currently supported.
+      DOC
 
 
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
