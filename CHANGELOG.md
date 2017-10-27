@@ -2,6 +2,9 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 2.5.0 (2017-10-28)
+* bc15e21 - feat(pact-stub-service): handle case where multiple responses match (Beth Skurrie, Sat Oct 28 09:15:55 2017 +1100)
+
 ### 2.4.0 (2017-10-13)
 * 56bd683 - feat(stub): add pact-stub-service CLI (Beth Skurrie, Fri Oct 13 08:20:49 2017 +1100)
 
