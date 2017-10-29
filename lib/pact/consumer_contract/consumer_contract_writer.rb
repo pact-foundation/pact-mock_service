@@ -57,8 +57,9 @@ module Pact
       logger.info log_message
       FileUtils.mkdir_p File.dirname(pactfile_path)
       Filelock pactfile_path do | file |
+        new_contents = pact_json
         file.truncate 0
-        file.write pact_json
+        file.write new_contents
       end
     end
 
