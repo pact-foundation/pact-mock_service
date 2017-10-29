@@ -2,6 +2,9 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 2.5.2 (2017-10-30)
+* 12f02b4 - fix: avoid corrupting pact file when writing to it (Beth Skurrie, Mon Oct 30 08:31:15 2017 +1100)
+
 ### 2.5.0 (2017-10-28)
 * bc15e21 - feat(pact-stub-service): handle case where multiple responses match (Beth Skurrie, Sat Oct 28 09:15:55 2017 +1100)
 
