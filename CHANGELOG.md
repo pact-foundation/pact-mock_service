@@ -2,6 +2,9 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 2.5.3 (2017-10-30)
+* 9ad0d10 - fix: read existing pact file before truncating it (Beth Skurrie, Mon Oct 30 09:43:42 2017 +1100)
+
 ### 2.5.2 (2017-10-30)
 * 12f02b4 - fix: avoid corrupting pact file when writing to it (Beth Skurrie, Mon Oct 30 08:31:15 2017 +1100)
 
