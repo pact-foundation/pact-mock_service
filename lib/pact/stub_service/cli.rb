@@ -29,6 +29,7 @@ module Pact
       method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
       method_option :stub_pactfile_paths, hide: true
+      method_option :monkeypatch, hide: true
 
       def service(*pactfiles)
         raise Thor::Error.new("Please provide an existing pact file to load") if pactfiles.empty?

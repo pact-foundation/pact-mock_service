@@ -26,6 +26,7 @@ module Pact
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
       method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
+      method_option :monkeypatch, hide: true
 
       def service
         require 'pact/mock_service/run'
@@ -63,6 +64,7 @@ module Pact
       method_option :ssl, desc: "Use a self-signed SSL cert to run the service over HTTPS", type: :boolean, default: false
       method_option :sslcert, desc: "Specify the path to the SSL cert to use when running the service over HTTPS"
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
+      method_option :monkeypatch, hide: true
 
       def start
         start_server(mock_service_pidfile) do

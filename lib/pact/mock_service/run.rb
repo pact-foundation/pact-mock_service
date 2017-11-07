@@ -21,6 +21,8 @@ module Pact
         trap(:INT) { call_shutdown_hooks  }
         trap(:TERM) { call_shutdown_hooks }
 
+        require_monkeypatch
+
         Rack::Handler::WEBrick.run(mock_service, webbrick_opts)
       end
 
@@ -100,6 +102,10 @@ module Pact
 
       def base_url
         options[:ssl] ? "https://#{host}:#{port}" : "http://#{host}:#{port}"
+      end
+
+      def require_monkeypatch
+        require options[:monkeypatch] if options[:monkeypatch]
       end
     end
   end

@@ -96,9 +96,9 @@ module Pact
       }.to_json
     end
 
-    def setup_interaction port
+    def setup_interaction port, interaction = expected_interaction
       Faraday.post "http://localhost:#{port}/interactions",
-        expected_interaction,
+        interaction,
         mock_service_headers
     end
 
@@ -118,6 +118,12 @@ module Pact
       Faraday.get "http://localhost:#{port}/another-greeting",
         nil,
         {'Foo' => 'Bar'}
+    end
+
+    def verify port
+      Faraday.get "http://localhost:#{port}/interactions/verification",
+        nil,
+        mock_service_headers
     end
 
     def write_pact port
