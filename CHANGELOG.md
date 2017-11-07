@@ -2,6 +2,9 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 2.6.0 (2017-11-07)
+* cad84fd - feat(monkeypatch): allow a monkeypatch file to be loaded before starting the mock service (Beth Skurrie, Tue Nov 7 13:30:05 2017 +1100)
+
 ### 2.5.4 (2017-10-30)
 * 799b822 - fix: change rack-test to development dependency (Beth Skurrie, Mon Oct 30 10:05:11 2017 +1100)
 
