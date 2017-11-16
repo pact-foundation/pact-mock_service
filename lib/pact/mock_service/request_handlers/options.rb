@@ -32,7 +32,7 @@ module Pact
         end
 
         def is_administration_request? env
-          env["HTTP_ACCESS_CONTROL_REQUEST_HEADERS"].match(/x-pact-mock-service/i)
+          (env["HTTP_ACCESS_CONTROL_REQUEST_HEADERS"] || '').match(/x-pact-mock-service/i)
         end
       end
     end
