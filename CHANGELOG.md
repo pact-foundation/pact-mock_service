@@ -2,6 +2,9 @@ Do this to generate your change history
 
   git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
 
+### 2.6.1 (2017-11-17)
+* 141988f - fix: don't blow up if Access-Control-Request-Headers is not present in OPTIONS request (Beth Skurrie, Fri Nov 17 09:53:29 2017 +1100)
+
 ### 2.6.0 (2017-11-07)
 * cad84fd - feat(monkeypatch): allow a monkeypatch file to be loaded before starting the mock service (Beth Skurrie, Tue Nov 7 13:30:05 2017 +1100)
 
