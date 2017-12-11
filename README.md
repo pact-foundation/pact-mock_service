@@ -66,7 +66,7 @@ Options:
   -m, [--pact-file-write-mode=PACT_FILE_WRITE_MODE]              # `overwrite` or `merge`. Use `merge` when running multiple mock service instances in parallel for the same consumer/provider pair. Ensure the pact file is deleted before running tests when using this option so that interactions deleted from the code are not maintained in the file.
                                                                  # Default: overwrite
   -i, [--pact-specification-version=PACT_SPECIFICATION_VERSION]  # The pact specification version to use when writing the pact
-                                                                 # Default: 1
+                                                                 # Default: 2
   -l, [--log=LOG]                                                # File to which to log output
   -o, [--cors=CORS]                                              # Support browser security in tests by responding to OPTIONS requests and adding CORS headers to mocked responses
       [--ssl], [--no-ssl]                                        # Use a self-signed SSL cert to run the service over HTTPS
