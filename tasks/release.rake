@@ -8,6 +8,15 @@ task :generate_changelog do
   ConventionalChangelog::Generator.new.generate! version: "v#{Pact::MockService::VERSION}"
 end
 
+desc 'Tag for release'
+task :tag_for_release do | t, args |
+  require 'pact/mock_service/version'
+  version = Pact::MockService::VERSION
+  command = "git tag -a v#{version} -m \"chore(release): version #{version}\" && git push origin v#{version}"
+  puts command
+  puts `#{command}`
+end
+
 desc 'Generate release notes'
 task :generate_release_notes, [:tag] do | t, args |
   require 'fileutils'
