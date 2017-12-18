@@ -38,12 +38,12 @@ module Pact
       end
 
       def setup_stub stub_pactfile_paths
-        stub_pactfile_paths.each do | pactfile_path |
+        interactions = stub_pactfile_paths.collect do | pactfile_path |
           $stdout.puts "INFO: Loading interactions from #{pactfile_path}"
           hash_interactions = JSON.parse(File.read(pactfile_path))['interactions']
-          interactions = hash_interactions.collect { | hash | Interaction.from_hash(hash) }
-          @session.set_expected_interactions interactions
-        end
+          hash_interactions.collect { | hash | Interaction.from_hash(hash) }
+        end.flatten
+        @session.set_expected_interactions interactions
       end
 
       def write_pact_if_configured
