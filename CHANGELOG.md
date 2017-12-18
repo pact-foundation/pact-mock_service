@@ -1,7 +1,4 @@
-Do this to generate your change history
-
-  git log --pretty=format:'  * %h - %s (%an, %ad)' vX.Y.Z..HEAD
-
+<a name="v2.6.1"></a>
 ### 2.6.1 (2017-11-17)
 * 141988f - fix: don't blow up if Access-Control-Request-Headers is not present in OPTIONS request (Beth Skurrie, Fri Nov 17 09:53:29 2017 +1100)
 

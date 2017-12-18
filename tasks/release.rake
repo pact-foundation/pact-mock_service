@@ -1,6 +1,13 @@
 RELEASE_NOTES_TEMPLATE_PATH = "packaging/RELEASE_NOTES.md.template"
 RELEASE_NOTES_PATH = "build/RELEASE_NOTES.md"
 
+require 'conventional_changelog'
+
+task :generate_changelog do
+  require 'pact/mock_service/version'
+  ConventionalChangelog::Generator.new.generate! version: "v#{Pact::MockService::VERSION}"
+end
+
 desc 'Generate release notes'
 task :generate_release_notes, [:tag] do | t, args |
   require 'fileutils'
