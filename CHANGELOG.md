@@ -1,3 +1,11 @@
+<a name="v2.6.3"></a>
+### v2.6.3 (2017-12-18)
+
+#### Bug Fixes
+
+* **pact-stub-service**
+  * ensure all interactions loaded when loading multiple pacts	 ([4c0d698](/../../commit/4c0d698))
+
 <a name="v2.6.1"></a>
 ### 2.6.1 (2017-11-17)
 * 141988f - fix: don't blow up if Access-Control-Request-Headers is not present in OPTIONS request (Beth Skurrie, Fri Nov 17 09:53:29 2017 +1100)
