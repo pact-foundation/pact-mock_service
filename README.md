@@ -16,7 +16,7 @@ The mock service provides the following endpoints:
 
 All requests to the "administration" endpoints listed above must contain the header `X-Pact-Mock-Service: true` to allow the mock service to know whether the request is an administration request or a request from the actual consumer code.
 
-As the Pact mock service can be used as a standalone executable and administered via HTTP, it can be used for testing with any language. All that is required is a library in the native language to create the HTTP calls listed above. Check out [docs.pact.io](https://docs.pact.io) for a list of implemented languages. If you are interested in creating bindings in a new langauge, and have a chat to one of us on the [pact-dev Google group][pact-dev].
+As the Pact mock service can be used as a standalone executable and administered via HTTP, it can be used for testing with any language. All that is required is a library in the native language to create the HTTP calls listed above. Check out [docs.pact.io](https://docs.pact.io) for a list of implemented languages. If you are interested in creating bindings in a new language, have a chat to one of us on the [pact-dev Google group][pact-dev].
 
 ## Installation
 
@@ -42,7 +42,7 @@ Run `pact-mock-service help` for command line options.
 
 ## Mock Service Usage
 
-Each mock service process is designed to mock only ONE provider. To mock multiple providers, you will need to start a process for each provider. The lifecycle of the a mock service instance during at test suite is as follows:
+Each mock service process is designed to mock only ONE provider. To mock multiple providers, you will need to start a process for each provider. The lifecycle of a mock service instance during a test suite execution is as follows:
 
 * _Before suite:_ start mock service
 * _Before each test:_ clear interactions from previous test
