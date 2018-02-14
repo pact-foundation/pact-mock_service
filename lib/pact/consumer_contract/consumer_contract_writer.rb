@@ -25,6 +25,9 @@ module Pact
       @pactfile_write_mode = (consumer_contract_details[:pactfile_write_mode] || :overwrite).to_sym
       @interactions = consumer_contract_details.fetch(:interactions)
       @pact_specification_version = (consumer_contract_details[:pact_specification_version] || DEFAULT_PACT_SPECIFICATION_VERSION).to_s
+      @consumer_contract_decorator_class = consumer_contract_details[:consumer_contract_decorator_class] || Pact::ConsumerContractDecorator
+      @error_stream = consumer_contract_details[:error_stream] || Pact.configuration.error_stream
+      @output_stream = consumer_contract_details[:output_stream] || Pact.configuration.output_stream
     end
 
     def consumer_contract
@@ -45,7 +48,8 @@ module Pact
 
     private
 
-    attr_reader :consumer_contract_details, :pactfile_write_mode, :interactions, :logger, :pact_specification_version
+    attr_reader :consumer_contract_details, :pactfile_write_mode, :interactions, :logger, :pact_specification_version, :consumer_contract_decorator_class
+    attr_reader :error_stream, :output_stream
 
     def update_pactfile_if_needed
       return if pactfile_write_mode == :none
@@ -68,7 +72,7 @@ module Pact
     end
 
     def decorated_pact
-      @decorated_pact ||= Pact::ConsumerContractDecorator.new(consumer_contract, pact_specification_version: pact_specification_version)
+      @decorated_pact ||= consumer_contract_decorator_class.new(consumer_contract, pact_specification_version: pact_specification_version)
     end
 
     def interactions_for_new_consumer_contract
@@ -111,12 +115,12 @@ module Pact
     end
 
     def warn_and_stderr msg
-      Pact.configuration.error_stream.puts msg
+      error_stream.puts msg
       logger.warn msg
     end
 
     def info_and_puts msg
-      $stdout.puts msg
+      output_stream.puts msg
       logger.info msg
     end
 
