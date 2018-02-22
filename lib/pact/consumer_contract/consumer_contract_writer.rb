@@ -60,10 +60,15 @@ module Pact
     def update_pactfile
       logger.info log_message
       FileUtils.mkdir_p File.dirname(pactfile_path)
-      Filelock pactfile_path do | file |
+      Filelock(pactfile_path) do | pact_file |
+        # must be read after obtaining the lock, and must be read from the yielded file object, otherwise windows freaks out
+        @existing_contents = pact_file.read
         new_contents = pact_json
-        file.truncate 0
-        file.write new_contents
+        pact_file.rewind
+        pact_file.truncate 0
+        pact_file.write new_contents
+        pact_file.flush
+        pact_file.truncate(pact_file.pos)
       end
     end
 
@@ -109,9 +114,12 @@ module Pact
       File.size(pactfile_path) != 0
     end
 
+    def existing_contents
+      @existing_contents
+    end
+
     def existing_consumer_contract
-      # This must only be read after the file has been locked
-      Pact::ConsumerContract.from_uri(pactfile_path)
+      @existing_consumer_contract ||= Pact::ConsumerContract.from_json(existing_contents)
     end
 
     def warn_and_stderr msg

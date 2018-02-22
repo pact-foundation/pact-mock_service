@@ -37,7 +37,7 @@ class InteractionFactory
         },
         'response' => {
             'status' => 200,
-            'body' => {a: 'response body'}
+            'body' => {'a' => 'response body'}
         }
     }
     Pact::Interaction.from_hash(stringify_keys(deep_merge(defaults, stringify_keys(hash))))
