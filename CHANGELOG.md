@@ -1,3 +1,16 @@
+<a name="v2.6.4"></a>
+### v2.6.4 (2018-02-22)
+
+#### Features
+
+* allow output streams and consumer contract writer to be passed in to Pact::ConsumerContractWriter	 ([1856f21](/../../commit/1856f21))
+
+
+#### Bug Fixes
+
+* correctly handle reading locked pact file on windows	 ([2d14562](/../../commit/2d14562))
+
+
 <a name="v2.6.3"></a>
 ### v2.6.3 (2017-12-18)
 
