@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'support/integration_spec_support'
+require 'find_a_port'
 
 describe "The pact-mock-service command line interface", mri_only: true do
 
@@ -7,16 +8,17 @@ describe "The pact-mock-service command line interface", mri_only: true do
 
   before :all do
     clear_dirs
-    @pid = start_server 1235, '--consumer Consumer --provider Provider'
+    @port = FindAPort.available_port
+    @pid = start_server @port, '--consumer Consumer --provider Provider'
   end
 
   context "when the consumer and provider names are provided" do
     it "writes the pact to the specified directory on shutdown" do
       expect(File.exist?('tmp/pacts/consumer-provider.json')).to be false
-      response = setup_interaction 1235
+      response = setup_interaction @port
       expect(response.status).to eq 200
 
-      response = invoke_expected_request 1235
+      response = invoke_expected_request @port
       expect(response.status).to eq 200
 
       Process.kill "INT", @pid

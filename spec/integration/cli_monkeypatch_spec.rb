@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'support/integration_spec_support'
+require 'find_a_port'
 
 describe "The pact-mock-service command line interface with a monkeypatch", mri_only: true do
 
@@ -7,7 +8,8 @@ describe "The pact-mock-service command line interface with a monkeypatch", mri_
 
   before :all do
     clear_dirs
-    @pid = start_server 3234, "--monkeypatch #{Dir.pwd}/spec/support/monkeypatch.rb"
+    @port = FindAPort.available_port
+    @pid = start_server @port, "--monkeypatch #{Dir.pwd}/spec/support/monkeypatch.rb"
   end
 
   let(:interaction) do
@@ -25,11 +27,11 @@ describe "The pact-mock-service command line interface with a monkeypatch", mri_
   end
 
   it "starts up and responds with mocked responses" do
-    response = setup_interaction 3234, interaction
+    response = setup_interaction @port, interaction
 
-    `curl -H 'custom_header: bar' http://localhost:3234/greeting`
+    `curl -H 'custom_header: bar' http://localhost:#{@port}/greeting`
 
-    response = verify 3234
+    response = verify @port
     puts response.body unless response.status == 200
     expect(response.status).to eq 200
   end
