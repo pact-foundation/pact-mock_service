@@ -1,3 +1,12 @@
+<a name="v2.7.0"></a>
+### v2.7.0 (2018-05-04)
+
+
+#### Features
+
+* allow pact-stub-server to read pact from an http uri	 ([5cce3b2](/../../commit/5cce3b2))
+
+
 <a name="v2.6.4"></a>
 ### v2.6.4 (2018-02-22)
 
