@@ -102,7 +102,7 @@ Unlike the mock service, which has a Ruby DSL for managing its lifecycle, the mo
 
 ```
 Usage:
-  pact-stub-service PACT ...
+  pact-stub-service PACT_URI ...
 
 Options:
   -p, [--port=PORT]        # Port on which to run the service
@@ -115,11 +115,15 @@ Options:
       [--sslkey=SSLKEY]    # Specify the path to the SSL key to use when running the service over HTTPS
 
 Description:
-  Start a stub service with the given pact file(s). Where multiple matching interactions are found, the
-  interactions will be sorted by response status, and the first one will be returned. This may lead to some
-  non-deterministic behaviour. If you are having problems with this, please raise it on the pact-dev google
-  group, and we can discuss some potential enhancements. Note that only versions 1 and 2 of the pact
-  specification are currently supported.
+  Start a stub service with the given pact file(s). Pact URIs may be local file paths or HTTP.
+  Include any basic auth details in the URL using the format https://USERNAME:PASSWORD@URI.
+  Where multiple matching interactions are found, the interactions will be sorted by
+  response status, and the first one will be returned. This may lead to some non-deterministic
+  behaviour. If you are having problems with this, please raise it on the pact-dev google group,
+  and we can discuss some potential enhancements.
+  Note that only versions 1 and 2 of the pact specification are currently fully supported.
+  Pacts using the v3 format may be used, however, any matching features added in v4 will
+  currently be ignored.
 ```
 
 ## Contributing

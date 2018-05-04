@@ -10,16 +10,18 @@ module Pact
   module StubService
     class CLI < Pact::MockService::CLI::CustomThor
 
-      desc 'PACT ...', "Start a stub service with the given pact file(s)."
+      desc 'PACT_URI ...', "Start a stub service with the given pact file(s)."
       long_desc <<-DOC
-        Start a stub service with the given pact file(s).
+        Start a stub service with the given pact file(s). Pact URIs may be local file paths or HTTP.
+        Include any basic auth details in the URL using the format https://USERNAME:PASSWORD@URI.
         Where multiple matching interactions are found, the interactions will be sorted by
         response status, and the first one will be returned. This may lead to some non-deterministic
         behaviour. If you are having problems with this, please raise it on the pact-dev google group,
         and we can discuss some potential enhancements.
-        Note that only versions 1 and 2 of the pact specification are currently supported.
+        Note that only versions 1 and 2 of the pact specification are currently fully supported.
+        Pacts using the v3 format may be used, however, any matching features added in v4 will
+        currently be ignored.
       DOC
-
 
       method_option :port, aliases: "-p", desc: "Port on which to run the service"
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
