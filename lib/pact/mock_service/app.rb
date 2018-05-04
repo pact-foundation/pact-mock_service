@@ -40,7 +40,7 @@ module Pact
       def setup_stub stub_pactfile_paths
         interactions = stub_pactfile_paths.collect do | pactfile_path |
           $stdout.puts "INFO: Loading interactions from #{pactfile_path}"
-          hash_interactions = JSON.parse(File.read(pactfile_path))['interactions']
+          hash_interactions = JSON.parse(Pact::PactFile.read(pactfile_path))['interactions']
           hash_interactions.collect { | hash | Interaction.from_hash(hash) }
         end.flatten
         @session.set_expected_interactions interactions
