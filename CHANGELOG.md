@@ -1,3 +1,12 @@
+<a name="v2.7.1"></a>
+### v2.7.1 (2018-05-09)
+
+
+#### Bug Fixes
+
+* ensure underscored headers are maintained	 ([0724701](/../../commit/0724701))
+
+
 <a name="v2.7.0"></a>
 ### v2.7.0 (2018-05-04)
 
