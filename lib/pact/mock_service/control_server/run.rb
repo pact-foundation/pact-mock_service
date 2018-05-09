@@ -1,4 +1,5 @@
 require 'pact/mock_service/control_server/app'
+require 'pact/mock_service/server/webrick_request_monkeypatch'
 
 module Pact
   module MockService

@@ -23,6 +23,13 @@ describe "The pact-mock-service command line interface", mri_only: true do
     expect(response.status).to eq 200
   end
 
+  it "respects headers with underscores" do
+    setup_interaction_with_underscored_header 1234
+    response = invoke_request_with_underscored_header 1234
+    puts response.body unless response.status == 200
+    expect(response.status).to eq 200
+  end
+
   it "sets the X-Pact-Mock-Service-Location header" do
     response = setup_interaction 1234
     expect(response.headers['X-Pact-Mock-Service-Location']).to eq 'http://0.0.0.0:1234'

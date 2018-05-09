@@ -63,10 +63,10 @@ module Pact::Consumer
       }
     }
 
+    let(:expected_body) { body }
     context "with a text body" do
       let(:content_type) { "application/x-www-form-urlencoded" }
       let(:body) { 'this is the body' }
-      let(:expected_body) { body }
 
       it "extracts the body" do
         expect(subject.request_as_hash_from(rack_env)).to eq expected_request
@@ -83,6 +83,19 @@ module Pact::Consumer
       end
     end
 
+    context "with X_PACT_UNDERSCORED_HEADER_NAMES" do
+      before do
+        rack_env["HTTP_ACCESS_TOKEN"] = "123"
+        rack_env["X_PACT_UNDERSCORED_HEADER_NAMES"] = "access_token"
+      end
 
+      let(:request) { subject.request_as_hash_from(rack_env) }
+
+      it "sets any headers with underscores back to their original format" do
+        expect(request[:headers]["access_token"]).to eq "123"
+        expect(request[:headers]["X-Something"]).to eq "1, 2"
+        expect(request[:headers].key?("Access-Token")).to be false
+      end
+    end
   end
 end

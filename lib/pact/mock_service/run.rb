@@ -2,6 +2,7 @@ require 'find_a_port'
 require 'pact/mock_service/app'
 require 'pact/consumer/mock_service/set_location'
 require 'pact/mock_service/run'
+require 'pact/mock_service/server/webrick_request_monkeypatch'
 
 module Pact
   module MockService

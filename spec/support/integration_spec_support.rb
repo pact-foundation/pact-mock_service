@@ -82,6 +82,20 @@ module Pact
       }.to_json
     end
 
+    def interaction_with_underscored_header
+      {
+        description: "another request for a greeting",
+        request: {
+          method: :get,
+          headers: {'access_token' => '123'},
+          path: '/'
+        },
+        response: {
+          status: 200
+        }
+      }.to_json
+    end
+
     def mock_service_headers
       {
         'Content-Type' => 'application/json',
@@ -108,6 +122,12 @@ module Pact
         mock_service_headers
     end
 
+    def setup_interaction_with_underscored_header port
+      Faraday.post "http://localhost:#{port}/interactions",
+        interaction_with_underscored_header,
+        mock_service_headers
+    end
+
     def invoke_expected_request port
       Faraday.get "http://localhost:#{port}/greeting",
         nil,
@@ -118,6 +138,12 @@ module Pact
       Faraday.get "http://localhost:#{port}/another-greeting",
         nil,
         {'Foo' => 'Bar'}
+    end
+
+    def invoke_request_with_underscored_header port
+      Faraday.get "http://localhost:#{port}/",
+        nil,
+        {'access_token' => '123'}
     end
 
     def verify port
