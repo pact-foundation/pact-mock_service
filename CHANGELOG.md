@@ -1,3 +1,12 @@
+<a name="v2.8.1"></a>
+### v2.8.1 (2018-06-01)
+
+
+#### Bug Fixes
+
+* revert bind webrick of consumer server to 0.0.0.0 f1e858e306cd45b72472dad0f213cc7657821adc	 ([f2ebb6a](/../../commit/f2ebb6a))
+
+
 <a name="v2.7.1"></a>
 ### v2.7.1 (2018-05-09)
 
