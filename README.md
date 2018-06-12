@@ -42,7 +42,7 @@ Run `pact-mock-service help` for command line options.
 
 ## Mock Service Usage
 
-Each mock service process is designed to mock only ONE provider. To mock multiple providers, you will need to start a process for each provider. The lifecycle of a mock service instance during a test suite execution is as follows:
+Each mock service process is designed to mock only ONE provider for ONE consumer. To mock multiple providers, you will need to start a process for each provider. The lifecycle of a mock service instance during a test suite execution is as follows:
 
 * _Before suite:_ start mock service
 * _Before each test:_ clear interactions from previous test
