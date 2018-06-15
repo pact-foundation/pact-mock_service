@@ -1,3 +1,12 @@
+<a name="v2.9.0"></a>
+### v2.9.0 (2018-06-15)
+
+
+#### Features
+
+* allow --log-level to be specified in the CLI	 ([cf84a34](/../../commit/cf84a34))
+
+
 <a name="v2.8.1"></a>
 ### v2.8.1 (2018-06-01)
 
