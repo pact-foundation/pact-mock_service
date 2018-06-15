@@ -2,13 +2,14 @@
 
 # BEFORE SUITE start mock service
 # invoked by the pact framework
-bundle exec pact-mock-service service \
+bundle exec bin/pact-mock-service service \
   --port 1234 \
   --consumer Foo \
   --provider Bar \
   --pact-specification-version 2 \
   --pact-dir ./tmp/pacts \
-  --log ./tmp/bar_mock_service.log &
+  --log ./tmp/bar_mock_service.log \
+  --log-level DEBUG &
 pid=$!
 
 # BEFORE SUITE wait for mock service to start up

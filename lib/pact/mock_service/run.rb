@@ -52,6 +52,7 @@ module Pact
       def service_options
         service_options = {
           pact_dir: options[:pact_dir],
+          log_level: options[:log_level],
           unique_pact_file_names: options[:unique_pact_file_names],
           consumer: options[:consumer],
           provider: options[:provider],

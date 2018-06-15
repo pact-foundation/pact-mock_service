@@ -37,6 +37,7 @@ module Pact
       def mock_service
         Pact::MockService.new(
           log_file: create_log_file,
+          log_level: options[:log_level],
           name: name,
           consumer: consumer,
           provider: provider,
