@@ -7,6 +7,17 @@ module Pact
 
         attr_reader :name, :logger, :cors_enabled
 
+        HTTP_ACCESS_CONTROL_REQUEST_METHOD = "HTTP_ACCESS_CONTROL_REQUEST_METHOD".freeze
+        HTTP_ACCESS_CONTROL_REQUEST_HEADERS = "HTTP_ACCESS_CONTROL_REQUEST_HEADERS".freeze
+        ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin".freeze
+        ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods".freeze
+        ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers".freeze
+        HTTP_ORIGIN = "HTTP_ORIGIN".freeze
+        ALL_METHODS = "DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT, PATCH".freeze
+        REQUEST_METHOD = "REQUEST_METHOD".freeze
+        OPTIONS = "OPTIONS".freeze
+        X_PACT_MOCK_SERVICE_REGEXP = /x-pact-mock-service/i
+
         def initialize name, logger, cors_enabled
           @name = name
           @logger = logger
@@ -14,25 +25,26 @@ module Pact
         end
 
         def match? env
-           is_options_request?(env) && (cors_enabled || is_administration_request?(env))
+          is_options_request?(env) && (cors_enabled || is_administration_request?(env))
         end
 
         def respond env
           cors_headers = {
-           'Access-Control-Allow-Origin' => env.fetch('HTTP_ORIGIN','*'),
-           'Access-Control-Allow-Headers' => headers_from(env)["Access-Control-Request-Headers"],
-           'Access-Control-Allow-Methods' => 'DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT, PATCH'
+            ACCESS_CONTROL_ALLOW_ORIGIN => env.fetch(HTTP_ORIGIN,'*'),
+            ACCESS_CONTROL_ALLOW_HEADERS => env.fetch(HTTP_ACCESS_CONTROL_REQUEST_HEADERS, '*'),
+            ACCESS_CONTROL_ALLOW_METHODS => ALL_METHODS
           }
-          logger.info "Received OPTIONS request for mock service administration endpoint #{env['HTTP_ACCESS_CONTROL_REQUEST_METHOD']} #{env['PATH_INFO']}. Returning CORS headers: #{cors_headers.to_json}."
+
+          logger.info "Received OPTIONS request for mock service administration endpoint #{env[HTTP_ACCESS_CONTROL_REQUEST_METHOD]} #{env['PATH_INFO']}. Returning CORS headers: #{cors_headers}."
           [200, cors_headers, []]
         end
 
         def is_options_request? env
-          env['REQUEST_METHOD'] == 'OPTIONS'
+          env[REQUEST_METHOD] == OPTIONS
         end
 
         def is_administration_request? env
-          (env["HTTP_ACCESS_CONTROL_REQUEST_HEADERS"] || '').match(/x-pact-mock-service/i)
+          (env[HTTP_ACCESS_CONTROL_REQUEST_HEADERS] || '').match(X_PACT_MOCK_SERVICE_REGEXP)
         end
       end
     end
