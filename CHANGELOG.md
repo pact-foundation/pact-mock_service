@@ -1,3 +1,12 @@
+<a name="v2.9.1"></a>
+### v2.9.1 (2018-07-04)
+
+
+#### Bug Fixes
+
+* return Access-Control-Allow-Headers=* for OPTIONS requests with no Access-Control-Request-Headers	 ([855fd83](/../../commit/855fd83))
+
+
 <a name="v2.9.0"></a>
 ### v2.9.0 (2018-06-15)
 
