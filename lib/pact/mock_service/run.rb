@@ -76,7 +76,8 @@ module Pact
         opts = {
           :Port => port,
           :Host => host,
-          :AccessLog => []
+          :AccessLog => [],
+          :Logger => WEBrick::BasicLog.new($stdout)
         }
         opts.merge!({
           :SSLCertificate => OpenSSL::X509::Certificate.new(File.open(options[:sslcert]).read) }) if options[:sslcert]
