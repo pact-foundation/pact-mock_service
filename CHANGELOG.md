@@ -1,3 +1,12 @@
+<a name="v2.9.2"></a>
+### v2.9.2 (2018-07-12)
+
+
+#### Bug Fixes
+
+* send webrick startup and shutdown messages to stdout instead of stderr	 ([908089e](/../../commit/908089e))
+
+
 <a name="v2.9.1"></a>
 ### v2.9.1 (2018-07-04)
 
