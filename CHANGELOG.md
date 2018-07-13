@@ -1,3 +1,12 @@
+<a name="v2.9.3"></a>
+### v2.9.3 (2018-07-13)
+
+
+#### Bug Fixes
+
+* set $stdout.sync = true	 ([f37c8f8](/../../commit/f37c8f8))
+
+
 <a name="v2.9.2"></a>
 ### v2.9.2 (2018-07-12)
 
