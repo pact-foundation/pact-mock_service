@@ -73,6 +73,11 @@ module Pact
       end
 
       def webbrick_opts
+        # By default, the webrick logs go to $stderr, which then show up as an ERROR
+        # log in pact-go, so it was changed to $stdout.
+        # $stdout needs sync = true for pact-js to determine the port dynamically from
+        # the output (otherwise it does not flush in time for the port to be read)
+        $stdout.sync = true
         opts = {
           :Port => port,
           :Host => host,
