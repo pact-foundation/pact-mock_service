@@ -54,7 +54,8 @@ module Pact
             pact_dir: options[:pact_dir] || ".",
             unique_pact_file_names: options[:unique_pact_file_names],
             cors_enabled: options[:cors] || false,
-            ssl: options[:ssl]
+            ssl: options[:ssl],
+            pact_specification_version: options[:pact_specification_version]
           }
         end
 

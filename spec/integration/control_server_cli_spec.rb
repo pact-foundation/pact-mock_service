@@ -22,7 +22,7 @@ describe "The pact-mock-service control server command line interface", mri_only
 
   before :all do
     clear_dirs
-    @pid = start_control 1234
+    @pid = start_control 1234, "--pact-specification-version 3"
   end
 
   it "starts up and responds with mocked responses" do
@@ -47,6 +47,10 @@ describe "The pact-mock-service control server command line interface", mri_only
 
   it "writes the pact to the specified directory" do
     expect(File.exist?('tmp/pacts/consumer-provider.json')).to be true
+  end
+
+  it "writes the pacts with the specified in pact specification version" do
+    expect(JSON.parse(File.read('tmp/pacts/consumer-provider.json'))['metadata']['pactSpecification']['version']).to eq '3.0.0'
   end
 
   after :all do
