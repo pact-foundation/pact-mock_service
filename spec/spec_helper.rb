@@ -10,7 +10,7 @@ module Pact
   class SpecificationVersion < Gem::Version
 
     def initialize string
-      super((string ||  '4').tap { |it| puts "The version is #{it.inspect}" })
+      super((string ||  '4').tap { |it| $stderr.puts "The version is #{it.inspect}" })
     end
 
   end
