@@ -20,7 +20,9 @@ RSpec.configure do | config |
   config.include(FakeFS::SpecHelpers, :fakefs => true)
   config.filter_run_excluding :mri_only => is_java
   config.filter_run_excluding :skip_travis => is_travis
-
+  if config.respond_to?(:example_status_persistence_file_path=)
+    config.example_status_persistence_file_path = "./spec/examples.txt"
+  end
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
