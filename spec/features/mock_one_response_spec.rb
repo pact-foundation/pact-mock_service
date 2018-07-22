@@ -17,7 +17,7 @@ describe Pact::Consumer::MockService do
     proc { |severity, datetime, progname, msg| severity + " -- : " + msg + "\n" }
   end
   let(:app) do
-    Pact::MockService.new(log_file: log_file, log_formatter: log_formatter_without_date)
+    Pact::MockService.new(log_file: log_file, log_formatter: log_formatter_without_date, pact_specification_version: "2")
   end
 
   # NOTE: the admin_headers are Rack headers, they will be converted

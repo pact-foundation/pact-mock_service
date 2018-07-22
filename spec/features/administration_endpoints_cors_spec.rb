@@ -13,7 +13,7 @@ describe Pact::Consumer::MockService do
   end
 
   let(:log_file) { File.open SETUP_MOCK_SERVICE_CORS_LOG_PATH, 'a' }
-  let(:app) { Pact::MockService.new(log_file: log_file, pact_dir: pact_dir)  }
+  let(:app) { Pact::MockService.new(log_file: log_file, pact_dir: pact_dir, pact_specification_version: "2")  }
 
   # NOTE: the admin_headers are Rack headers, they will be converted
   # to X-Pact-Mock-Service and Content-Type by the framework

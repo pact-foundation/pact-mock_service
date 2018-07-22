@@ -7,7 +7,7 @@ describe Pact::Consumer::MockService do
 
   let(:pact_dir) { './tmp/pacts' }
   let(:log_file) { StringIO.new }
-  let(:app) { Pact::MockService.new(log_file: log_file, pact_dir: pact_dir) }
+  let(:app) { Pact::MockService.new(log_file: log_file, pact_dir: pact_dir, pact_specification_version: "2") }
 
   let(:admin_headers) { {'HTTP_X_PACT_MOCK_SERVICE' => 'true', 'CONTENT_TYPE' => 'application/json'} }
 

@@ -44,7 +44,7 @@ describe Pact::Consumer::MockService do
   end
 
   context "when in a cross domain environment (CORS)" do
-    let(:app) { Pact::MockService.new(log_file: log_file, cors_enabled: true) }
+    let(:app) { Pact::MockService.new(log_file: log_file, cors_enabled: true, pact_specification_version: "2") }
     context "when a request has been mocked" do
 
       it "answers the OPTIONS request, and then appropiately mocks the actual request" do | example |
@@ -77,7 +77,7 @@ describe Pact::Consumer::MockService do
   end
 
   context "when the CORS flag is not set" do
-    let(:app) { Pact::MockService.new(log_file: log_file) }
+    let(:app) { Pact::MockService.new(log_file: log_file, pact_specification_version: "2") }
     context "when a request has been mocked" do
 
       it "does not mock the OPTIONS response for the request under test" do | example |

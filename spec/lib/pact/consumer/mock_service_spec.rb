@@ -9,7 +9,7 @@ module Pact
       include Rack::Test::Methods
 
       def app
-        Pact::MockService.new(log_file: temp_file, logger: logger)
+        Pact::MockService.new(log_file: temp_file, logger: logger, pact_specification_version: "2")
       end
 
       let(:logger) { double('logger').as_null_object }

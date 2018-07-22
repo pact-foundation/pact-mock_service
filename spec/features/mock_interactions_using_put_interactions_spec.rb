@@ -7,7 +7,7 @@ describe Pact::Consumer::MockService do
 
   let(:log) {  StringIO.new }
   let(:app) do
-    Pact::MockService.new(log_file: log)
+    Pact::MockService.new(log_file: log, pact_specification_version: "2")
   end
 
   # NOTE: the admin_headers are Rack headers, they will be converted
