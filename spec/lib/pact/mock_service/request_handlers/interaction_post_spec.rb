@@ -6,6 +6,7 @@ module Pact
       describe InteractionPost do
         let(:session) { instance_double('Pact::MockService::Session') }
         let(:logger) { double('Logger').as_null_object }
+        let(:pact_specification_version) { Pact::SpecificationVersion.new("2") }
         let(:interaction_json) {
           {
             description: "some description",
@@ -21,7 +22,7 @@ module Pact
           }
         end
 
-        subject { described_class.new '', logger, session }
+        subject { described_class.new '', logger, session, pact_specification_version }
 
         context "adding the interaction will raise SameSameButDifferentError" do
           let(:message) { "my message" }

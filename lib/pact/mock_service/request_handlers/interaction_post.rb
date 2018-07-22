@@ -6,9 +6,10 @@ module Pact
     module RequestHandlers
       class InteractionPost < BaseAdministrationRequestHandler
 
-        def initialize name, logger, session
+        def initialize name, logger, session, pact_specification_version
           super name, logger
           @session = session
+          @pact_specification_version = pact_specification_version
         end
 
         def request_path
@@ -21,7 +22,8 @@ module Pact
 
         def respond env
           request_body = env['rack.input'].string
-          interaction = Interaction.from_hash(JSON.load(request_body)) # Load creates the Pact::XXX classes
+          parsing_options = { pact_specification_version: pact_specification_version }
+          interaction = Interaction.from_hash(JSON.load(request_body), parsing_options) # Load creates the Pact::XXX classes
 
           begin
             session.add_expected_interaction interaction
@@ -34,7 +36,7 @@ module Pact
 
         private
 
-        attr_accessor :session
+        attr_accessor :session, :pact_specification_version
       end
     end
   end

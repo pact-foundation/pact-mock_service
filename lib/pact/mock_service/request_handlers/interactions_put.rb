@@ -8,9 +8,10 @@ module Pact
     module RequestHandlers
       class InteractionsPut < BaseAdministrationRequestHandler
 
-        def initialize name, logger, session
+        def initialize name, logger, session, pact_specification_version
           super name, logger
           @session = session
+          @pact_specification_version = pact_specification_version
         end
 
         def request_path
@@ -23,7 +24,8 @@ module Pact
 
         def respond env
           request_body = JSON.load(env['rack.input'].string)
-          interactions = request_body['interactions'].collect { | hash | Interaction.from_hash(hash) }
+          parsing_options = { pact_specification_version: pact_specification_version }
+          interactions = request_body['interactions'].collect { | hash | Interaction.from_hash(hash, parsing_options) }
           begin
             session.set_expected_interactions interactions
             text_response('Registered interactions')
@@ -34,7 +36,7 @@ module Pact
 
         private
 
-        attr_accessor :session
+        attr_accessor :session, :pact_specification_version
 
       end
     end
