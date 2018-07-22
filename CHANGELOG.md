@@ -1,3 +1,12 @@
+<a name="v2.9.4"></a>
+### v2.9.4 (2018-07-23)
+
+
+#### Bug Fixes
+
+* parse expected interactions with configured pact specification version	 ([1b960bf](/../../commit/1b960bf))
+
+
 <a name="v2.9.3"></a>
 ### v2.9.3 (2018-07-13)
 
