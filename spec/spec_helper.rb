@@ -6,16 +6,6 @@ require 'webmock/rspec'
 require 'support/factories'
 require 'support/spec_support'
 
-module Pact
-  class SpecificationVersion < Gem::Version
-
-    def initialize string
-      super((string ||  '4').tap { |it| $stderr.puts "The version is #{it.inspect}" })
-    end
-
-  end
-end
-
 WebMock.disable_net_connect!(allow_localhost: true)
 
 require './spec/support/active_support_if_configured'
