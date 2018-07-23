@@ -30,7 +30,7 @@ module Pact
           name: name,
           log_file: create_log_file(name),
           pact_dir: pact_dir,
-          pact_specification_version: options[:pact_specification_version]
+          pact_specification_version: options.fetch(:pact_specification_version)
         )
         register(app, uri.port)
       end
