@@ -1,3 +1,13 @@
+<a name="v2.9.6"></a>
+### v2.9.6 (2018-07-23)
+
+
+#### Bug Fixes
+
+* use dummy pact specification version for stub server	 ([3337f6d](/../../commit/3337f6d))
+* pass the pact specification version from the control server to the mock server	 ([b585092](/../../commit/b585092))
+
+
 <a name="v2.9.4"></a>
 ### v2.9.4 (2018-07-23)
 
