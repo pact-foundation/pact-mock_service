@@ -1,3 +1,12 @@
+<a name="v2.9.8"></a>
+### v2.9.8 (2018-07-23)
+
+
+#### Bug Fixes
+
+* require pact_specification_version when spawning mock service through app manager	 ([efdba96](/../../commit/efdba96))
+
+
 <a name="v2.9.6"></a>
 ### v2.9.6 (2018-07-23)
 
