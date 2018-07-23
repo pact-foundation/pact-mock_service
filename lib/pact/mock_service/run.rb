@@ -3,6 +3,7 @@ require 'pact/mock_service/app'
 require 'pact/consumer/mock_service/set_location'
 require 'pact/mock_service/run'
 require 'pact/mock_service/server/webrick_request_monkeypatch'
+require 'pact/specification_version'
 
 module Pact
   module MockService
@@ -50,6 +51,7 @@ module Pact
       end
 
       def service_options
+        # dummy pact_specification_version is needed to stop RequestHandlers blowing up
         service_options = {
           pact_dir: options[:pact_dir],
           log_level: options[:log_level],
@@ -57,7 +59,7 @@ module Pact
           consumer: options[:consumer],
           provider: options[:provider],
           cors_enabled: options[:cors],
-          pact_specification_version: options[:pact_specification_version],
+          pact_specification_version: Pact::SpecificationVersion::NIL_VERSION.to_s,
           pactfile_write_mode: options[:pact_file_write_mode],
           stub_pactfile_paths: options[:stub_pactfile_paths]
         }
