@@ -1,3 +1,12 @@
+<a name="v2.10.0"></a>
+### v2.10.0 (2018-08-07)
+
+
+#### Features
+
+* use Pact::Error subclass instead of RuntimeErrors	 ([a15dd3e](/../../commit/a15dd3e))
+
+
 <a name="v2.9.8"></a>
 ### v2.9.8 (2018-07-23)
 
