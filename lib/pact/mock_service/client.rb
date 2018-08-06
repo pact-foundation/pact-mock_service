@@ -1,8 +1,14 @@
 require 'net/http'
 require 'pact/mock_service/interaction_decorator'
+require 'pact/errors'
 
 module Pact
   module MockService
+
+    class VerificationFailedError < Pact::Error; end
+    class AddInteractionError < Pact::Error; end
+    class WritePactError < Pact::Error; end
+
     class Client
 
       MOCK_SERVICE_ADMINISTRATON_HEADERS = {'X-Pact-Mock-Service' => 'true'}
@@ -13,7 +19,7 @@ module Pact
 
       def verify example_description
         response = http.request_get("/interactions/verification?example_description=#{CGI.escape(example_description)}", MOCK_SERVICE_ADMINISTRATON_HEADERS)
-        raise "\e[31m#{response.body}\e[m" unless response.is_a? Net::HTTPSuccess
+        raise VerificationFailedError.new("\e[31m#{response.body}\e[m") unless response.is_a? Net::HTTPSuccess
       end
 
       def log msg
@@ -37,7 +43,7 @@ module Pact
           interaction_json(interaction),
           MOCK_SERVICE_ADMINISTRATON_HEADERS.merge("Content-Type" => "application/json")
         )
-        raise "\e[31m#{response.body}\e[m" unless response.is_a? Net::HTTPSuccess
+        raise AddInteractionError.new("\e[31m#{response.body}\e[m") unless response.is_a? Net::HTTPSuccess
       end
 
       def self.clear_interactions port, example_description
@@ -46,7 +52,7 @@ module Pact
 
       def write_pact pacticipant_details
         response = http.request_post("/pact", pacticipant_details.to_json, MOCK_SERVICE_ADMINISTRATON_HEADERS.merge("Content-Type" => "application/json"))
-        raise "\e[31m#{response.body}\e[m" unless response.is_a? Net::HTTPSuccess
+        raise WritePactError.new("\e[31m#{response.body}\e[m") unless response.is_a? Net::HTTPSuccess
         response.body
       end
 
@@ -67,7 +73,6 @@ module Pact
       def interaction_json interaction
         Pact::MockService::InteractionDecorator.new(interaction).to_json
       end
-
     end
   end
 end
