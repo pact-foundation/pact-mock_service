@@ -7,7 +7,7 @@ describe "The pact-mock-service command line interface", mri_only: true do
 
   before :all do
     clear_dirs
-    @pid = start_server 1234
+    @pid = start_server 1234, "--pact-specification-version 3.0.0"
   end
 
   it "starts up and responds with mocked responses" do
@@ -40,7 +40,19 @@ describe "The pact-mock-service command line interface", mri_only: true do
   end
 
   it "writes the pact to the specified directory" do
+    clear_interactions 1234
+    setup_interaction 1234
+    invoke_expected_request 1234
     expect(File.exist?('tmp/pacts/consumer-provider.json')).to be true
+  end
+
+  it "sets the pact specification version" do
+    clear_interactions 1234
+    setup_interaction 1234
+    invoke_expected_request 1234
+
+    write_pact 1234
+    expect(File.read("tmp/pacts/consumer-provider.json")).to include "3.0.0"
   end
 
   after :all do

@@ -116,6 +116,10 @@ module Pact
         mock_service_headers
     end
 
+    def clear_interactions port
+      Faraday.delete "http://localhost:#{port}/interactions"
+    end
+
     def setup_another_interaction port
       Faraday.post "http://localhost:#{port}/interactions",
         another_expected_interaction,

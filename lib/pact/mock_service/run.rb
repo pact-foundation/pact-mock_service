@@ -59,7 +59,7 @@ module Pact
           consumer: options[:consumer],
           provider: options[:provider],
           cors_enabled: options[:cors],
-          pact_specification_version: Pact::SpecificationVersion::NIL_VERSION.to_s,
+          pact_specification_version: options[:pact_specification_version] || Pact::SpecificationVersion::NIL_VERSION.to_s,
           pactfile_write_mode: options[:pact_file_write_mode],
           stub_pactfile_paths: options[:stub_pactfile_paths]
         }
