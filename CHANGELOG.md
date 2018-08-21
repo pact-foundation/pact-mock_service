@@ -1,3 +1,12 @@
+<a name="v2.10.1"></a>
+### v2.10.1 (2018-08-21)
+
+
+#### Bug Fixes
+
+* ensure specified value of --pact-specification-version is written in pact file	 ([bb93b0d](/../../commit/bb93b0d))
+
+
 <a name="v2.10.0"></a>
 ### v2.10.0 (2018-08-07)
 
