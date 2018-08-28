@@ -1,3 +1,13 @@
+<a name="v2.11.0"></a>
+### v2.11.0 (2018-08-28)
+
+
+#### Features
+
+* **stub-server**
+  * allow pacts to be loaded from a directory	 ([c5babe7](/../../commit/c5babe7))
+
+
 <a name="v2.10.1"></a>
 ### v2.10.1 (2018-08-21)
 
