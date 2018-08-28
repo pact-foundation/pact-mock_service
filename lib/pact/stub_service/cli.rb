@@ -10,16 +10,17 @@ module Pact
   module StubService
     class CLI < Pact::MockService::CLI::CustomThor
 
-      desc 'PACT_URI ...', "Start a stub service with the given pact file(s)."
+      desc 'PACT_URI ...', "Start a stub service with the given pact file(s) or directory."
       long_desc <<-DOC
-        Start a stub service with the given pact file(s). Pact URIs may be local file paths or HTTP.
+        Start a stub service with the given pact file(s) or directories. Pact URIs may be local
+        file or directory paths, or HTTP.
         Include any basic auth details in the URL using the format https://USERNAME:PASSWORD@URI.
         Where multiple matching interactions are found, the interactions will be sorted by
         response status, and the first one will be returned. This may lead to some non-deterministic
         behaviour. If you are having problems with this, please raise it on the pact-dev google group,
         and we can discuss some potential enhancements.
         Note that only versions 1 and 2 of the pact specification are currently fully supported.
-        Pacts using the v3 format may be used, however, any matching features added in v4 will
+        Pacts using the v3 format may be used, however, any matching features added in v3 will
         currently be ignored.
       DOC
 
@@ -33,13 +34,16 @@ module Pact
       method_option :stub_pactfile_paths, hide: true
       method_option :monkeypatch, hide: true
 
-      def service(*pactfiles)
-        raise Thor::Error.new("Please provide an existing pact file to load") if pactfiles.empty?
+      def service(*pact_files)
         require 'pact/mock_service/run'
-        options.stub_pactfile_paths = pactfiles
+        require 'pact/support/expand_file_list'
+
+        expanded_pact_files = file_list(pact_files)
+        raise Thor::Error.new("Please provide at least one pact file to load") if expanded_pact_files.empty?
+
         opts = Thor::CoreExt::HashWithIndifferentAccess.new
         opts.merge!(options)
-        opts[:stub_pactfile_paths] = pactfiles
+        opts[:stub_pactfile_paths] = expanded_pact_files
         opts[:pactfile_write_mode] = 'none'
         MockService::Run.(opts)
       end
@@ -52,6 +56,12 @@ module Pact
       end
 
       default_task :service
+
+      no_commands do
+        def file_list(pact_files)
+          Pact::Support::ExpandFileList.call(pact_files)
+        end
+      end
     end
   end
 end
