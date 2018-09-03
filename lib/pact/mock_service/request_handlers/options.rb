@@ -9,6 +9,7 @@ module Pact
 
         HTTP_ACCESS_CONTROL_REQUEST_METHOD = "HTTP_ACCESS_CONTROL_REQUEST_METHOD".freeze
         HTTP_ACCESS_CONTROL_REQUEST_HEADERS = "HTTP_ACCESS_CONTROL_REQUEST_HEADERS".freeze
+        ACCESS_CONTROL_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials".freeze
         ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin".freeze
         ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods".freeze
         ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers".freeze
@@ -30,6 +31,7 @@ module Pact
 
         def respond env
           cors_headers = {
+            ACCESS_CONTROL_ALLOW_CREDENTIALS => 'true',
             ACCESS_CONTROL_ALLOW_ORIGIN => env.fetch(HTTP_ORIGIN,'*'),
             ACCESS_CONTROL_ALLOW_HEADERS => env.fetch(HTTP_ACCESS_CONTROL_REQUEST_HEADERS, '*'),
             ACCESS_CONTROL_ALLOW_METHODS => ALL_METHODS

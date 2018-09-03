@@ -23,6 +23,7 @@ module Pact
             subject { response[1] }
 
             it { is_expected.to include 'Access-Control-Allow-Methods' => 'DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT, PATCH' }
+            it { is_expected.to include 'Access-Control-Allow-Credentials' => 'true' }
 
             context "with Origin" do
               it { is_expected.to include 'Access-Control-Allow-Origin' => 'foo.com' }
