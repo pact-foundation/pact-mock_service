@@ -23,7 +23,6 @@ module Pact
       def register_mock_service_for(name, url, options = {})
         uri = URI(url)
         raise "Currently only http is supported" unless uri.scheme == 'http'
-        raise "Currently only services on localhost are supported" unless uri.host == 'localhost'
         uri.port = nil if options[:find_available_port]
 
         app = Pact::MockService.new(
@@ -32,21 +31,21 @@ module Pact
           pact_dir: pact_dir,
           pact_specification_version: options.fetch(:pact_specification_version)
         )
-        register(app, uri.port)
+        register(app, uri.host, uri.port)
       end
 
-      def register(app, port = nil)
+      def register(app, host, port = nil)
         if port
-          existing = existing_app_on_port(port)
+          existing = existing_app_on_host_and_port(host, port)
           raise "Port #{port} is already being used by #{existing}" if existing and not existing == app
         end
-        app_registration = register_app(app, port)
+        app_registration = register_app(app, host, port)
         app_registration.spawn
         app_registration.port
       end
 
-      def ports_of_mock_services
-        app_registrations.find_all(&:is_a_mock_service?).collect(&:port)
+      def urls_of_mock_services
+        app_registrations.find_all(&:is_a_mock_service?).collect{ |ar| "http://#{ar.host}:#{ar.port}" }
       end
 
       def kill_all
@@ -70,13 +69,13 @@ module Pact
 
       private
 
-      def existing_app_on_port(port)
-        app_registration = registration_on_port(port)
+      def existing_app_on_host_and_port(host, port)
+        app_registration = registration_on_host_and_port(host, port)
         app_registration ? app_registration.app : nil
       end
 
-      def registration_on_port(port)
-        @app_registrations.find { |app_registration| app_registration.port == port }
+      def registration_on_host_and_port(host, port)
+        @app_registrations.find { |app_registration| app_registration.port == port && app_registration.host == host }
       end
 
       def pact_dir
@@ -107,8 +106,8 @@ module Pact
         @app_registrations
       end
 
-      def register_app(app, port)
-        app_registration = AppRegistration.new(app: app, port: port)
+      def register_app(app, host, port)
+        app_registration = AppRegistration.new(app: app, host: host, port: port)
         app_registrations << app_registration
         app_registration
       end
@@ -116,11 +115,12 @@ module Pact
 
     class AppRegistration
       include Pact::Logging
-      attr_accessor :port, :app
+      attr_accessor :host, :port, :app
 
       def initialize(opts)
         @max_wait = 10
         @port = opts[:port]
+        @host = opts[:host]
         @app = opts[:app]
         @spawned = false
       end
@@ -148,7 +148,7 @@ module Pact
 
       def spawn
         logger.info "Starting app #{self}..."
-        @server = Pact::Server.new(app, port).boot
+        @server = Pact::Server.new(app, host, port).boot
         @port = @server.port
         @spawned = true
         logger.info "Started on port #{port}"

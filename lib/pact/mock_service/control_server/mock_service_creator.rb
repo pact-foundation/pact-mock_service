@@ -8,7 +8,6 @@ require 'pact/mock_service/server/wait_for_server_up'
 module Pact
   module MockService
     module ControlServer
-
       class MockServiceCreator
 
         attr_reader :options
@@ -22,7 +21,7 @@ module Pact
           consumer_name = env['HTTP_X_PACT_CONSUMER']
           provider_name = env['HTTP_X_PACT_PROVIDER']
           port = FindAPort.available_port
-          mock_service = Pact::MockService::Spawn.(consumer_name, provider_name, port, options)
+          mock_service = Pact::MockService::Spawn.(consumer_name, provider_name, options[:host] || 'localhost', port, options)
           delegator = Delegator.new(mock_service, consumer_name, provider_name)
           @mock_services.add(delegator)
           delegator.call(env)

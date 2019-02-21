@@ -4,7 +4,7 @@ describe Pact::Server do
   describe 'booting' do
     context 'with `nil` port' do
       let(:app) { -> (env) { [200, {}, ['OK']] } }
-      let(:server) { described_class.new(app, nil) }
+      let(:server) { described_class.new(app, 'localhost', nil) }
 
       it 'boots server with port 0 trick' do
         expect(server.port).to be_nil

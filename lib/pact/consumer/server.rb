@@ -34,12 +34,13 @@ module Pact
       end
     end
 
-    attr_reader :app, :port, :options
+    attr_reader :app, :host, :port, :options
 
-    def initialize(app, port, options = {})
+    def initialize(app, host, port, options = {})
       @app = app
       @middleware = Middleware.new(@app)
       @server_thread = nil
+      @host = host
       @port = port
       @options = options
     end
@@ -50,10 +51,6 @@ module Pact
 
     def error
       @middleware.error
-    end
-
-    def host
-      "localhost"
     end
 
     def responsive?
@@ -96,7 +93,7 @@ module Pact
     end
 
     def ssl_opts
-      { SSLEnable: true, SSLCertName: [ %w[CN localhost] ] }
+      { SSLEnable: true, SSLCertName: [ ["CN", host] ] }
     end
 
     def boot

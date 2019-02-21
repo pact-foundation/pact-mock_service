@@ -98,7 +98,7 @@ module Pact
       def ssl_opts
         {
           :SSLEnable => true,
-          :SSLCertName => [ %w[CN localhost] ]
+          :SSLCertName => [ ["CN", host] ]
         }
       end
 

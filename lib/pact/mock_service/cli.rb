@@ -107,6 +107,7 @@ module Pact
 
       desc 'control-start', "Start a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
+      method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
       method_option :log_level, desc: "Log level. Options are DEBUG INFO WARN ERROR", default: "DEBUG"
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
@@ -134,6 +135,7 @@ module Pact
 
       desc 'control-restart', "Start a Pact mock service control server."
       method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
+      method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
       method_option :log_level, desc: "Log level. Options are DEBUG INFO WARN ERROR", default: "DEBUG"
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
@@ -180,14 +182,14 @@ module Pact
 
         def start_server pidfile
           require 'pact/mock_service/server/spawn'
-          Pact::MockService::Server::Spawn.(pidfile, options[:port], options[:ssl]) do
+          Pact::MockService::Server::Spawn.(pidfile, options[:host], options[:port], options[:ssl]) do
             yield
           end
         end
 
         def restart_server pidfile
           require 'pact/mock_service/server/respawn'
-          Pact::MockService::Server::Respawn.(pidfile, options[:port], options[:ssl]) do
+          Pact::MockService::Server::Respawn.(pidfile, options[:host], options[:port], options[:ssl]) do
             yield
           end
         end

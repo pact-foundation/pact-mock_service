@@ -13,8 +13,8 @@ module Pact
 
       MOCK_SERVICE_ADMINISTRATON_HEADERS = {'X-Pact-Mock-Service' => 'true'}
 
-      def initialize port
-        @http = Net::HTTP.new('localhost', port)
+      def initialize port, host = 'localhost'
+        @http = Net::HTTP.new(host, port)
       end
 
       def verify example_description
@@ -46,8 +46,9 @@ module Pact
         raise AddInteractionError.new("\e[31m#{response.body}\e[m") unless response.is_a? Net::HTTPSuccess
       end
 
-      def self.clear_interactions port, example_description
-        Net::HTTP.new("localhost", port).delete("/interactions?example_description=#{CGI.escape(example_description)}", MOCK_SERVICE_ADMINISTRATON_HEADERS)
+      def self.clear_interactions mock_service_base_url, example_description
+        uri = URI(mock_service_base_url)
+        Net::HTTP.new(uri.host, uri.port).delete("/interactions?example_description=#{CGI.escape(example_description)}", MOCK_SERVICE_ADMINISTRATON_HEADERS)
       end
 
       def write_pact pacticipant_details

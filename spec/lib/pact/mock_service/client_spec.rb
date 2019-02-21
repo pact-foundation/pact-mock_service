@@ -53,7 +53,7 @@ module Pact
         end
 
         it "deletes the interactions" do
-          Pact::MockService::Client.clear_interactions 4444, "some example"
+          Pact::MockService::Client.clear_interactions "http://localhost:4444", "some example"
           expect(delete_verifications).to have_been_made
         end
       end

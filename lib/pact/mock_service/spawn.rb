@@ -8,15 +8,16 @@ module Pact
   module MockService
     class Spawn
 
-      def self.call consumer, provider, port, options
-        new(consumer, provider, port, options).call
+      def self.call consumer, provider, host, port, options
+        new(consumer, provider, host, port, options).call
       end
 
-      attr_reader :consumer, :provider, :port, :options
+      attr_reader :consumer, :provider, :host, :port, :options
 
-      def initialize consumer, provider, port, options
+      def initialize consumer, provider, host, port, options
         @consumer = consumer
         @provider = provider
+        @host = host
         @port = port
         @options = options
       end
@@ -49,7 +50,7 @@ module Pact
       end
 
       def start_mock_service app, port
-        Pact::Server.new(app, port, ssl: options[:ssl]).boot
+        Pact::Server.new(app, host, port, ssl: options[:ssl]).boot
       end
 
       def create_log_file
@@ -73,7 +74,7 @@ module Pact
       end
 
       def base_url
-        options[:ssl] ? "https://localhost:#{port}" : "http://localhost:#{port}"
+        options[:ssl] ? "https://#{host}:#{port}" : "http://#{host}:#{port}"
       end
 
       def name

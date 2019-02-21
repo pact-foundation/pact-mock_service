@@ -50,14 +50,6 @@ module Pact::MockService
         end
       end
 
-      context "for a host other than localhost" do
-        let(:url) { 'http://aserver:1234'}
-
-        it "should throw an unsupported error" do
-          expect { AppManager.instance.register_mock_service_for name, url, options }.to raise_error "Currently only services on localhost are supported"
-        end
-      end
-
       describe "find_a_port option" do
         let(:url) { 'http://localhost' }
 

@@ -55,6 +55,7 @@ module Pact
             unique_pact_file_names: options[:unique_pact_file_names],
             cors_enabled: options[:cors] || false,
             ssl: options[:ssl],
+            host: options[:host],
             pact_specification_version: options[:pact_specification_version]
           }
         end
