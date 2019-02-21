@@ -1,3 +1,12 @@
+<a name="v3.0.0"></a>
+### v3.0.0 (2019-02-21)
+
+
+#### Features
+
+* allow mock service host to be configured	 ([7e2d810](/../../commit/7e2d810))
+
+
 <a name="v2.11.0"></a>
 ### v2.11.0 (2018-08-28)
 
