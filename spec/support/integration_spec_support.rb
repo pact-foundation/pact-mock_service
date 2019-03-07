@@ -35,7 +35,7 @@ module Pact
     end
 
     def wait_until_server_started port, ssl = false
-      Pact::MockService::Server::WaitForServerUp.(port, {ssl: ssl})
+      Pact::MockService::Server::WaitForServerUp.("localhost", port, {ssl: ssl})
     end
 
     def kill_server pid
