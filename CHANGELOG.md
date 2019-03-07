@@ -1,3 +1,12 @@
+<a name="v3.0.1"></a>
+### v3.0.1 (2019-03-08)
+
+
+#### Bug Fixes
+
+* add missing host argument to server spawn	 ([ee5cf90](/../../commit/ee5cf90))
+
+
 <a name="v3.0.0"></a>
 ### v3.0.0 (2019-02-21)
 
