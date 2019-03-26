@@ -13,7 +13,11 @@ module Pact
       module PrettyGenerate
         #Doesn't seem to reliably pretty generate unless we go to JSON and back again :(
         def pretty_generate object
-          JSON.pretty_generate(JSON.parse(object.to_json))
+          begin
+            JSON.pretty_generate(JSON.parse(object.to_json))
+          rescue JSON::ParserError
+            object
+          end
         end
       end
 
