@@ -15,7 +15,7 @@ module Pact
         def pretty_generate object
           begin
             JSON.pretty_generate(JSON.parse(object.to_json))
-          rescue JSON::ParserError
+          rescue
             object
           end
         end
