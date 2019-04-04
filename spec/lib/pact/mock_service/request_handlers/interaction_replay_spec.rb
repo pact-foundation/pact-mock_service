@@ -175,6 +175,14 @@ module Pact
             expect(verified_interactions.size).to eq 0
           end
         end
+        
+        context "when the body contains special charachters" do
+          let(:actual_body) { '\xEB' }
+          
+          it "returns the specified response status" do
+              expect(response_status).to eq 200
+          end
+        end
       end
     end
   end
