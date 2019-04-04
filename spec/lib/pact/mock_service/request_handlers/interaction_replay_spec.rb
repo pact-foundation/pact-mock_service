@@ -143,6 +143,14 @@ module Pact
               end
             end
           end
+          
+          context "when the body contains special charachters" do
+            let(:actual_body) { '\xEB' }
+
+            it "returns the specified response status" do
+              expect(response_status).to eq 200
+            end
+          end
         end
 
         context "when no request is found with a matching method and path" do
@@ -173,14 +181,6 @@ module Pact
           it "does not add the interaction to the verified interactions list" do
             response
             expect(verified_interactions.size).to eq 0
-          end
-        end
-        
-        context "when the body contains special charachters" do
-          let(:actual_body) { '\xEB' }
-          
-          it "returns the specified response status" do
-              expect(response_status).to eq 200
           end
         end
       end
