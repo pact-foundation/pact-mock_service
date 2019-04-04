@@ -146,6 +146,7 @@ module Pact
           
           context "when the body contains special charachters" do
             let(:actual_body) { '\xEB' }
+            let(:expected_response_body) { '\xEB' }
 
             it "returns the specified response status" do
               expect(response_status).to eq 200
