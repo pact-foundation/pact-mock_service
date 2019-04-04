@@ -146,7 +146,14 @@ module Pact
           
           context "when the body contains special charachters" do
             let(:actual_body) { '\xEB' }
-            let(:expected_request_body) { '\xEB' }
+            let(:env) do
+            {
+              'REQUEST_METHOD' => 'GET',
+              'PATH_INFO' => '/path',
+              'QUERY_STRING' => '',
+              'rack.input' => double(read: actual_body)
+            }
+            end
             
             it "returns the specified response status" do
               expect(response_status).to eq 200
