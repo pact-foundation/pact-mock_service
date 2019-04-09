@@ -16,7 +16,7 @@ module Pact
           begin
             JSON.pretty_generate(JSON.parse(object.to_json))
           rescue
-            object
+            object.to_s
           end
         end
       end
