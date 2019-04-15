@@ -102,6 +102,11 @@ describe Pact::Consumer::MockService do
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
       end
 
+      it "includes the CORS headers in the response to GET /interactions/matches" do | example |
+        get "/interactions/matches", nil, admin_headers
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
+      end
+
       context "when the Origin header is set" do
         it "sets the Access-Control-Allow-Origin header to be the Origin" do
           options '/pact', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'X-Pact-Mock-Service, Content-Type', 'HTTP_ORIGIN' => 'http://localhost:1234' }

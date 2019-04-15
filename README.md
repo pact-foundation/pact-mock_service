@@ -11,6 +11,7 @@ The mock service provides the following endpoints:
 * POST /interactions - set up an expected interaction
 * PUT /interactions - clear and set up multiple expected interactions in one call
 * GET /interactions/verification - determine whether the expected interactions have taken place
+* GET /interactions/matches - determine the count of the number of requests matching interactions
 * POST /pact - write the pact file
 * GET / - the healthcheck endpoint
 

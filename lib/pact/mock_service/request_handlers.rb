@@ -9,6 +9,7 @@ require 'pact/mock_service/request_handlers/missing_interactions_get'
 require 'pact/mock_service/request_handlers/pact_post'
 require 'pact/mock_service/request_handlers/session_delete'
 require 'pact/mock_service/request_handlers/verification_get'
+require 'pact/mock_service/request_handlers/matches_get'
 require 'pact/consumer/request'
 require 'pact/support'
 
@@ -27,6 +28,7 @@ module Pact
             SessionDelete.new(name, logger, session),
             MissingInteractionsGet.new(name, logger, session),
             VerificationGet.new(name, logger, session),
+            MatchesGet.new(name, logger, session),
             InteractionPost.new(name, logger, session, Pact::SpecificationVersion.new(options.fetch(:pact_specification_version))),
             InteractionsPut.new(name, logger, session, Pact::SpecificationVersion.new(options.fetch(:pact_specification_version))),
             InteractionDelete.new(name, logger, session),

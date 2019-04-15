@@ -93,6 +93,78 @@ describe Pact::Consumer::MockService do
       end
     end
 
+    context "when the actual request matches the number of matches increases by one" do
+
+      let(:another_expected_interaction) do
+        {
+            description: "a request for zebras",
+            provider_state: "there are zebras",
+            request: {
+                method: :get,
+                path: '/zebras',
+                headers: { 'Accept' => 'application/json' },
+            },
+            response: {
+                status: 200,
+                headers: { 'Content-Type' => 'application/json' },
+                body: [{ name: 'Xena Zebra' }]
+            }
+        }.to_json
+      end
+
+      it "the number of matches for 'a request for zebras' should be one" do | example |
+        # Clear interactions - this would typically be done in a before hook
+        delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
+
+        # Set up expected interaction - this would be done by the Pact DSL
+        post "/interactions", expected_interaction, admin_headers
+
+        # Set up another expected interaction - this would be done by the Pact DSL
+        post "/interactions", another_expected_interaction, admin_headers
+
+        # Invoke the /zebras request - this would be done by the class under test
+        get "/zebras", nil, { 'HTTP_ACCEPT' => 'application/json' }
+
+        # Ensure we got the zebra response back
+        expect(JSON.parse(last_response.body)).to eq([{ 'name' => 'Xena Zebra' }])
+
+        # Get Matches
+        # This would typically be done in an after hook
+        get "/interactions/matches", nil, admin_headers
+        expect(last_response.status).to eq 200
+        data = JSON.parse(last_response.body)
+        expect(data.select{|x| x['description'] == 'a request for zebras'}.map{|x| x['number_matches']}[0]).to eq 1
+        expect(data.select{|x| x['description'] == 'a request for alligators'}.map{|x| x['number_matches']}[0]).to eq 0
+      end
+
+      it "the number of matches for 'a request for zebras' should be equal to the number of requests" do | example |
+        # Clear interactions - this would typically be done in a before hook
+        delete "/interactions?example_description=#{CGI::escape(example.full_description)}", nil, admin_headers
+
+        # Set up expected interaction - this would be done by the Pact DSL
+        post "/interactions", expected_interaction, admin_headers
+
+        # Set up another expected interaction - this would be done by the Pact DSL
+        post "/interactions", another_expected_interaction, admin_headers
+
+        for i in 1..3
+          # Invoke the /zebras request - this would be done by the class under test
+          get "/zebras", nil, { 'HTTP_ACCEPT' => 'application/json' }
+
+          # Ensure we got the zebra response back
+          expect(JSON.parse(last_response.body)).to eq([{ 'name' => 'Xena Zebra' }])
+        end
+
+        # Get Matches
+        # This would typically be done in an after hook
+        get "/interactions/matches", nil, admin_headers
+        expect(last_response.status).to eq 200
+        data = JSON.parse(last_response.body)
+        expect(data.select{|x| x['description'] == 'a request for zebras'}.map{|x| x['number_matches']}[0]).to eq 3
+        expect(data.select{|x| x['description'] == 'a request for alligators'}.map{|x| x['number_matches']}[0]).to eq 0
+      end
+    end
+
     context "when the actual request matches more than one expected request" do
 
       let(:another_expected_interaction) do
