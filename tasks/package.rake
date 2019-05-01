@@ -84,7 +84,7 @@ def create_package(version, target, os_type = :unix)
   end
 
   sh "cp -pR build/vendor #{package_dir}/lib/"
-  sh "cp pact-mock-service.gemspec Gemfile Gemfile.lock #{package_dir}/lib/vendor/"
+  sh "cp pact-mock_service.gemspec Gemfile Gemfile.lock #{package_dir}/lib/vendor/"
   sh "mkdir #{package_dir}/lib/vendor/.bundle"
   sh "cp packaging/bundler-config #{package_dir}/lib/vendor/.bundle/config"
   if !ENV['DIR_ONLY']
