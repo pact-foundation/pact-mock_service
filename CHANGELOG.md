@@ -1,3 +1,12 @@
+<a name="v3.1.0"></a>
+### v3.1.0 (2019-05-01)
+
+
+#### Features
+
+* pact-stub-service log level cli opt	 ([9264a87](/../../commit/9264a87))
+
+
 <a name="v3.0.1"></a>
 ### v3.0.1 (2019-03-08)
 
