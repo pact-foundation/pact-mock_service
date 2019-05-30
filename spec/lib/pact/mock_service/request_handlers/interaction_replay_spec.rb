@@ -143,6 +143,18 @@ module Pact
               end
             end
           end
+          
+          context "when the body contains special charachters" do
+            let(:actual_body) { '\xEB' }
+            
+            let(:expected_response_body) do
+              {"message"=>"No interaction found for GET /path", "interaction_diffs"=>[{"body"=>{"ACTUAL"=>"\\xEB", "EXPECTED"=>{"a"=>"body"}}, "description"=>"a request"}]}
+            end
+            
+            it "returns the specified response status" do
+              expect(response_status).to eq 500
+            end
+          end
         end
 
         context "when no request is found with a matching method and path" do
