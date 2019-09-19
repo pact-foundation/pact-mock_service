@@ -32,11 +32,11 @@ module Pact
 
     def sorted_interactions
       # Default order: chronological
-      return consumer_contract.interactions if Pact.configuration.pactfile_write_order == :chronological
+      return consumer_contract.writable_interactions if Pact.configuration.pactfile_write_order == :chronological
       # We are supporting only chronological or alphabetical order
       raise NotImplementedError if Pact.configuration.pactfile_write_order != :alphabetical
 
-      consumer_contract.interactions.sort{|a, b| sortable_id(a) <=> sortable_id(b)}
+      consumer_contract.writable_interactions.sort{|a, b| sortable_id(a) <=> sortable_id(b)}
     end
 
     def sortable_id interaction

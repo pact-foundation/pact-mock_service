@@ -29,6 +29,7 @@ log
 reports
 Gemfile.lock
 build
+.byebug_history
 
 vendor/bundle/
 spec/examples.txt
