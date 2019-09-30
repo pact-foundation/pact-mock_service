@@ -96,7 +96,7 @@ describe Pact::Consumer::MockService do
           status: 200
         },
         metadata: {
-          write_to_pact: true
+          write_to_pact: false
         }
       }.to_json
     end
