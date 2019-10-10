@@ -34,6 +34,7 @@ module Pact
       end
 
     end
+    
     describe "as_json" do
       context "with multiple interactions" do
         let(:desc_2) { 'Desc 1' }
@@ -127,7 +128,51 @@ module Pact
           end
         end
       end
-    end
 
+      context "when an interaction is marked to not be written" do
+        before do
+          Pact.configuration.pactfile_write_order = :chronological
+        end
+
+        let(:interaction_1) do
+          InteractionFactory.create(
+            provider_state: 'State 1',
+            description: 'Desc 1',
+            response: {
+              status: 201
+            })
+        end
+        let(:interaction_2) do
+          InteractionFactory.create(
+            provider_state: 'State 2',
+            description: 'Desc 2',
+            response: {
+              status: 201
+            },
+            metadata: {
+              write_to_pact: true
+            })
+        end
+        let(:interaction_3) do
+          InteractionFactory.create(
+            provider_state: 'State 3',
+            description: 'Desc 3',
+            response: {
+              status: 201
+            },
+            metadata: {
+              write_to_pact: false
+            })
+        end
+        let(:interactions) { [interaction_1, interaction_2, interaction_3] }
+
+        it "only renders writable interactions" do
+          expect(subject.as_json[:interactions]).to eq([
+            InteractionDecorator.new(interaction_1, pact_specification_version: pact_specification_version).as_json,
+            InteractionDecorator.new(interaction_2, pact_specification_version: pact_specification_version).as_json
+          ])
+        end
+      end
+    end
   end
 end

@@ -82,6 +82,47 @@ describe Pact::Consumer::MockService do
     end
   end
 
+  context "when the expected interaction is executed but is marked to not be written to the pact file" do
+    let(:zebra_interaction) do
+      {
+        description: "a request for zebras",
+        provider_state: "zebras exist",
+        request: {
+          method: :get,
+          path: '/zebras',
+          headers: {'Accept' => 'application/zebra'}
+        },
+        response: {
+          status: 200
+        },
+        metadata: {
+          write_to_pact: false
+        }
+      }.to_json
+    end
+
+    before do
+      post "/interactions", zebra_interaction, admin_headers
+    end
+
+    it "does not include the interaction in the pact file" do
+      get "/alligators", nil, {'HTTP_ACCEPT' => 'application/alligator'}
+      get "/giraffes", nil, {'HTTP_ACCEPT' => 'application/giraffe'}
+      get "/zebras", nil, {'HTTP_ACCEPT' => 'application/zebra'}
+      post "/pact", pact_details, admin_headers
+
+      expect(pact_json['interactions']).to include(
+        include("description" => "a request for alligators")
+      )
+      expect(pact_json['interactions']).to include(
+        include("description" => "a request for giraffes")
+      )
+      expect(pact_json['interactions']).to_not include(
+        include("description" => "a request for zebras")
+      )
+    end
+  end
+
   context "when no interactions are executed" do
     it "does not create the pact file" do
       post "/pact", pact_details, admin_headers
