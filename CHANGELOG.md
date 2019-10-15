@@ -1,3 +1,13 @@
+<a name="v3.2.0"></a>
+### v3.2.0 (2019-09-19)
+
+
+#### Features
+
+* **skip writing to pact**
+  * Use writable_interactions when writing to pact file	 ([44ea0c3](/../../commit/44ea0c3))
+
+
 <a name="v3.1.0"></a>
 ### v3.1.0 (2019-05-01)
 
