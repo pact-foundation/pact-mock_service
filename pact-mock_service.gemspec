@@ -30,6 +30,8 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'pact-support', '~> 1.12', '>= 1.12.0'
   gem.add_runtime_dependency 'filelock', '~> 1.1'
 
+  gem.add_runtime_dependency 'thwait', '~> 0.1.0', '< 1.0' if RUBY_VERSION >= '2.7'
+
   gem.add_development_dependency 'rack-test', '~> 0.7'
   gem.add_development_dependency 'rake', '~> 10.0.3'
   gem.add_development_dependency 'webmock', '~> 3.4'
