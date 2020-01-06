@@ -1,4 +1,4 @@
-require 'thwait' if RUBY_VERSION < '2.7'
+require 'thwait'
 
 require 'net/http'
 require 'uri'
