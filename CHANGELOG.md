@@ -1,3 +1,12 @@
+<a name="v3.2.1"></a>
+### v3.2.1 (2020-01-11)
+
+
+#### Bug Fixes
+
+* remove apparently unused require for thwait	 ([4a08fd5](/../../commit/4a08fd5))
+
+
 <a name="v3.2.0"></a>
 ### v3.2.0 (2019-09-19)
 
