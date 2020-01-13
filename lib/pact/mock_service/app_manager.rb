@@ -1,5 +1,3 @@
-require 'thwait'
-
 require 'net/http'
 require 'uri'
 require 'pact/logging'
