@@ -7,7 +7,6 @@ module Pact::MockService
     let(:logger) { double('Logger').as_null_object }
 
     describe "set_expected_interactions" do
-
       let(:interaction_1) { InteractionFactory.create }
       let(:interaction_2) { InteractionFactory.create }
       let(:interactions) { [interaction_1, interaction_2] }
@@ -84,6 +83,7 @@ module Pact::MockService
       let(:expected_interactions) { instance_double('Interactions::ExpectedInteractions', :<< => nil) }
       let(:actual_interactions) { instance_double('Interactions::ActualInteractions') }
       let(:verified_interactions) { instance_double('Interactions::VerifiedInteractions') }
+      let(:matching_interaction) { nil }
 
       before do
         allow(Interactions::ExpectedInteractions).to receive(:new).and_return(expected_interactions)
@@ -95,8 +95,6 @@ module Pact::MockService
       subject { Session.new(logger: logger) }
 
       context "when there is no already verified interaction with the same description and provider state" do
-        let(:matching_interaction) { nil }
-
         it "adds the new interaction to the interaction list" do
           expect(expected_interactions).to receive(:<<).with(interaction_1)
           subject.add_expected_interaction interaction_1
@@ -136,6 +134,31 @@ module Pact::MockService
 
         it "raises an SameSameButDifferentError" do
           expect { subject.add_expected_interaction interaction_1 }.to raise_error SameSameButDifferentError, diff_message
+        end
+      end
+
+      context "when there are more than 3 interactions mocked at the same time" do
+        subject { Session.new(logger: logger, warn_on_too_many_interactions: true) }
+
+        it "logs a warning" do
+          allow(expected_interactions).to receive(:size).and_return(3, 4)
+          expect(logger).to receive(:warn).with(/You currently have 4 interactions/).once
+          subject.add_expected_interaction(InteractionFactory.create('description' => 'third interaction')) # no warning
+          subject.add_expected_interaction(InteractionFactory.create('description' => 'forth interaction')) # warning
+        end
+
+        context "when PACT_MAX_CONCURRENT_INTERACTIONS_BEFORE_WARNING is set" do
+          before do
+            allow(ENV).to receive(:[]).and_call_original
+            allow(ENV).to receive(:[]).with("PACT_MAX_CONCURRENT_INTERACTIONS_BEFORE_WARNING").and_return("5")
+          end
+
+          it "logs a warning when over the configured limit" do
+            allow(expected_interactions).to receive(:size).and_return(5, 6)
+            expect(logger).to receive(:warn).with(/You currently have 6 interactions/).once
+            subject.add_expected_interaction(InteractionFactory.create('description' => 'fifth interaction')) # no warning
+            subject.add_expected_interaction(InteractionFactory.create('description' => 'sixth interaction')) # warning
+          end
         end
       end
     end

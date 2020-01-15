@@ -17,6 +17,8 @@ module Pact
         @expected_interactions = Interactions::ExpectedInteractions.new
         @actual_interactions = Interactions::ActualInteractions.new
         @verified_interactions = Interactions::VerifiedInteractions.new
+        @warn_on_too_many_interactions = options[:warn_on_too_many_interactions] || false
+        @max_concurrent_interactions_before_warning = get_max_concurrent_interactions_before_warning
         @consumer_contract_details = {
           pact_dir: options[:pact_dir],
           consumer: {name: options[:consumer]},
@@ -64,10 +66,15 @@ module Pact
 
       private
 
+      attr_reader :warn_on_too_many_interactions, :max_concurrent_interactions_before_warning
+
       def really_add_expected_interaction interaction
         expected_interactions << interaction
         logger.info "Registered expected interaction #{interaction.request.method_and_path}"
         logger.debug JSON.pretty_generate InteractionDecorator.new(interaction)
+        if warn_on_too_many_interactions && expected_interactions.size > max_concurrent_interactions_before_warning
+          logger.warn "You currently have #{expected_interactions.size} interactions mocked at the same time. This suggests the scope of your consumer tests is larger than recommended, and you may find them hard to debug and maintain. See https://pact.io/too-many-interactions for more information."
+        end
       end
 
       def handle_almost_duplicate_interaction previous_interaction, interaction
@@ -81,6 +88,9 @@ module Pact
         other && other != interaction ? other : nil
       end
 
+      def get_max_concurrent_interactions_before_warning
+        ENV['PACT_MAX_CONCURRENT_INTERACTIONS_BEFORE_WARNING'] ? ENV['PACT_MAX_CONCURRENT_INTERACTIONS_BEFORE_WARNING'].to_i : 3
+      end
     end
   end
 end

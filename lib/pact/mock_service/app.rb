@@ -15,12 +15,12 @@ module Pact
     end
 
     class App
-
       def initialize options = {}
         logger = Logger.from_options(options)
+        stubbing = options[:stub_pactfile_paths] && options[:stub_pactfile_paths].any?
         @name = options.fetch(:name, "MockService")
-        @session = Session.new(options.merge(logger: logger))
-        setup_stub(options[:stub_pactfile_paths]) if options[:stub_pactfile_paths]
+        @session = Session.new(options.merge(logger: logger, warn_on_too_many_interactions: !stubbing))
+        setup_stub(options[:stub_pactfile_paths]) if stubbing
         request_handlers = RequestHandlers.new(@name, logger, @session, options)
         @app = Rack::Builder.app do
           use Pact::Consumer::MockService::ErrorHandler, logger
