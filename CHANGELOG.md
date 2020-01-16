@@ -1,3 +1,12 @@
+<a name="v3.3.1"></a>
+### v3.3.1 (2020-01-16)
+
+
+#### Bug Fixes
+
+* put metadata on the correct decorator	 ([67ef5a6](/../../commit/67ef5a6))
+
+
 <a name="v3.3.0"></a>
 ### v3.3.0 (2020-01-16)
 
