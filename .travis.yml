@@ -4,7 +4,6 @@ rvm:
 - 2.2.4
 - 2.3.1
 - 2.7.0
-- jruby-9.0.5.0
 env:
   global:
     secure: FqQ00zkw2heLh5XafaMMv1LXgy+DBxumbcSI3c9iDlRvi4KZQ+n+NqSp/feVEIxSMzA9FmH7ZqTVJmsA5jByrk71WiguU8RZ7NSVzonlLZK0tQ9idwzPtvc38abJwWm3cR9TJlkNxUgQ2iHXLobo4zFSEK/4s0Ob9ddf3x4BUmo=
