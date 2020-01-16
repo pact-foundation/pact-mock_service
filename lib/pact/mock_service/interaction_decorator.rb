@@ -28,6 +28,7 @@ module Pact
         hash[:providerState] = interaction.provider_state if interaction.provider_state
         hash[:request] = decorate_request.as_json
         hash[:response] = decorate_response.as_json
+        hash[:metadata] = interaction.metadata
         hash
       end
 
