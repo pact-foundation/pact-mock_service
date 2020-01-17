@@ -17,6 +17,7 @@ module Pact
     class App
       def initialize options = {}
         logger = Logger.from_options(options)
+        @options = options
         stubbing = options[:stub_pactfile_paths] && options[:stub_pactfile_paths].any?
         @name = options.fetch(:name, "MockService")
         @session = Session.new(options.merge(logger: logger, warn_on_too_many_interactions: !stubbing))
@@ -40,7 +41,7 @@ module Pact
       def setup_stub stub_pactfile_paths
         interactions = stub_pactfile_paths.collect do | pactfile_path |
           $stdout.puts "INFO: Loading interactions from #{pactfile_path}"
-          hash_interactions = JSON.parse(Pact::PactFile.read(pactfile_path))['interactions']
+          hash_interactions = JSON.parse(Pact::PactFile.read(pactfile_path, pactfile_options))['interactions']
           hash_interactions.collect { | hash | Interaction.from_hash(hash) }
         end.flatten
         @session.set_expected_interactions interactions
@@ -56,6 +57,20 @@ module Pact
 
       def to_s
         "#{@name} #{super.to_s}"
+      end
+
+      private
+
+      def pactfile_options
+        {
+          :token => broker_token,
+          :username => @options[:broker_username],
+          :password => @options[:broker_password],
+        }
+      end
+
+      def broker_token
+        @options[:broker_token] || ENV['PACT_BROKER_TOKEN']
       end
     end
 
