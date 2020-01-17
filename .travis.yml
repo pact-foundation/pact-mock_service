@@ -2,28 +2,31 @@ language: ruby
 sudo: false
 rvm:
 - 2.2.4
-- 2.3.1
 - 2.7.0
 env:
   global:
     secure: FqQ00zkw2heLh5XafaMMv1LXgy+DBxumbcSI3c9iDlRvi4KZQ+n+NqSp/feVEIxSMzA9FmH7ZqTVJmsA5jByrk71WiguU8RZ7NSVzonlLZK0tQ9idwzPtvc38abJwWm3cR9TJlkNxUgQ2iHXLobo4zFSEK/4s0Ob9ddf3x4BUmo=
-deploy:
-- provider: rubygems
-  api_key:
-    secure: EbS3ZRtfqoKrQ3pMGfkx/pqUBVUaEJE+KjUAnAy4h+6BF/6ZsY2H5vtpuDB8ypQ7au1AF2QuEoZsQZkHPngyhJ7Ebtn7XFh0c5WAB+c+mM7bSsNN+ZU176cUgY5PkS9GZ3rBZ/MEW+YyKcUpTmk+ClDx/WmofRjPFSD4n0x350Y=
-  gem: pact-mock_service
-  on:
-    tags: true
-    repo: pact-foundation/pact-mock_service
-- provider: releases
-  api_key:
-    secure: O9g/8HkwonBZOthoN+NFCiZQZ+AyakmqMxb/HpuC/ZB79KZ6GTM0brr++Bm08RYLD2MX6+IC8dqA4vkl4D11VEd7TrtxdtS2huScDGTEntzPtRu2WDo4cm6/B9y/erp7Thalt08+V7dqsSBMN5FWf0c001WrG7qpdWs9BElxul8=
-  file: pkg/*
-  file_glob: true
-  skip_cleanup: true
-  on:
-    tags: true
-    repo: pact-foundation/pact-mock_service
-after_deploy:
-- bundle exec rake generate_release_notes[$TRAVIS_TAG]
-- bundle exec rake upload_release_notes[$TRAVIS_REPO_SLUG,$TRAVIS_TAG]
+jobs:
+  include:
+    - stage: gem release
+      rvm: 2.7.0
+      deploy:
+        - provider: rubygems
+          api_key:
+            secure: EbS3ZRtfqoKrQ3pMGfkx/pqUBVUaEJE+KjUAnAy4h+6BF/6ZsY2H5vtpuDB8ypQ7au1AF2QuEoZsQZkHPngyhJ7Ebtn7XFh0c5WAB+c+mM7bSsNN+ZU176cUgY5PkS9GZ3rBZ/MEW+YyKcUpTmk+ClDx/WmofRjPFSD4n0x350Y=
+          gem: pact-mock_service
+          on:
+            tags: true
+            repo: pact-foundation/pact-mock_service
+        - provider: releases
+          api_key:
+            secure: O9g/8HkwonBZOthoN+NFCiZQZ+AyakmqMxb/HpuC/ZB79KZ6GTM0brr++Bm08RYLD2MX6+IC8dqA4vkl4D11VEd7TrtxdtS2huScDGTEntzPtRu2WDo4cm6/B9y/erp7Thalt08+V7dqsSBMN5FWf0c001WrG7qpdWs9BElxul8=
+          file: pkg/*
+          file_glob: true
+          skip_cleanup: true
+          on:
+            tags: true
+            repo: pact-foundation/pact-mock_service
+      after_deploy:
+      - bundle exec rake generate_release_notes[$TRAVIS_TAG]
+      - bundle exec rake upload_release_notes[$TRAVIS_REPO_SLUG,$TRAVIS_TAG]
