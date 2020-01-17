@@ -8,7 +8,7 @@ env:
     secure: FqQ00zkw2heLh5XafaMMv1LXgy+DBxumbcSI3c9iDlRvi4KZQ+n+NqSp/feVEIxSMzA9FmH7ZqTVJmsA5jByrk71WiguU8RZ7NSVzonlLZK0tQ9idwzPtvc38abJwWm3cR9TJlkNxUgQ2iHXLobo4zFSEK/4s0Ob9ddf3x4BUmo=
 jobs:
   include:
-    - stage: gem release
+    - stage: release
       rvm: 2.7.0
       deploy:
         - provider: rubygems
