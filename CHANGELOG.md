@@ -1,3 +1,12 @@
+<a name="v3.5.0"></a>
+### v3.5.0 (2020-01-17)
+
+
+#### Features
+
+* add token, username and password options to stub service (#118)	 ([76236d8](/../../commit/76236d8))
+
+
 <a name="v3.3.1"></a>
 ### v3.3.1 (2020-01-16)
 
