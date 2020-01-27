@@ -69,6 +69,9 @@ describe Pact::Consumer::MockService do
       expect(pact_json['interactions']).to_not include(
         include("description" => "a request for alligators")
       )
+      expect(pact_json['interactions']).to_not include(
+        include("metadata" => nil)
+      )
     end
   end
 
@@ -78,6 +81,9 @@ describe Pact::Consumer::MockService do
       post "/pact", pact_details, admin_headers
       expect(pact_json['interactions']).to include(
         include("description" => "a request for alligators")
+      )
+      expect(pact_json['interactions']).to_not include(
+        include("metadata" => nil)
       )
     end
   end
@@ -119,6 +125,9 @@ describe Pact::Consumer::MockService do
       )
       expect(pact_json['interactions']).to_not include(
         include("description" => "a request for zebras")
+      )
+      expect(pact_json['interactions']).to_not include(
+        include("metadata" => nil)
       )
     end
   end
