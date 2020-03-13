@@ -23,7 +23,8 @@ module Pact
       private
 
       def add_cors_header env, response
-        [response[0], response[1].merge('Access-Control-Allow-Origin' => env.fetch('HTTP_ORIGIN','*')), response[2]]
+        cors_headers = { 'Access-Control-Allow-Origin' => env.fetch('HTTP_ORIGIN','*'), 'Access-Control-Allow-Credentials' => 'true'}
+        [response[0], response[1].merge(cors_headers), response[2]]
       end
     end
   end
