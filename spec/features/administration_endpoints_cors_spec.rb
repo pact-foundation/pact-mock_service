@@ -85,21 +85,25 @@ describe Pact::Consumer::MockService do
       it "includes the CORS headers in the response to DELETE /interactions" do | example |
         delete "/interactions", nil, admin_headers
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
+        expect(last_response.headers['Access-Control-Allow-Credentials']).to eq 'true'
       end
 
       it "includes the CORS headers in the response to POST /interactions" do | example |
         post "/interactions", expected_interaction, admin_headers
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
+        expect(last_response.headers['Access-Control-Allow-Credentials']).to eq 'true'
       end
 
       it "includes the CORS headers in the response to POST /pact" do | example |
         post "/pact", pact_details, admin_headers
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
+        expect(last_response.headers['Access-Control-Allow-Credentials']).to eq 'true'
       end
 
       it "includes the CORS headers in the response to GET /interactions/verification" do | example |
         get "/interactions/verification", nil, admin_headers
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
+        expect(last_response.headers['Access-Control-Allow-Credentials']).to eq 'true'
       end
 
       context "when the Origin header is set" do

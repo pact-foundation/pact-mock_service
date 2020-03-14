@@ -61,6 +61,7 @@ describe Pact::Consumer::MockService do
         # Ensure it allows the browser to actually make the request
         expect(last_response.status).to eq 200
         expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://localhost:1234'
+        expect(last_response.headers['Access-Control-Allow-Credentials']).to eq 'true'
         expect(last_response.headers['Access-Control-Allow-Headers']).to include 'accept'
         expect(last_response.headers['Access-Control-Allow-Methods']).to include "DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
 
