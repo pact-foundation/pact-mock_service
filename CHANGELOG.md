@@ -1,3 +1,12 @@
+<a name="v3.6.0"></a>
+### v3.6.0 (2020-03-14)
+
+
+#### Features
+
+* add 'Access-Control-Allow-Headers' = true to cors response headers (#121)	 ([61bd9d1](/../../commit/61bd9d1))
+
+
 <a name="v3.5.0"></a>
 ### v3.5.0 (2020-01-17)
 
