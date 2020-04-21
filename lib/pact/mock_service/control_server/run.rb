@@ -24,7 +24,7 @@ module Pact
           # server, and can't shut it down. So, keep a manual reference to the Webrick server, and
           # shut it down directly rather than use Rack::Handler::WEBrick.shutdown
           # Ruby!
-          Rack::Handler::WEBrick.run(control_server, webbrick_opts) do | server |
+          Rack::Handler::WEBrick.run(control_server, **webbrick_opts) do | server |
             @webrick_server = server
           end
         end
