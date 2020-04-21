@@ -25,7 +25,7 @@ module Pact
 
         require_monkeypatch
 
-        Rack::Handler::WEBrick.run(mock_service, webbrick_opts)
+        Rack::Handler::WEBrick.run(mock_service, **webbrick_opts)
       end
 
       private

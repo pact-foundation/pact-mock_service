@@ -67,7 +67,7 @@ module Pact
 
     def run_default_server(app, port)
       require 'rack/handler/webrick'
-      Rack::Handler::WEBrick.run(app, webrick_opts) do |server|
+      Rack::Handler::WEBrick.run(app, **webrick_opts) do |server|
         @port = server[:Port]
       end
     end
