@@ -9,6 +9,9 @@ require 'socket'
 module Pact
   module MockService
     class CLI < Thor
+      def self.exit_on_failure? # Thor 1.0 deprecation guard
+        false
+      end
 
       PACT_FILE_WRITE_MODE_DESC = "`overwrite` or `merge`. Use `merge` when running multiple mock service instances in parallel for the same consumer/provider pair." +
       " Ensure the pact file is deleted before running tests when using this option so that interactions deleted from the code are not maintained in the file."

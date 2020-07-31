@@ -3,9 +3,11 @@ require 'fileutils'
 module Pact
   module MockService
     class CLI < Thor
+      def self.exit_on_failure? # Thor 1.0 deprecation guard
+        false
+      end
 
       class Pidfile
-
         attr_accessor :pid_dir, :name, :pid
 
         def initialize options
