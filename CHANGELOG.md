@@ -1,3 +1,10 @@
+<a name="v3.6.2"></a>
+### v3.6.2 (2020-08-10)
+
+#### Bug Fixes
+
+* update thor dependency (#124)	 ([54b3f85](/../../commit/54b3f85))
+
 <a name="v3.6.1"></a>
 ### v3.6.1 (2020-04-22)
 
