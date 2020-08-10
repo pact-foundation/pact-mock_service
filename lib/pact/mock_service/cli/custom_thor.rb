@@ -11,6 +11,9 @@ module Pact
       # `script --help` to display the help for the default task instead of the command list
       #
       class CustomThor < ::Thor
+        def self.exit_on_failure? # Thor 1.0 deprecation guard
+          false
+        end
 
         no_commands do
           def self.start given_args = ARGV, config = {}

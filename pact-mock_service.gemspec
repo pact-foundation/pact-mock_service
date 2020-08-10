@@ -23,7 +23,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'rack', '~> 2.0'
   gem.add_runtime_dependency 'rspec', '>=2.14'
   gem.add_runtime_dependency 'find_a_port', '~> 1.0.1'
-  gem.add_runtime_dependency 'thor', '~> 0.19'
+  gem.add_runtime_dependency 'thor', '>= 0.19', '< 2.0'
   gem.add_runtime_dependency 'json'
   gem.add_runtime_dependency 'webrick', '~> 1.3'
   gem.add_runtime_dependency 'term-ansicolor', '~> 1.0'
