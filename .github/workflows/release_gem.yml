@@ -16,8 +16,8 @@ jobs:
     - run: |
         gem install bundler -v 2.1
         bundle install
-    - name: Test
-      run: bundle exec rake
+    # - name: Test
+    #   run: bundle exec rake
 
   release:
     needs: test
