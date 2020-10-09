@@ -1,10 +1,4 @@
 require 'thor'
-require 'webrick/https'
-require 'rack/handler/webrick'
-require 'fileutils'
-require 'pact/mock_service/server/wait_for_server_up'
-require 'pact/mock_service/cli/pidfile'
-require 'socket'
 
 module Pact
   module MockService
@@ -33,6 +27,7 @@ module Pact
       method_option :monkeypatch, hide: true
 
       def service
+        require_common_dependencies
         require 'pact/mock_service/run'
         Run.(options)
       end
@@ -51,6 +46,7 @@ module Pact
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
 
       def control
+        require_common_dependencies
         require 'pact/mock_service/control_server/run'
         ControlServer::Run.(options)
       end
@@ -73,6 +69,7 @@ module Pact
       method_option :monkeypatch, hide: true
 
       def start
+        require_common_dependencies
         start_server(mock_service_pidfile) do
           service
         end
@@ -83,6 +80,7 @@ module Pact
       method_option :pid_dir, desc: "PID dir, defaults to tmp/pids", default: "tmp/pids"
 
       def stop
+        require_common_dependencies
         mock_service_pidfile.kill_process
       end
 
@@ -103,6 +101,7 @@ module Pact
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
 
       def restart
+        require_common_dependencies
         restart_server(mock_service_pidfile) do
           service
         end
@@ -123,6 +122,7 @@ module Pact
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written", default: "."
 
       def control_start
+        require_common_dependencies
         start_server(control_server_pidfile) do
           control
         end
@@ -133,6 +133,7 @@ module Pact
       method_option :pid_dir, desc: "PID dir, defaults to tmp/pids", default: "tmp/pids"
 
       def control_stop
+        require_common_dependencies
         control_server_pidfile.kill_process
       end
 
@@ -151,6 +152,7 @@ module Pact
       method_option :sslkey, desc: "Specify the path to the SSL key to use when running the service over HTTPS"
 
       def control_restart
+        require_common_dependencies
         restart_server(control_server_pidfile) do
           control
         end
@@ -166,6 +168,15 @@ module Pact
       default_task :service
 
       no_commands do
+
+        def require_common_dependencies
+          require 'webrick/https'
+          require 'rack/handler/webrick'
+          require 'fileutils'
+          require 'pact/mock_service/server/wait_for_server_up'
+          require 'pact/mock_service/cli/pidfile'
+          require 'socket'
+        end
 
         def control_server_pidfile
           Pidfile.new(pid_dir: options[:pid_dir], name: control_pidfile_name)
