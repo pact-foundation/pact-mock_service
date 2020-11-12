@@ -1,4 +1,6 @@
 require 'cgi/core'
+require 'pact/consumer_contract/query'
+
 module Pact
   module Consumer
 
@@ -11,7 +13,7 @@ module Pact
       }
 
       def params_hash env
-        CGI::parse env["QUERY_STRING"]
+        Pact::Query.parse_string(env["QUERY_STRING"])
       end
 
       def request_as_hash_from env
