@@ -1,3 +1,11 @@
+<a name="v3.7.0"></a>
+### v3.7.0 (2020-11-13)
+
+#### Features
+
+* use Pact::Query.parse_string to parse query string	 ([6cd0733](/../../commit/6cd0733))
+* do not require files until command is executing	 ([ad54d0b](/../../commit/ad54d0b))
+
 <a name="v3.6.2"></a>
 ### v3.6.2 (2020-08-10)
 
