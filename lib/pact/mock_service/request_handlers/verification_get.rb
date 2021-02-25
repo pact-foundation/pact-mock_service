@@ -52,7 +52,7 @@ module Pact
           def to_s
             titles_and_summaries.collect do | title, summaries |
               "#{title}:\n\t#{summaries.join("\n\t")}\n\n" if summaries.any?
-            end.compact.join
+            end.compact.join + verification.interaction_mismatches.collect(&:to_s).join("\n\n") + "\n"
 
           end
 

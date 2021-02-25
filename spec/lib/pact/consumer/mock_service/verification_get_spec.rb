@@ -105,6 +105,7 @@ module Pact
         describe "FailureMessage" do
           let(:missing_interactions_summaries) { ["Blah", "Thing"]}
           let(:interaction_mismatches_summaries) { []}
+          let(:interaction_mismatches) { []}
           let(:unexpected_requests_summaries) { []}
           let(:verification) { instance_double("Pact::Consumer::Verification") }
           subject { VerificationGet::FailureMessage.new(verification).to_s }
@@ -112,6 +113,7 @@ module Pact
           before do
             allow(verification).to receive(:missing_interactions_summaries).and_return(missing_interactions_summaries)
             allow(verification).to receive(:interaction_mismatches_summaries).and_return(interaction_mismatches_summaries)
+            allow(verification).to receive(:interaction_mismatches).and_return(interaction_mismatches)
             allow(verification).to receive(:unexpected_requests_summaries).and_return(unexpected_requests_summaries)
           end
 
@@ -121,6 +123,7 @@ module Pact
 Missing requests:
 \tBlah
 \tThing
+
 
 EOS
 }
@@ -132,6 +135,7 @@ EOS
           context "with missing, mismatches and unexpected interactions" do
 
             let(:interaction_mismatches_summaries) { ["wiffle"]}
+            let(:interaction_mismatches) { ["diffs"]}
             let(:unexpected_requests_summaries) { ["moose"]}
 
             let(:expected_string) { <<-EOS
@@ -145,6 +149,7 @@ Missing requests:
 Unexpected requests:
 \tmoose
 
+diffs
 EOS
 }
             it "includes all the things" do

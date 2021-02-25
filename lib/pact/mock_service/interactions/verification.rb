@@ -38,6 +38,10 @@ module Pact
           expected_interactions - actual_interactions.matched_interactions - @actual_interactions.interaction_mismatches.collect(&:candidate_interactions).flatten
         end
 
+        def interaction_mismatches
+          actual_interactions.interaction_mismatches
+        end
+
         private
 
         attr_reader :expected_interactions, :actual_interactions
