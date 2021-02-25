@@ -20,4 +20,4 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby_version }}
       - run: "bundle install"
-      - run: "bundle exec rake spec"
+      - run: "bundle exec rspec"
