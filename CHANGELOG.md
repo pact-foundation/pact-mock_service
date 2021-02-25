@@ -1,3 +1,10 @@
+<a name="v3.8.0"></a>
+### v3.8.0 (2021-02-25)
+
+#### Features
+
+* include interaction diffs in verification response	 ([6306693](/../../commit/6306693))
+
 <a name="v3.7.0"></a>
 ### v3.7.0 (2020-11-13)
 
