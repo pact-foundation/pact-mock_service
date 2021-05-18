@@ -1,3 +1,10 @@
+<a name="v3.9.0"></a>
+### v3.9.0 (2021-05-17)
+
+#### Features
+
+* pass host into WEBrick options to allow configuration (#128)	 ([ec234a4](/../../commit/ec234a4))
+
 <a name="v3.8.0"></a>
 ### v3.8.0 (2021-02-25)
 
