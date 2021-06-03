@@ -182,7 +182,7 @@ module Pact
         end
 
         def self.render_body body
-          return '' unless body
+          return '' if body.nil?
           body.kind_of?(String) ? body.force_encoding('utf-8') : body.to_json
         end
       end
