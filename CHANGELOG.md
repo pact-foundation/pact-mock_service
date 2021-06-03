@@ -1,3 +1,10 @@
+<a name="v3.9.1"></a>
+### v3.9.1 (2021-06-03)
+
+#### Bug Fixes
+
+* check for nil body rather than falsey body when determining how to render mocked response Fixes: https://github.com/pact-foundation/pact-mock_service/issues/99	 ([d26e520](/../../commit/d26e520))
+
 <a name="v3.9.0"></a>
 ### v3.9.0 (2021-05-17)
 
