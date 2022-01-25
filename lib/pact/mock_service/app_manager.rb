@@ -30,6 +30,7 @@ module Pact
           pact_specification_version: options.fetch(:pact_specification_version)
         )
         register(app, uri.host, uri.port)
+        Pact::Support::Metrics.report_metric("Pact mock server started", "ConsumerTest", "MockServerStarted")
       end
 
       def register(app, host, port = nil)
