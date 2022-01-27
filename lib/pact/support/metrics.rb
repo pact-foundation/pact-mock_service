@@ -2,6 +2,7 @@ require 'securerandom'
 require 'digest'
 require 'socket'
 require 'pact/support/metrics'
+require 'pact/mock_service/version'
 
 module Pact
   module Support
@@ -13,33 +14,35 @@ module Pact
             and operating system. To disable tracking, set the 'PACT_DO_NOT_TRACK' environment
             variable to 'true'."
 
-          event = {
-            "v" => 1,
-            "t" => "event",
-            "tid" => "UA-117778936-1",
-            "cid" => calculate_cid,
-            "an" => "Pact Mock Service",
-            "av" => Pact::MockService::VERSION,
-            "aid" => "pact-mock_service",
-            "aip" => 1,
-            "ds" => ENV['PACT_EXECUTING_LANGUAGE'] ? "client" : "cli",
-            "cd2" => ENV['CI'] == "true" ? "CI" : "unknown",
-            "cd3" => RUBY_PLATFORM,
-            "cd6" => ENV['PACT_EXECUTING_LANGUAGE'] || "unknown",
-            "cd7" => ENV['PACT_EXECUTING_LANGUAGE_VERSION'],
-            "el" => event,
-            "ec" => category,
-            "ea" => action,
-            "ev" => value
-          }
-
           Net::HTTP.post URI('https://www.google-analytics.com/collect'),
-                         URI.encode_www_form(event),
+                         URI.encode_www_form(create_tracking_event(event, category, action, value)),
                          "Content-Type" => "application/x-www-form-urlencoded"
         end
       end
 
       private
+
+      def self.create_tracking_event(event, category, action, value)
+        {
+          "v" => 1,
+          "t" => "event",
+          "tid" => "UA-117778936-1",
+          "cid" => calculate_cid,
+          "an" => "Pact Mock Service",
+          "av" => Pact::MockService::VERSION,
+          "aid" => "pact-mock_service",
+          "aip" => 1,
+          "ds" => ENV['PACT_EXECUTING_LANGUAGE'] ? "client" : "cli",
+          "cd2" => ENV['CI'] == "true" ? "CI" : "unknown",
+          "cd3" => RUBY_PLATFORM,
+          "cd6" => ENV['PACT_EXECUTING_LANGUAGE'] || "unknown",
+          "cd7" => ENV['PACT_EXECUTING_LANGUAGE_VERSION'],
+          "el" => event,
+          "ec" => category,
+          "ea" => action,
+          "ev" => value
+        }
+      end
 
       def self.track_events?
         ENV['PACT_DO_NOT_TRACK'] != 'true'
