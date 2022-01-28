@@ -7,6 +7,7 @@ describe Pact::Support::Metrics do
     stub_request(:post, "https://www.google-analytics.com/collect").to_return(status: 200, body: "", headers: {})
     ENV['COMPUTERNAME'] = 'test'
     ENV['HOSTNAME'] = 'test'
+    allow(Pact::Support::Metrics).to receive(:in_thread)  { |&block| block.call }
   end
 
   describe ".report_metric" do
@@ -32,7 +33,8 @@ describe Pact::Support::Metrics do
         "ev" => "Value"
       } }
       it 'sends metrics' do
-        expect(Net::HTTP).to receive(:post).with(URI('https://www.google-analytics.com/collect'), URI.encode_www_form(expected_event), "Content-Type" => "application/x-www-form-urlencoded")
+        expect_any_instance_of(Net::HTTP::Post).to receive(:set_form_data).with(expected_event)
+        expect(Net::HTTP).to receive(:start)
         subject
       end
     end
@@ -41,7 +43,7 @@ describe Pact::Support::Metrics do
         ENV['PACT_DO_NOT_TRACK'] = "true"
       end
       it 'does not send metrics' do
-        expect(Net::HTTP).to_not receive(:post)
+        expect(Net::HTTP).to_not receive(:start)
         subject
       end
     end

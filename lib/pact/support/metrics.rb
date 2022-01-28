@@ -10,18 +10,29 @@ module Pact
     class Metrics
 
       def self.report_metric(event, category, action, value = 1)
-        if track_events?
-          Pact.configuration.output_stream.puts "WARN: Please note: we are tracking events anonymously to gather important usage statistics like Pact-Ruby version
-            and operating system. To disable tracking, set the 'PACT_DO_NOT_TRACK' environment
-            variable to 'true'."
+        in_thread do
+          if track_events?
+              Pact.configuration.output_stream.puts "WARN: Please note: we are tracking events anonymously to gather important usage statistics like Pact-Ruby version and operating system. To disable tracking, set the 'PACT_DO_NOT_TRACK' environment variable to 'true'."
 
-          Net::HTTP.post URI('https://www.google-analytics.com/collect'),
-                         URI.encode_www_form(create_tracking_event(event, category, action, value)),
-                         "Content-Type" => "application/x-www-form-urlencoded"
+              uri = URI('https://www.google-analytics.com/collect')
+              req = Net::HTTP::Post.new(uri)
+              req.set_form_data(create_tracking_event(event, category, action, value))
+
+              Net::HTTP.start(uri.hostname, uri.port, read_timeout:2, open_timeout:2, :use_ssl => true  ) do |http|
+                require 'pry'; pry(binding)
+                http.request(req)
+            end
+          end
         end
       end
 
       private
+
+      def self.in_thread
+        Thread.new do
+          yield
+        end
+      end
 
       def self.create_tracking_event(event, category, action, value)
         {
