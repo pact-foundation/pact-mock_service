@@ -19,7 +19,6 @@ module Pact
               req.set_form_data(create_tracking_event(event, category, action, value))
 
               Net::HTTP.start(uri.hostname, uri.port, read_timeout:2, open_timeout:2, :use_ssl => true  ) do |http|
-                require 'pry'; pry(binding)
                 http.request(req)
             end
           end
