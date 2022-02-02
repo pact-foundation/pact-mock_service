@@ -33,7 +33,7 @@ module Pact
 
       def self.handle_error e
         if ENV['PACT_METRICS_DEBUG'] == 'true'
-          Pact.configuration.output_stream.puts("DEBUG: #{e.inspect}")
+          Pact.configuration.output_stream.puts("DEBUG: #{e.inspect}", e.backtrace)
         end
       end
 
