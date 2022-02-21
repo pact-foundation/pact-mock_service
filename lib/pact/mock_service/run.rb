@@ -4,6 +4,7 @@ require 'pact/consumer/mock_service/set_location'
 require 'pact/mock_service/run'
 require 'pact/mock_service/server/webrick_request_monkeypatch'
 require 'pact/specification_version'
+require 'pact/support/metrics'
 
 module Pact
   module MockService
@@ -35,6 +36,7 @@ module Pact
       def mock_service
         @mock_service ||= begin
           mock_service = Pact::MockService.new(service_options)
+          Pact::Support::Metrics.report_metric("Pact mock server started", "ConsumerTest", "MockServerStarted")
           Pact::Consumer::SetLocation.new(mock_service, base_url)
         end
       end
