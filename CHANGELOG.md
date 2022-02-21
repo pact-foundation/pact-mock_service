@@ -1,3 +1,10 @@
+<a name="v3.10.0"></a>
+### v3.10.0 (2022-02-21)
+
+#### Features
+
+* add telemetry	 ([db5dfa5](/../../commit/db5dfa5))
+
 <a name="v3.9.1"></a>
 ### v3.9.1 (2021-06-03)
 
