@@ -4,6 +4,7 @@ require 'pact/logging'
 require 'pact/consumer/server'
 require 'singleton'
 require 'pact/mock_service/app'
+require 'pact/support/metrics'
 
 module Pact
   module MockService
@@ -29,6 +30,8 @@ module Pact
           pact_dir: pact_dir,
           pact_specification_version: options.fetch(:pact_specification_version)
         )
+
+        Pact::Support::Metrics.report_metric("Pact mock server started", "ConsumerTest", "MockServerStarted")
         register(app, uri.host, uri.port)
       end
 

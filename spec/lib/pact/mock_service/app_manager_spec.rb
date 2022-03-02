@@ -1,4 +1,5 @@
 require 'pact/mock_service/app_manager'
+require 'pact/support/metrics'
 
 module Pact::MockService
   describe AppManager do
@@ -9,6 +10,7 @@ module Pact::MockService
     describe "register_mock_service_for" do
       before do
         allow_any_instance_of(AppRegistration).to receive(:spawn) # Don't want process actually spawning during the tests
+        allow(Pact::Support::Metrics).to receive(:report_metric)
       end
 
       let(:name) { 'some_service'}
@@ -26,6 +28,11 @@ module Pact::MockService
         it "registers the mock service as running on the given port" do
           AppManager.instance.register_mock_service_for name, url, options
           expect(AppManager.instance.app_registered_on?(1234)).to eq true
+        end
+
+        it "reports the metric for pact mock service started" do
+          expect(Pact::Support::Metrics).to receive(:report_metric).with("Pact mock server started", "ConsumerTest", "MockServerStarted")
+          AppManager.instance.register_mock_service_for name, url, options
         end
 
         it "creates a mock service with the configured pact_dir" do

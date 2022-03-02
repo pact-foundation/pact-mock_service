@@ -1,5 +1,5 @@
 module Pact
   module MockService
-    VERSION = "3.9.2"
+    VERSION = "3.10.1"
   end
 end
