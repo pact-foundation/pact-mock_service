@@ -1,7 +1,6 @@
 require 'securerandom'
 require 'digest'
 require 'socket'
-require 'pact/support/metrics'
 require 'pact/mock_service/version'
 require 'net/http'
 
