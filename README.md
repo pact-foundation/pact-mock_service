@@ -130,7 +130,7 @@ Description:
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md)
 
-[pact]: https://github.com/realestate-com-au/pact
+[pact]: https://github.com/pact-foundation/pact-ruby
 [executables]: https://github.com/pact-foundation/pact-ruby-standalone/releases
 [pact-dev]: https://groups.google.com/forum/#!forum/pact-dev
 [wiki]: https://github.com/pact-foundation/pact-mock_service/wiki
