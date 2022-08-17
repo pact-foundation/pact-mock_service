@@ -9,17 +9,21 @@ module Pact
     class Metrics
 
       def self.report_metric(event, category, action, value = 1)
+        do_once_per_thread(:pact_metrics_message_shown) do
+          if track_events?
+            Pact.configuration.output_stream.puts "mock WARN: Please note: we are tracking events anonymously to gather important usage statistics like Pact-Ruby version and operating system. To disable tracking, set the 'PACT_DO_NOT_TRACK' environment variable to 'true'."
+          end
+        end
+
         in_thread do
           begin
             if track_events?
-                Pact.configuration.output_stream.puts "WARN: Please note: we are tracking events anonymously to gather important usage statistics like Pact-Ruby version and operating system. To disable tracking, set the 'PACT_DO_NOT_TRACK' environment variable to 'true'."
+              uri = URI('https://www.google-analytics.com/collect')
+              req = Net::HTTP::Post.new(uri)
+              req.set_form_data(create_tracking_event(event, category, action, value))
 
-                uri = URI('https://www.google-analytics.com/collect')
-                req = Net::HTTP::Post.new(uri)
-                req.set_form_data(create_tracking_event(event, category, action, value))
-
-                Net::HTTP.start(uri.hostname, uri.port, read_timeout:2, open_timeout:2, :use_ssl => true  ) do |http|
-                  http.request(req)
+              Net::HTTP.start(uri.hostname, uri.port, read_timeout:2, open_timeout:2, :use_ssl => true  ) do |http|
+                http.request(req)
               end
             end
           rescue StandardError => e
@@ -40,6 +44,16 @@ module Pact
         Thread.new do
           yield
         end
+      end
+
+      # Not super safe to use the thread, but it's good enough for this usecase
+      def self.do_once_per_thread(key)
+        result = nil
+        if !Thread.current[key]
+          result = yield
+        end
+        Thread.current[key] = true
+        result
       end
 
       def self.create_tracking_event(event, category, action, value)
