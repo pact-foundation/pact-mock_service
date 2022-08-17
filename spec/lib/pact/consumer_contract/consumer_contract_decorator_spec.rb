@@ -124,7 +124,7 @@ module Pact
           end
 
           it "fails" do
-            expect{ subject.as_json[:interactions] }.to raise_error
+            expect{ subject.as_json[:interactions] }.to raise_error NotImplementedError
           end
         end
       end
