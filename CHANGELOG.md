@@ -1,3 +1,14 @@
+<a name="v3.11.0"></a>
+### v3.11.0 (2022-08-17)
+
+#### Features
+
+* only print metrics warning once per thread	 ([1ae43da](/../../commit/1ae43da))
+
+#### Bug Fixes
+
+* fix ruby `circular require` warning (#136)	 ([615e59c](/../../commit/615e59c))
+
 <a name="v3.10.0"></a>
 ### v3.10.0 (2022-02-21)
 
