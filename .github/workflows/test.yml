@@ -13,6 +13,13 @@ jobs:
         experimental: [false]
         include:
           - ruby_version: "3.2"
+            os: "ubuntu-latest"
+            experimental: true
+          - ruby_version: "3.2"
+            os: "windows-latest"
+            experimental: true
+          - ruby_version: "3.2"
+            os: "macos-latest"
             experimental: true
     runs-on: ${{ matrix.os }}
     steps:
