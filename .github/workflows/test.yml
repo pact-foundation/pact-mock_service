@@ -10,7 +10,7 @@ jobs:
         ruby_version: ["2.7","3.0","3.1"]
         os: ["ubuntu-latest","windows-latest","macos-latest"]
         include:
-          - version: "3.2"
+          - ruby_version: "3.2"
             experimental: true
     runs-on: ${{ matrix.os }}
     steps:
