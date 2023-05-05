@@ -17,7 +17,7 @@ is_java = defined?(RUBY_PLATFORM) && RUBY_PLATFORM.downcase.include?('java')
 is_travis = ENV['TRAVIS'] == 'true'
 is_act = ENV['ACT'] == 'true'
 is_gha = ENV['GITHUB_ACTIONS'] == 'true'
-is_gha_linux = ENV['RUNNER_OS'] == 'Linux'
+is_gha_linux = ENV['RUNNER_OS'] == 'Linux' && is_gha
 is_windows = Gem.win_platform?
 
 RSpec.configure do | config |
@@ -25,7 +25,7 @@ RSpec.configure do | config |
   config.filter_run_excluding mri_only: is_java
   config.filter_run_excluding skip_travis: is_travis
   config.filter_run_excluding skip_windows: is_windows
-  config.filter_run_excluding skip_gha: is_act || (is_gha && is_gha_linux)
+  config.filter_run_excluding skip_gha_linux: is_act || is_gha_linux
   if config.respond_to?(:example_status_persistence_file_path=)
     config.example_status_persistence_file_path = "./spec/examples.txt"
   end

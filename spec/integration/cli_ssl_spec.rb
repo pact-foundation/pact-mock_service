@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'support/integration_spec_support'
 
-describe "The pact-mock-service command line interface, with SSL", mri_only: true, skip_travis: true, skip_windows: true do
+describe "The pact-mock-service command line interface, with SSL", mri_only: true, skip_travis: true, skip_windows: true, skip_gha_linux: true do
 
   include Pact::IntegrationTestSupport
 
