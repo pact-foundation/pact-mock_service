@@ -15,11 +15,12 @@ is_java = defined?(RUBY_PLATFORM) && RUBY_PLATFORM.downcase.include?('java')
 # Issue recorded here: https://github.com/bethesque/pact-mock_service/issues/59
 # Need to fix...
 is_travis = ENV['TRAVIS'] == 'true'
-
+is_windows = Gem.win_platform?
 RSpec.configure do | config |
   config.include(FakeFS::SpecHelpers, :fakefs => true)
   config.filter_run_excluding :mri_only => is_java
   config.filter_run_excluding :skip_travis => is_travis
+  config.filter_run_excluding :skip_windows => is_windows
   if config.respond_to?(:example_status_persistence_file_path=)
     config.example_status_persistence_file_path = "./spec/examples.txt"
   end

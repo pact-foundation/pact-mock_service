@@ -1,7 +1,7 @@
 require 'support/integration_spec_support'
 require 'find_a_port'
 
-describe "The pact-stub-service command line interface with multiple pacts", mri_only: true do
+describe "The pact-stub-service command line interface with multiple pacts", mri_only: true, skip_windows: true do
 
   include Pact::IntegrationTestSupport
 
