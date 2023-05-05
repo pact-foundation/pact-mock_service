@@ -54,7 +54,7 @@ module Pact
       desc 'start', "Start a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown (INT)."
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
-      method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
+      method_option :port, aliases: "-p", default: '8888', desc: "Port on which to run the service"
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
@@ -76,7 +76,7 @@ module Pact
       end
 
       desc 'stop', "Stop a Pact mock service"
-      method_option :port, aliases: "-p", desc: "Port of the service to stop", default: '1234', required: true
+      method_option :port, aliases: "-p", desc: "Port of the service to stop", default: '8888', required: true
       method_option :pid_dir, desc: "PID dir, defaults to tmp/pids", default: "tmp/pids"
 
       def stop
@@ -87,7 +87,7 @@ module Pact
       desc 'restart', "Start or restart a mock service. If the consumer, provider and pact-dir options are provided, the pact will be written automatically on shutdown (INT)."
       method_option :consumer, desc: "Consumer name"
       method_option :provider, desc: "Provider name"
-      method_option :port, aliases: "-p", default: '1234', desc: "Port on which to run the service"
+      method_option :port, aliases: "-p", default: '8888', desc: "Port on which to run the service"
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :pact_dir, aliases: "-d", desc: "Directory to which the pacts will be written"
       method_option :pact_file_write_mode, aliases: "-m", desc: PACT_FILE_WRITE_MODE_DESC, type: :string, default: 'overwrite'
@@ -108,7 +108,7 @@ module Pact
       end
 
       desc 'control-start', "Start a Pact mock service control server."
-      method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
+      method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '8888'
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
       method_option :log_level, desc: "Log level. Options are DEBUG INFO WARN ERROR", default: "DEBUG"
@@ -129,7 +129,7 @@ module Pact
       end
 
       desc 'control-stop', "Stop a Pact mock service control server."
-      method_option :port, aliases: "-p", desc: "Port of control server to stop", default: "1234"
+      method_option :port, aliases: "-p", desc: "Port of control server to stop", default: "8888"
       method_option :pid_dir, desc: "PID dir, defaults to tmp/pids", default: "tmp/pids"
 
       def control_stop
@@ -138,7 +138,7 @@ module Pact
       end
 
       desc 'control-restart', "Start a Pact mock service control server."
-      method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '1234'
+      method_option :port, aliases: "-p", desc: "Port on which to run the service", default: '8888'
       method_option :host, aliases: "-h", desc: "Host on which to bind the service", default: 'localhost'
       method_option :log_dir, aliases: "-l", desc: "File to which to log output", default: "log"
       method_option :log_level, desc: "Log level. Options are DEBUG INFO WARN ERROR", default: "DEBUG"

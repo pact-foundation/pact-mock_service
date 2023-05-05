@@ -31,12 +31,12 @@ Use the [pact][pact] gem if you would like the full Pact DSL, mock service and v
 Otherwise:
 
     $ gem install pact-mock_service
-    $ pact-mock-service --consumer Foo --provider Bar --port 1234
+    $ pact-mock-service --consumer Foo --provider Bar --port 8888
 
 Or add `gem "pact-mock_service"` to your Gemfile then run:
 
     $ bundle install
-    $ bundle exec pact-mock-service --consumer Foo --provider Bar --port 1234
+    $ bundle exec pact-mock-service --consumer Foo --provider Bar --port 8888
 
 Run `pact-mock-service help` for command line options.
 
@@ -84,11 +84,11 @@ You can find more documentation for the mock service in the repository [wiki][wi
 
 If you need to use the mock service with HTTPS, you can use the built-in SSL mode which relies on and generates a self-signed certificate.
 
-    $ pact-mock-service --port 1234 --ssl
+    $ pact-mock-service --port 8888 --ssl
 
 If you need to provide your own certificate and key, use the following syntax.
 
-    $ pact-mock-service --port 1234 --ssl --sslcert PATH_TO_CERT --sslkey PATH_TO_KEY
+    $ pact-mock-service --port 8888 --ssl --sslcert PATH_TO_CERT --sslkey PATH_TO_KEY
 
 ### With CORS
 

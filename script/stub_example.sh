@@ -3,17 +3,17 @@
 # BEFORE SUITE start mock service
 # invoked by the pact framework
 bundle exec pact-stub-service script/foo-bar.json \
-  --port 1234 \
+  --port 8888 \
   --log ./tmp/bar_stub_service.log &
 pid=$!
 
 # BEFORE SUITE wait for mock service to start up
 # invoked by the pact framework
-while [ "200" -ne "$(curl -H "X-Pact-Mock-Service: true" -s -o /dev/null  -w "%{http_code}" localhost:1234)" ]; do sleep 0.5; done
+while [ "200" -ne "$(curl -H "X-Pact-Mock-Service: true" -s -o /dev/null  -w "%{http_code}" localhost:8888)" ]; do sleep 0.5; done
 
 # IN A TEST execute interaction(s)
 # this would be done by the consumer code under test
-curl localhost:1234/foo
+curl localhost:8888/foo
 echo ''
 
 

@@ -56,21 +56,21 @@ describe Pact::Consumer::MockService do
         expect(last_response.status).to be 200
 
         # OPTIONS request from the browser for the request under test
-        options '/alligators/new', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'accept', 'HTTP_ORIGIN' => 'http://localhost:1234' }
+        options '/alligators/new', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'accept', 'HTTP_ORIGIN' => 'http://localhost:8888' }
 
         # Ensure it allows the browser to actually make the request
         expect(last_response.status).to eq 200
-        expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://localhost:1234'
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://localhost:8888'
         expect(last_response.headers['Access-Control-Allow-Credentials']).to eq 'true'
         expect(last_response.headers['Access-Control-Allow-Headers']).to include 'accept'
         expect(last_response.headers['Access-Control-Allow-Methods']).to include "DELETE, POST, GET, HEAD, PUT, TRACE, CONNECT"
 
         # Make the request
-        post "/alligators/new", actual_request, { 'HTTP_ACCEPT' => 'application/json', 'HTTP_ORIGIN' => 'http://localhost:1234' }
+        post "/alligators/new", actual_request, { 'HTTP_ACCEPT' => 'application/json', 'HTTP_ORIGIN' => 'http://localhost:8888' }
 
         # Ensure that the response we get back was the one we expected
         # and includes the CORS header
-        expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://localhost:1234'
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://localhost:8888'
         expect(last_response.headers['Content-Type']).to eq 'application/json'
         expect(JSON.parse(last_response.body)).to eq([{ 'name' => 'Mary' }])
       end

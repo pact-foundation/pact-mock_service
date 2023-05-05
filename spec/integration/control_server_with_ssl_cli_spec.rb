@@ -7,16 +7,16 @@ describe "The pact-mock-service control server command line interface", mri_only
 
   before :all do
     clear_dirs
-    @pid = start_control 1234, '--ssl'
+    @pid = start_control 8888, '--ssl'
   end
 
   it "sets the X-Pact-Mock-Service-Location with https" do
-    response = setup_interaction 1234
+    response = setup_interaction 8888
     expect(response.headers['X-Pact-Mock-Service-Location']).to start_with 'https://localhost:'
   end
 
   it "responds to an OPTIONS request for a non administration request" do
-    response = setup_interaction 1234
+    response = setup_interaction 8888
     expect(response.status).to eq 200
     mock_service_port = URI(response.headers['X-Pact-Mock-Service-Location']).port
     response = connect_via_ssl mock_service_port

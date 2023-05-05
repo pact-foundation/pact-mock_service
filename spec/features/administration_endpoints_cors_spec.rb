@@ -108,8 +108,8 @@ describe Pact::Consumer::MockService do
 
       context "when the Origin header is set" do
         it "sets the Access-Control-Allow-Origin header to be the Origin" do
-          options '/pact', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'X-Pact-Mock-Service, Content-Type', 'HTTP_ORIGIN' => 'http://localhost:1234' }
-          expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://localhost:1234'
+          options '/pact', nil, { 'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'X-Pact-Mock-Service, Content-Type', 'HTTP_ORIGIN' => 'http://localhost:8888' }
+          expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://localhost:8888'
         end
       end
     end

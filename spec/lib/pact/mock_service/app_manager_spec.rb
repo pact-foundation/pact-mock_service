@@ -17,7 +17,7 @@ module Pact::MockService
       let(:options) { { pact_specification_version: '3' } }
 
       context "for http://localhost" do
-        let(:url) { 'http://localhost:1234'}
+        let(:url) { 'http://localhost:8888'}
 
         it "starts a mock service at the given port on localhost" do
           expect_any_instance_of(AppRegistration).to receive(:spawn)
@@ -27,7 +27,7 @@ module Pact::MockService
 
         it "registers the mock service as running on the given port" do
           AppManager.instance.register_mock_service_for name, url, options
-          expect(AppManager.instance.app_registered_on?(1234)).to eq true
+          expect(AppManager.instance.app_registered_on?(8888)).to eq true
         end
 
         it "reports the metric for pact mock service started" do
@@ -50,7 +50,7 @@ module Pact::MockService
       end
 
       context "for https://" do
-        let(:url) { 'https://localhost:1234'}
+        let(:url) { 'https://localhost:8888'}
 
         it "should throw an unsupported error" do
           expect { AppManager.instance.register_mock_service_for name, url, options }.to raise_error "Currently only http is supported"

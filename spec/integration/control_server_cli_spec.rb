@@ -22,15 +22,15 @@ describe "The pact-mock-service control server command line interface", mri_only
 
   before :all do
     clear_dirs
-    @pid = start_control 1234, "--pact-specification-version 3"
+    @pid = start_control 8888, "--pact-specification-version 3"
   end
 
   it "starts up and responds with mocked responses" do
-    response = setup_interaction 1234
+    response = setup_interaction 8888
     puts response.body unless response.status == 200
     expect(response.status).to eq 200
     mock_service_port = URI(response.headers['X-Pact-Mock-Service-Location']).port
-    expect(mock_service_port).to_not eq 1234
+    expect(mock_service_port).to_not eq 8888
 
     response = invoke_expected_request mock_service_port
     expect(response.status).to eq 200
