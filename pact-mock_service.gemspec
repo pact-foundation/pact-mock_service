@@ -26,7 +26,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'thor', '>= 0.19', '< 2.0'
   gem.add_runtime_dependency 'json'
   gem.add_runtime_dependency 'webrick', '~> 1.3'
-  gem.add_runtime_dependency 'pact-support', '~> 1.16.4', '>= 1.16.4'
+  gem.add_runtime_dependency 'pact-support', '~> 1.16', '>= 1.16.4'
   gem.add_runtime_dependency 'filelock', '~> 1.1'
 
   gem.add_development_dependency 'rack-test', '~> 0.7'
