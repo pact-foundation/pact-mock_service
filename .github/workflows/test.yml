@@ -10,17 +10,6 @@ jobs:
       matrix:
         ruby_version: ["2.7","3.0","3.1"]
         os: ["ubuntu-latest","windows-latest","macos-latest"]
-        experimental: [false]
-        include:
-          - ruby_version: "3.2"
-            os: "ubuntu-latest"
-            experimental: true
-          - ruby_version: "3.2"
-            os: "windows-latest"
-            experimental: true
-          - ruby_version: "3.2"
-            os: "macos-latest"
-            experimental: true
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
