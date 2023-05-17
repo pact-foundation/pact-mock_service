@@ -5,7 +5,6 @@ require 'pact/consumer_contract/pact_file'
 require 'pact/consumer_contract/consumer_contract_decorator'
 require 'pact/shared/active_support_support'
 require 'fileutils'
-require 'filelock'
 
 module Pact
 
@@ -60,8 +59,10 @@ module Pact
     def update_pactfile
       logger.info log_message
       FileUtils.mkdir_p File.dirname(pactfile_path)
-      Filelock(pactfile_path) do | pact_file |
-        # must be read after obtaining the lock, and must be read from the yielded file object, otherwise windows freaks out
+      # update a counter using write lock
+      # don't use "w" because it truncates the file before lock.
+      File.open(pactfile_path, File::RDWR|File::CREAT, 0644) {|pact_file|
+        pact_file.flock(File::LOCK_EX)
         @existing_contents = pact_file.read
         new_contents = pact_json
         pact_file.rewind
@@ -69,7 +70,7 @@ module Pact
         pact_file.write new_contents
         pact_file.flush
         pact_file.truncate(pact_file.pos)
-      end
+      }
     end
 
     def pact_json
