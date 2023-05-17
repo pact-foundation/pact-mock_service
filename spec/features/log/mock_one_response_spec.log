@@ -111,8 +111,44 @@ WARN -- : Verifying - actual interactions do not match expected interactions for
 Incorrect requests:
 	GET /alligators (request headers did not match)
 
+Diff with interaction: "a request for alligators" given "alligators exist"
+Diff
+--------------------------------------
+Key: - is expected 
+     + is actual 
+Matching keys and values are not shown
+
+ {
+   "headers": {
+-    "Accept": "application/json"
++    "Accept": "application/xml"
+   }
+ }
+
+Description of differences
+--------------------------------------
+* Expected "application/json" but got "application/xml" at $.headers.Accept
+
 
 WARN -- : Incorrect requests:
 	GET /alligators (request headers did not match)
+
+Diff with interaction: "a request for alligators" given "alligators exist"
+Diff
+--------------------------------------
+Key: - is expected 
+     + is actual 
+Matching keys and values are not shown
+
+ {
+   "headers": {
+-    "Accept": "application/json"
++    "Accept": "application/xml"
+   }
+ }
+
+Description of differences
+--------------------------------------
+* Expected "application/json" but got "application/xml" at $.headers.Accept
 
 

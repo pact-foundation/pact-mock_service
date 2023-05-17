@@ -1,6 +1,6 @@
 require 'support/integration_spec_support'
 
-describe "The pact-stub-service command line interface", mri_only: true do
+describe "The pact-stub-service command line interface", mri_only: true, skip_windows: true do
 
   include Pact::IntegrationTestSupport
 

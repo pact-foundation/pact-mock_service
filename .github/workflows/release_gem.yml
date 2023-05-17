@@ -13,10 +13,10 @@ jobs:
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '2.7'
+        ruby-version: '3.1'
     - run: "bundle install"
-    # - name: Test
-    #   run: bundle exec rake
+    - name: Test
+      run: bundle exec rake
 
   release:
     needs: test

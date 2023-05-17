@@ -56,7 +56,7 @@ module Pact
           def to_s
             [
               "Diff with interaction: #{candidate_interaction.description_with_provider_state_quoted}",
-              diff_formatter.call(diff, {colour: false})
+              diff_formatter.call(diff, **{colour: false})
             ].join("\n")
           end
 

@@ -4,16 +4,12 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: "ubuntu-latest"
-    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
-        ruby_version: ["2.2", "2.7"]
-        experimental: [false]
-        include:
-          - ruby_version: "3.0"
-            experimental: true
+        ruby_version: ["2.7","3.0","3.1"]
+        os: ["ubuntu-latest","windows-latest","macos-latest"]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
