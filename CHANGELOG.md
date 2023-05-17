@@ -1,3 +1,10 @@
+<a name="v3.11.1"></a>
+### v3.11.1 (2023-05-05)
+
+#### Bug Fixes
+
+* set args via ** for diff_formatter.call	 ([96a00a9](/../../commit/96a00a9))
+
 <a name="v3.11.0"></a>
 ### v3.11.0 (2022-08-17)
 
