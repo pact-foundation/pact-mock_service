@@ -6,7 +6,7 @@ To install and run on OSX:
 curl -LO https://github.com/bethesque/pact-mock_service/releases/download/<TAG_NAME>/pact-mock-service-<PACKAGE_VERSION>-osx.tar.gz
 tar xzf pact-mock-service-<PACKAGE_VERSION>-osx.tar.gz
 cd pact-mock-service-<PACKAGE_VERSION>-osx/bin
-./pact-mock-service -p 8888
+./pact-mock-service -p 1234
 ```
 
 To install and run on Linux 64 bit:
@@ -15,7 +15,7 @@ To install and run on Linux 64 bit:
 curl -LO https://github.com/bethesque/pact-mock_service/releases/download/<TAG_NAME>/pact-mock-service-<PACKAGE_VERSION>-linux-x86_64.tar.gz
 tar xzf pact-mock-service-<PACKAGE_VERSION>-linux-x86_64.tar.gz
 cd pact-mock-service-<PACKAGE_VERSION>-linux-x86_64/bin
-./pact-mock-service -p 8888
+./pact-mock-service -p 1234
 ```
 
 To install and run on Linux 32 bit:
@@ -24,7 +24,7 @@ To install and run on Linux 32 bit:
 curl -LO https://github.com/bethesque/pact-mock_service/releases/download/<TAG_NAME>/pact-mock-service-<PACKAGE_VERSION>-linux-x86.tar.gz
 tar xzf pact-mock-service-<PACKAGE_VERSION>-linux-x86.tar.gz
 cd pact-mock-service-<PACKAGE_VERSION>-linux-x86/bin
-./pact-mock-service -p 8888
+./pact-mock-service -p 1234
 ```
 
 To install and run on Windows:
@@ -32,5 +32,5 @@ To install and run on Windows:
 Download package, unzip, cd to pact-mock-service-<PACKAGE_VERSION>-win32 and then run:
 
 ```
-$ .\bin\pact-mock-service.bat -p 8888
+$ .\bin\pact-mock-service.bat -p 1234
 ```
