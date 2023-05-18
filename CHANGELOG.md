@@ -1,3 +1,10 @@
+<a name="v3.11.2"></a>
+### v3.11.2 (2023-05-18)
+
+#### Bug Fixes
+
+* use native lockfile, rather than ruby gem, tested on ruby 3.3.0-dev	 ([9a51a01](/../../commit/9a51a01))
+
 <a name="v3.11.1"></a>
 ### v3.11.1 (2023-05-05)
 
