@@ -59,8 +59,7 @@ module Pact
     def update_pactfile
       logger.info log_message
       FileUtils.mkdir_p File.dirname(pactfile_path)
-      # update a counter using write lock
-      # don't use "w" because it truncates the file before lock.
+      # must be read after obtaining the lock, and must be read from the yielded file object, otherwise windows freaks out
       # https://apidock.com/ruby/File/flock
       File.open(pactfile_path, File::RDWR|File::CREAT, 0644) {|pact_file|
         pact_file.flock(File::LOCK_EX)
