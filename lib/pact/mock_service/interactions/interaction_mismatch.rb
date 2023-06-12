@@ -14,25 +14,25 @@ module Pact
         def initialize candidate_interactions, actual_request
           @candidate_interactions = candidate_interactions
           @actual_request = actual_request
-          @candiate_diffs = candidate_interactions.collect{ | candidate_interaction| CandidateDiff.new(candidate_interaction, actual_request)}
+          @candidate_diffs = candidate_interactions.collect{ | candidate_interaction| CandidateDiff.new(candidate_interaction, actual_request)}
         end
 
         def to_hash
-          candiate_diffs.collect(&:to_hash)
+          candidate_diffs.collect(&:to_hash)
         end
 
         def to_s
-          candiate_diffs.collect(&:to_s).join("\n")
+          candidate_diffs.collect(&:to_s).join("\n")
         end
 
         def short_summary
-          mismatched_attributes = candiate_diffs.collect(&:mismatched_attributes).flatten.uniq.join(", ").reverse.sub(",", "dna ").reverse #OMG what a hack!
+          mismatched_attributes = candidate_diffs.collect(&:mismatched_attributes).flatten.uniq.join(", ").reverse.sub(",", "dna ").reverse #OMG what a hack!
           actual_request.method_and_path + " (request #{mismatched_attributes} did not match)"
         end
 
         private
 
-        attr_accessor :candiate_diffs
+        attr_accessor :candidate_diffs
 
         class CandidateDiff
 
