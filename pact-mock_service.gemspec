@@ -20,7 +20,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.license       = 'MIT'
 
-  gem.add_runtime_dependency 'rack', '~> 2.0'
+  gem.add_runtime_dependency 'rack', '>= 2.0', '< 4.0'
+  gem.add_runtime_dependency 'rackup', '~> 2.0'
   gem.add_runtime_dependency 'rspec', '>=2.14'
   gem.add_runtime_dependency 'find_a_port', '~> 1.0.1'
   gem.add_runtime_dependency 'thor', '>= 0.19', '< 2.0'
@@ -28,7 +29,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'webrick', '~> 1.8'
   gem.add_runtime_dependency 'pact-support', '~> 1.16', '>= 1.16.4'
 
-  gem.add_development_dependency 'rack-test', '~> 0.7'
+  gem.add_development_dependency 'rack-test', '>= 0.7', '< 3.0'
   gem.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   gem.add_development_dependency 'webmock', '~> 3.4'
   gem.add_development_dependency 'pry'

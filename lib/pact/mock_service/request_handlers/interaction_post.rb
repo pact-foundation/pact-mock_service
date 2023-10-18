@@ -21,7 +21,7 @@ module Pact
         end
 
         def respond env
-          request_body = env['rack.input'].string
+          request_body = env['rack.input'].read
           parsing_options = { pact_specification_version: pact_specification_version }
           interaction = Interaction.from_hash(JSON.load(request_body), parsing_options) # Load creates the Pact::XXX classes
 
