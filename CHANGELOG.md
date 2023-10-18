@@ -1,3 +1,10 @@
+<a name="v3.12.0"></a>
+### v3.12.0 (2023-10-18)
+
+#### Features
+
+* add Rack 3 compatibility (#146)	 ([9afea51](/../../commit/9afea51))
+
 <a name="v3.11.2"></a>
 ### v3.11.2 (2023-05-18)
 
