@@ -23,7 +23,7 @@ module Pact
         end
 
         def respond env
-          request_body = JSON.load(env['rack.input'].string)
+          request_body = JSON.load(env['rack.input'].read)
           parsing_options = { pact_specification_version: pact_specification_version }
           interactions = request_body['interactions'].collect { | hash | Interaction.from_hash(hash, parsing_options) }
           begin

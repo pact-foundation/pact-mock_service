@@ -25,7 +25,7 @@ module Pact
         end
 
         def respond env
-          body = env['rack.input'].string
+          body = env['rack.input'].read
           consumer_contract_details = body.size > 0 ? JSON.parse(body, symbolize_names: true) : {}
           consumer_contract_params = default_options.merge(consumer_contract_details.merge(interactions: verified_interactions))
           consumer_contract_writer = ConsumerContractWriter.new(consumer_contract_params, logger)
