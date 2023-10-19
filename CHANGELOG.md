@@ -1,3 +1,10 @@
+<a name="v3.12.1"></a>
+### v3.12.1 (2023-10-19)
+
+#### Bug Fixes
+
+* use .read instead of .string for reading stream from rack.input	 ([000e3fd](/../../commit/000e3fd))
+
 <a name="v3.12.0"></a>
 ### v3.12.0 (2023-10-18)
 
