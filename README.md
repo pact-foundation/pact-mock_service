@@ -1,7 +1,7 @@
 
 # Pact Mock and Stub Service
 
-[![Build Status](https://travis-ci.com/pact-foundation/pact-mock_service.svg?branch=master)](https://travis-ci.com/pact-foundation/pact-mock_service)
+[![Build Status](https://github.com/pact-foundation/pact-mock_service/actions/workflows/test.yml/badge.svg)](https://github.com/pact-foundation/pact-mock_service/actions/workflows/test.yml)
 
 This codebase provides the HTTP mock and stub service used by implementations of [Pact][pact]. It is packaged as a gem, and as a standalone executable for Mac OSX and Linux and Windows.
 
