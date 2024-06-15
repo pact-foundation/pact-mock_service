@@ -1,6 +1,7 @@
 require 'uri'
 require 'net/http'
 require 'rack'
+require 'rack/handler/webbrick'
 
 # Copied shamelessly from Capybara
 # Used to run a mock service in a new thread when started by the AppManager or the ControlServer
@@ -66,11 +67,6 @@ module Pact
     end
 
     def run_default_server(app, port)
-      begin
-        require 'rack/handler/webrick'
-      rescue LoadError
-        require 'rackup/handler/webrick'
-      end
       Rack::Handler::WEBrick.run(app, **webrick_opts) do |server|
         @port = server[:Port]
       end
