@@ -1,3 +1,11 @@
+<a name="v3.12.2"></a>
+### v3.12.2 (2024-06-15)
+
+#### Bug Fixes
+
+* Fix Rack 3 support	 ([f6b1869](/../../commit/f6b1869))
+* Fix Rack > 3.0.0 support	 ([fab4a8f](/../../commit/fab4a8f))
+
 <a name="v3.12.1"></a>
 ### v3.12.1 (2023-10-19)
 
