@@ -1,6 +1,5 @@
 require 'pact/mock_service/control_server/app'
 require 'pact/mock_service/server/webrick_request_monkeypatch'
-require 'rack/handler/webbrick'
 
 module Pact
   module MockService
