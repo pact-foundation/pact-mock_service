@@ -24,7 +24,7 @@ module Pact
         end
 
         request[:headers] = headers_from env
-        body_string = request[:body]&.read || ""
+        body_string = request[:body].read
 
         if body_string.empty?
           request.delete :body
