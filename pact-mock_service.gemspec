@@ -20,12 +20,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.license       = 'MIT'
 
-  if ENV['RACK_VERSION'] == '2'
-    gem.add_runtime_dependency 'rack', '>= 2.0', '< 3.0'
-  else
-    gem.add_runtime_dependency 'rack', '>= 3.0', '< 4.0'
-    gem.add_runtime_dependency 'rackup', '~> 2.0'
-  end
+  gem.add_runtime_dependency 'rack', '>= 2.0', '< 4.0'
+  gem.add_runtime_dependency 'rackup', '~> 2.0'
   gem.add_runtime_dependency 'rspec', '>=2.14'
   gem.add_runtime_dependency 'find_a_port', '~> 1.0.1'
   gem.add_runtime_dependency 'thor', '>= 0.19', '< 2.0'

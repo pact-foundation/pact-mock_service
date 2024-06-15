@@ -5,7 +5,6 @@ require 'pact/mock_service/run'
 require 'pact/mock_service/server/webrick_request_monkeypatch'
 require 'pact/specification_version'
 require 'pact/support/metrics'
-require 'rack/handler/webbrick'
 
 module Pact
   module MockService
