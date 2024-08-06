@@ -1,10 +1,6 @@
 require 'pact/mock_service/cli/custom_thor'
 require 'webrick/https'
-begin
-  require 'rack/handler/webrick'
-rescue LoadError
-  require 'rackup/handler/webrick'
-end
+require 'rack/handler/webbrick'
 require 'fileutils'
 require 'pact/mock_service/server/wait_for_server_up'
 require 'pact/mock_service/cli/pidfile'
