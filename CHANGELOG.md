@@ -179,6 +179,15 @@
 * allow mock service host to be configured	 ([7e2d810](/../../commit/7e2d810))
 
 
+<a name="v2.12.0"></a>
+### v2.12.0 (2018-10-03)
+
+
+#### Features
+
+* only set 'Access-Control-Allow-Credentials' if required for preflight to succeed	 ([4ede738](/../../commit/4ede738))
+
+
 <a name="v2.11.0"></a>
 ### v2.11.0 (2018-08-28)
 
