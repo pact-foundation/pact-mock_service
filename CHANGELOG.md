@@ -1,3 +1,10 @@
+<a name="v3.12.3"></a>
+### v3.12.3 (2024-06-17)
+
+#### Bug Fixes
+
+* rack 2.x dont load Rack::Handler::WEBrick class to avoid warnings	 ([c5e2311](/../../commit/c5e2311))
+
 <a name="v3.12.2"></a>
 ### v3.12.2 (2024-06-15)
 
