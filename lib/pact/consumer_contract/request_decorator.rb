@@ -75,7 +75,7 @@ module Pact
     end
 
     def with_matching_rules hash
-      matching_rules = Pact::MatchingRules.extract request.to_hash
+      matching_rules = Pact::MatchingRules.extract(request.to_hash, pact_specification_version: Pact::SpecificationVersion.new(pact_specification_version))
       return hash if matching_rules.empty?
       hash.merge(matchingRules: matching_rules)
     end
