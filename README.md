@@ -16,7 +16,7 @@ The mock service provides the following endpoints:
 
 All requests to the "administration" endpoints listed above must contain the header `X-Pact-Mock-Service: true` to allow the mock service to know whether the request is an administration request or a request from the actual consumer code.
 
-As the Pact mock service can be used as a standalone executable and administered via HTTP, it can be used for testing with any language. All that is required is a library in the native language to create the HTTP calls listed above. Check out [docs.pact.io](https://docs.pact.io) for a list of implemented languages. If you are interested in creating bindings in a new language, have a chat to one of us on the [pact-dev Google group][pact-dev].
+As the Pact mock service can be used as a standalone executable and administered via HTTP, it can be used for testing with any language. All that is required is a library in the native language to create the HTTP calls listed above. Check out [docs.pact.io](https://docs.pact.io) for a list of implemented languages. If you are interested in creating bindings in a new language, have a chat to one of us on the [pact slack group][slack].
 
 ## Installation
 
@@ -98,7 +98,7 @@ Read the wiki page on [CORS][cors].
 
 The pact-stub-service allows you to reuse interactions that have been generated in previous tests. The typical situation would be to generate your pact file using unit tests, and then use the pact stub service for your higher level integration/ui tests. To help reduce the number of interactions that need verifying, you will want to use flexible matching on both requests and responses.
 
-Unlike the mock service, which has a Ruby DSL for managing its lifecycle, the mock service can currently only be started from the command line, so you will need to start/background/kill the process yourself. If this is causing problems, please raise it in the pact-dev google group and we can discuss potential enhancements.
+Unlike the mock service, which has a Ruby DSL for managing its lifecycle, the mock service can currently only be started from the command line, so you will need to start/background/kill the process yourself. If this is causing problems, please raise it in the pact slack group and we can discuss potential enhancements.
 
 ```
 Usage:
@@ -119,7 +119,7 @@ Description:
   Include any basic auth details in the URL using the format https://USERNAME:PASSWORD@URI.
   Where multiple matching interactions are found, the interactions will be sorted by
   response status, and the first one will be returned. This may lead to some non-deterministic
-  behaviour. If you are having problems with this, please raise it on the pact-dev google group,
+  behaviour. If you are having problems with this, please raise it on the pact slack group,
   and we can discuss some potential enhancements.
   Note that only versions 1 and 2 of the pact specification are currently fully supported.
   Pacts using the v3 format may be used, however, any matching features added in v4 will
@@ -132,6 +132,6 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md)
 
 [pact]: https://github.com/pact-foundation/pact-ruby
 [executables]: https://github.com/pact-foundation/pact-ruby-standalone/releases
-[pact-dev]: https://groups.google.com/forum/#!forum/pact-dev
+[slack]: https://slack.pact.io
 [wiki]: https://github.com/pact-foundation/pact-mock_service/wiki
 [cors]: https://github.com/pact-foundation/pact-mock_service/wiki/Using-the-mock-service-with-CORS
