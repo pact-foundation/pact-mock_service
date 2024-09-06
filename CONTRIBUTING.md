@@ -6,6 +6,6 @@
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-If you are interested in creating bindings in a new language, have a chat to one of us on the [pact-dev Google group][pact-dev].
+If you want to have a chat with us, you can join the [pact slack group][slack].
 
-[pact-dev]: https://groups.google.com/forum/#!forum/pact-dev
+[slack]: https://slack.pact.io
