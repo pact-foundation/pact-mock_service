@@ -1,4 +1,3 @@
-require 'cgi/core'
 require 'pact/consumer_contract/query'
 
 module Pact
