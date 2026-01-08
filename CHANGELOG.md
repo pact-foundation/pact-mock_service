@@ -1,3 +1,10 @@
+<a name="v3.12.4"></a>
+### v3.12.4 (2026-01-06)
+
+#### Bug Fixes
+
+* remove unnecessary require	 ([7d5d375](/../../commit/7d5d375))
+
 <a name="v3.12.3"></a>
 ### v3.12.3 (2024-06-17)
 
