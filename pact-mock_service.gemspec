@@ -40,6 +40,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'fakefs', '~> 2.4'
   gem.add_development_dependency 'irb'
+  gem.add_development_dependency 'fiddle'
   gem.add_development_dependency 'hashie', '~> 2.0'
   gem.add_development_dependency 'activesupport', '~> 5.1'
   gem.add_development_dependency 'faraday', '~> 0.12'
