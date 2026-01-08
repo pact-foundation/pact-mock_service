@@ -32,7 +32,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'json'
   gem.add_runtime_dependency 'webrick', '~> 1.8'
   gem.add_runtime_dependency 'pact-support', '~> 1.16', '>= 1.16.4'
-  gem.add_runtime_dependency 'logger'
+  gem.add_runtime_dependency 'logger', '< 2.0'
 
   gem.add_development_dependency 'rack-test', '>= 0.7', '< 3.0'
   gem.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
