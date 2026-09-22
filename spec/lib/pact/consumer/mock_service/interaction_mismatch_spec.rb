@@ -51,7 +51,7 @@ module Pact
 
         let(:diff_formatter) { double("diff_formatter")}
         before do
-          allow(Pact.configuration).to receive(:diff_formatter_for_content_type).with(content_type).and_return(diff_formatter)
+          allow(Pact::Support.configuration).to receive(:diff_formatter_for_content_type).with(content_type).and_return(diff_formatter)
           allow(diff_formatter).to receive(:call).and_return("diff 1", "diff 2")
         end
 

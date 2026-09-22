@@ -11,7 +11,7 @@ module Pact
     let(:target_pact_file_location) { "#{tmp_pact_dir}/a_consumer-a_provider.json" }
 
     before do
-      Pact.clear_configuration
+      Pact::Support.clear_configuration
       FileUtils.rm_rf tmp_pact_dir
       FileUtils.mkdir_p tmp_pact_dir
       FileUtils.cp support_pact_file, target_pact_file_location

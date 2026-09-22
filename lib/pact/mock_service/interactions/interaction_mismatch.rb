@@ -61,7 +61,7 @@ module Pact
           end
 
           def diff_formatter
-            Pact.configuration.diff_formatter_for_content_type(candidate_interaction.request.content_type)
+            Pact::Support.configuration.diff_formatter_for_content_type(candidate_interaction.request.content_type)
           end
 
           def diff

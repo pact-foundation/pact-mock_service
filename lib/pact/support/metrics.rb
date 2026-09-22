@@ -11,7 +11,7 @@ module Pact
       def self.report_metric(event, category, action, value = 1)
         do_once_per_thread(:pact_metrics_message_shown) do
           if track_events?
-            Pact.configuration.output_stream.puts "mock WARN: Please note: we are tracking events anonymously to gather important usage statistics like Pact-Ruby version and operating system. To disable tracking, set the 'PACT_DO_NOT_TRACK' environment variable to 'true'."
+            Pact::Support.configuration.output_stream.puts "mock WARN: Please note: we are tracking events anonymously to gather important usage statistics like Pact-Ruby version and operating system. To disable tracking, set the 'PACT_DO_NOT_TRACK' environment variable to 'true'."
           end
         end
 
@@ -36,7 +36,7 @@ module Pact
 
       def self.handle_error e
         if ENV['PACT_METRICS_DEBUG'] == 'true'
-          Pact.configuration.output_stream.puts("DEBUG: #{e.inspect}\n" + e.backtrace.join("\n"))
+          Pact::Support.configuration.output_stream.puts("DEBUG: #{e.inspect}\n" + e.backtrace.join("\n"))
         end
       end
 

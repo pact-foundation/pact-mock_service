@@ -25,8 +25,8 @@ module Pact
       @interactions = consumer_contract_details.fetch(:interactions)
       @pact_specification_version = (consumer_contract_details[:pact_specification_version] || DEFAULT_PACT_SPECIFICATION_VERSION).to_s
       @consumer_contract_decorator_class = consumer_contract_details[:consumer_contract_decorator_class] || Pact::ConsumerContractDecorator
-      @error_stream = consumer_contract_details[:error_stream] || Pact.configuration.error_stream
-      @output_stream = consumer_contract_details[:output_stream] || Pact.configuration.output_stream
+      @error_stream = consumer_contract_details[:error_stream] || Pact::Support.configuration.error_stream
+      @output_stream = consumer_contract_details[:output_stream] || Pact::Support.configuration.output_stream
     end
 
     def consumer_contract

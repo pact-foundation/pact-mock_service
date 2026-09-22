@@ -80,18 +80,18 @@ module Pact
       end
 
       def pact_dir
-        Pact.configuration.pact_dir
+        Pact::Support.configuration.pact_dir
       end
 
       def create_log_file(service_name)
-        FileUtils::mkdir_p(Pact.configuration.log_dir)
+        FileUtils::mkdir_p(Pact::Support.configuration.log_dir)
         log = File.open(log_file_path(service_name), 'w')
         log.sync = true
         log
       end
 
       def log_file_path(service_name)
-        File.join(Pact.configuration.log_dir, "#{log_file_name(service_name)}.log")
+        File.join(Pact::Support.configuration.log_dir, "#{log_file_name(service_name)}.log")
       end
 
       def log_file_name(service_name)

@@ -36,7 +36,7 @@ module Pact::MockService
         end
 
         it "creates a mock service with the configured pact_dir" do
-          allow(Pact.configuration).to receive(:pact_dir).and_return('pact_dir')
+          allow(Pact::Support.configuration).to receive(:pact_dir).and_return('pact_dir')
           expect(Pact::MockService).to receive(:new) do | options |
             expect(options[:pact_dir]).to eq 'pact_dir'
           end
