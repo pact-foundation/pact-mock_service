@@ -1,4 +1,4 @@
-require 'pact/rspec'
+require 'pact/support/rspec'
 
 module Pact
   module SpecSupport
@@ -9,7 +9,7 @@ module Pact
       string.gsub(/\e\[(\d+)m/, '')
     end
 
-    Pact::RSpec.with_rspec_2 do
+    Pact::Support::RSpec.with_rspec_2 do
 
       def instance_double *args
         double(*args)

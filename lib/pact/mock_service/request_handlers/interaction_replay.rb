@@ -1,4 +1,4 @@
-require 'pact/matchers'
+require 'pact/support/matchers'
 require 'pact/consumer/request'
 require 'pact/mock_service/interactions/interaction_mismatch'
 require 'pact/consumer_contract'

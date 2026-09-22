@@ -67,7 +67,7 @@ module Pact
 
         context "when pactfile_write_order is set to :chronological" do
           before do
-            Pact.configuration.pactfile_write_order = :chronological
+            Pact::Support.configuration.pactfile_write_order = :chronological
           end
 
           it "sorts interactions in recorded order" do
@@ -80,7 +80,7 @@ module Pact
 
         context "when pactfile_write_order is set to :alphabetical" do
           before do
-            Pact.configuration.pactfile_write_order = :alphabetical
+            Pact::Support.configuration.pactfile_write_order = :alphabetical
           end
 
           context "and interactions have different provider state" do
@@ -120,7 +120,7 @@ module Pact
 
         context "when pactfile_write_order does not have a correct value" do
           before do
-            Pact.configuration.pactfile_write_order = :not_implemented
+            Pact::Support.configuration.pactfile_write_order = :not_implemented
           end
 
           it "fails" do
@@ -131,7 +131,7 @@ module Pact
 
       context "when an interaction is marked to not be written" do
         before do
-          Pact.configuration.pactfile_write_order = :chronological
+          Pact::Support.configuration.pactfile_write_order = :chronological
         end
 
         let(:interaction_1) do
