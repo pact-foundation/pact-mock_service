@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.license       = 'MIT'
 
   if ENV['RACK_VERSION'] == '2'
-    gem.add_runtime_dependency 'rack', '>= 2.0', '< 3.0'
+    gem.add_runtime_dependency 'rack', '>= 2.0', '< 3.2.9'
   else
     gem.add_runtime_dependency 'rack', '>= 3.0', '< 4.0'
     gem.add_runtime_dependency 'rackup', '~> 2.0'
