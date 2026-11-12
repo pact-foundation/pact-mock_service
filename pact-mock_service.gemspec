@@ -41,7 +41,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'fakefs', '~> 3.0'
   gem.add_development_dependency 'irb'
   gem.add_development_dependency 'fiddle'
-  gem.add_development_dependency 'hashie', '~> 2.0'
+  gem.add_development_dependency 'hashie', '~> 6.0'
   gem.add_development_dependency 'activesupport', '~> 5.1'
   gem.add_development_dependency 'faraday', '~> 2.0'
   gem.add_development_dependency 'octokit', '~> 4.7'
