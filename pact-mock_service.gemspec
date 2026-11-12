@@ -44,7 +44,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'hashie', '~> 6.0'
   gem.add_development_dependency 'activesupport', '~> 5.1'
   gem.add_development_dependency 'faraday', '~> 2.0'
-  gem.add_development_dependency 'octokit', '~> 4.7'
+  gem.add_development_dependency 'octokit', '~> 10.0'
   gem.add_development_dependency 'conventional-changelog', '~> 1.3'
   gem.add_development_dependency 'bump', '~> 0.5'
 end
