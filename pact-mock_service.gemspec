@@ -42,7 +42,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'irb'
   gem.add_development_dependency 'fiddle'
   gem.add_development_dependency 'hashie', '~> 6.0'
-  gem.add_development_dependency 'activesupport', '~> 5.1'
+  gem.add_development_dependency 'activesupport', '~> 8.0'
   gem.add_development_dependency 'faraday', '~> 2.0'
   gem.add_development_dependency 'octokit', '~> 4.7'
   gem.add_development_dependency 'conventional-changelog', '~> 1.3'
